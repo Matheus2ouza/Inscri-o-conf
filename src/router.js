@@ -22,7 +22,7 @@ export async function getLocations() {
     return cities;
 }
 
-export async function registrarInscricao(registrationData) {
+export async function registrarInscricao() {
 
     try {
         const response = await fetch(`${apiUrl}/registro`, {
@@ -30,7 +30,7 @@ export async function registrarInscricao(registrationData) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(registrationData), // Converte o objeto em JSON
+            body: JSON.stringify(), // Converte o objeto em JSON
         });
 
         const responseData = await response.json(); // Converte a resposta uma única vez
