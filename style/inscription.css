@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    width: 100%; /* Garante que a nav ocupe toda a largura */
+    position: relative; /* Para garantir que não afete o posicionamento dos elementos abaixo */
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    color: #000;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column; /* Coloca as divs uma em cima da outra */
+    align-items: center; /* Centraliza horizontalmente */
+    justify-content: center; /* Centraliza verticalmente, se o pai tiver altura definida */
+    margin: 20px 0; /* Espaçamento entre a nav e o conteúdo */
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px; /* Remova ou ajuste se não for necessário */
+    width: 1100px;
+}
+
+.container img {
+    height: 170px;
+    width: 170px;
+    margin-right: 60px;
+    margin-left: 0;
+    user-select: none;
+}
+
+.container h1 {
+    text-transform: uppercase;
+    font-size: 2.7rem;
+    user-select: none;
+}
+
+.second-container {
+    display: flex;
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    height: 400px; /* Altura fixa */
+    width: 1100px; /* Largura fixa */
+    margin: 20px 0; /* Espaçamento entre as divs */
+    padding: 20px; /* Espaçamento interno */
+}
+
+.form-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Duas colunas */
+    gap: 20px; /* Espaçamento entre as divs */
+    width: 100%; /* Ocupar a largura total disponível */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column; /* Coloca o label e o input um embaixo do outro */
+    position: relative; /* Necessário para posicionar as sugestões corretamente */
+}
+
+label {
+    margin-bottom: 5px; /* Espaço entre o label e o input */
+    font-weight: bold;
+}
+
+input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 450px; /* Faz com que o input ocupe toda a largura do contêiner pai */
+    box-sizing: border-box; /* Inclui o padding e a borda na largura total */
+    margin-right: 60px;
+}
+input::placeholder{
+    color: #949494; /* Cor do texto do small, se desejado */
+    font-size: 0.75rem;
+    user-select: none;
+}
+
+button {
+    width: 240px;
+    height: 48px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500px;
+}
+
+.group-service button{
+    width: 100px;
+    height: 30px;
+    margin-top: 10px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500px;
+
+}
+
+.suggestions {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 150px; /* Limita a altura do dropdown */
+    max-width: 450px;
+    overflow-y: auto; /* Adiciona rolagem se necessário */
+    display: none; /* Esconde inicialmente */
+    position: absolute; /* Para sobrepor ao input */
+    background-color: #fff;
+    z-index: 1000; /* Garante que fique acima de outros elementos */
+    top: 60px; /* Alinha a parte superior da lista de sugestões com a parte inferior do input */
+    left: 0; /* Garante que a lista de sugestões fique alinhada à esquerda do input */
+    right: 0; /* Garante que a lista de sugestões fique alinhada à direita do input */
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0; /* Destaca o item ao passar o mouse */
+}
+
+.form-service {
+    display: block;
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+    justify-content: center; /* Centraliza o conteúdo horizontalmente */
+    width: 1100px; /* Largura fixa */
+    margin-top: -30px;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incrição Conferência</title>
+    <link rel="stylesheet" href="../style/inscription.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="./home.html">inscrição Conferencia</a></li>
+        </ul>
+    </nav>
+
+    <div class="wrapper"> <!-- Div envoltória para centralizar o conteúdo abaixo da nav -->
+        <div class="container">
+            <img src="../img/eu e o profeta.png" alt="">
+            <h1>Inscrição Conferencia Regional</h1>
+        </div>
+
+        <div class="second-container">
+            <form>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="input1">Localidade:</label>
+                        <input type="text" id="input1" autocomplete="off" placeholder="Selecione o nome da cidade">
+                        <div id="suggestions" class="suggestions"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="input2">Nome do Irmão Responsável</label>
+                        <input type="text" class="responsible" placeholder="Coloque o Nome completo do Responsável">
+                    </div>
+                    <div class="form-group">
+                        <label for="input8">0-6 Masculino</label>
+                        <input type="text" class="age-06-masc" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
+                    </div>
+                    <div class="form-group">
+                        <label for="input8">0-6 Feminino</label>
+                        <input type="text" class="age-06-fem" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
+                    </div>
+                    <div class="form-group">
+                        <label for="input8">7-10 Masculino</label>
+                        <input type="text" class="age-710-masc" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
+                    </div>
+                    <div class="form-group">
+                        <label for="input8">7-10 Feminino</label>
+                        <input type="text" class="age-710-fem" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
+                    </div>
+                    <div class="form-group">
+                        <label for="input8">10+ Masculino</label>
+                        <input type="text" class="age-10-masc" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
+                    </div>
+                    <div class="form-group">
+                        <label for="input8">10+ Feminino</label>
+                        <input type="text" class="age-10-fem" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
+                    </div>
+                    <div class="group-service">
+                        <label for="input8">Algum irmão participa de algum serviço referente a Conferencia?</label>
+                        <button class="btn-yes">SIM</button>
+                        <button class="btn-no">NÃO</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form-service">
+            <form>
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="input8">Masculino</label>
+                        <input type="text" class="service-masc" placeholder="Se não houver coloque 0">
+                    </div>
+                    <div class="form-group">
+                        <label for="input8">Feminino</label>
+                        <input type="text" class="service-fem" placeholder="Se não houver coloque 0">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <button class="btn-register">Realizar Incrição</button>
+    </div>
+    <script type="module" src="../src/inscription.js"></script>
+</body>
+
+</html>
