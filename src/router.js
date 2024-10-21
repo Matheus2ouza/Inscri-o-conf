@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:8080'
+const apiUrl = 'https://api-inscri-o.vercel.app'
 
 export async function getLocations() {
 
