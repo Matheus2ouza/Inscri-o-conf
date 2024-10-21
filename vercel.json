@@ -1,8 +1,17 @@
 {
     "version": 2,
+    "public": true,
     "builds": [
       {
-        "src": "page/*.html",
+        "src": "page/**/*.html",
+        "use": "@vercel/static"
+      },
+      {
+        "src": "style/**/*.css",
+        "use": "@vercel/static"
+      },
+      {
+        "src": "script/**/*.js",
         "use": "@vercel/static"
       }
     ],
@@ -18,8 +27,16 @@
       {
         "src": "/payments",
         "dest": "/page/payments.html"
+      },
+      {
+        "src": "/style/(.*)",
+        "dest": "/style/$1"
+      },
+      {
+        "src": "/script/(.*)",
+        "dest": "/script/$1"
       }
     ]
-  }
+}
   
   
