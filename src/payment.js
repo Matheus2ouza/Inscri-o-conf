@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const popup = document.getElementById('popup');
     popup.style.display = 'none';
-    
+
     // Função para buscar o saldo devedor com base na cidade
     cidadeInput.addEventListener('change', async function () {
         cidade = cidadeInput.value.trim().toUpperCase(); // Convertendo para uppercase para correspondência exata
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(...formData); // Exibe o conteúdo do FormData para debug
 
         try {
-            const response = await fetch('http://localhost:8080/pagamento', {
+            const response = await fetch('https://api-inscri-o.vercel.app/pagamento', {
                 method: 'POST',
                 body: formData
             });
