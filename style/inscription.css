@@ -157,7 +157,7 @@ button {
 }
 
 .popup {
-    display: flex; /* Escondido por padrão */
+    display: none; /* Escondido por padrão */
     position: fixed;
     z-index: 1000;
     left: 0;

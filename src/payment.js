@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/localidades?nome=${cidade}`);
+            const response = await fetch(`https://api-inscri-o.vercel.app/localidades?nome=${cidade}`);
             if (!response.ok) {
                 throw new Error('Cidade não encontrada ou erro na consulta.');
             }
