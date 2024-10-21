@@ -89,16 +89,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 // falta do comprovante
                 const errorResponse = await response.json();
                 console.error(`Erro ao registrar pagamento: ${errorResponse.message}`);
-                showPopup("Erro ao realizar a inscrição. Tente novamente."); // Ocorreu um erro
+                showPopup("Erro ao realizar pagamento"); // Ocorreu um erro
                 return;
             } else if (response.status === 404) {
                 //Erro de consulta
                 console.error(`Erro ao registrar pagamento: ${errorResponse.message}`);
-                showPopup("Erro ao realizar a inscrição. Tente novamente."); // Ocorreu um erro
+                showPopup("Erro ao realizar pagamento", "adicione o seu comprovante de pagamento"); // Ocorreu um erro
                 return;
             } else if (!response.ok) {
                 // Outros erros
-                showPopup("Erro ao realizar a inscrição. Tente novamente."); // Ocorreu um erro
+                showPopup("Erro ao realizar pagamento", "Erro de pagameno"); // Ocorreu um erro
                 console.error('Erro inesperado ao registrar pagamento:', response);
                 return;
             }
