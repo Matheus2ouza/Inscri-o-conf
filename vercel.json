@@ -11,7 +11,7 @@
         "use": "@vercel/static"
       },
       {
-        "src": "script/**/*.js",
+        "src": "src/**/*.js",
         "use": "@vercel/static"
       }
     ],
@@ -21,22 +21,25 @@
         "dest": "/page/home.html"
       },
       {
-        "src": "/inscription",
+        "src": "/inscricao",
         "dest": "/page/inscription.html"
       },
       {
-        "src": "/payments",
-        "dest": "/page/payments.html"
+        "src": "/pagamento",
+        "dest": "/page/payment.html"
+      },
+      {
+        "src": "/documentacao",
+        "dest": "/page/documentation.html"
       },
       {
         "src": "/style/(.*)",
         "dest": "/style/$1"
       },
       {
-        "src": "/script/(.*)",
-        "dest": "/script/$1"
+        "src": "/src/(.*)",
+        "dest": "/src/$1"
       }
     ]
-}
-  
+  }
   
