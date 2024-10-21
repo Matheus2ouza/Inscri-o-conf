@@ -71,8 +71,31 @@ function setupFormServiceToggle() {
     formService.style.display = 'none'; // Inicialmente esconde a form-service
 }
 
+function showPopup(title, message) {
+    const popup = document.getElementById('popup');
+    const popupContent = popup.querySelector('.popup-content p');
+    const popupTitle = popup.querySelector('.popup-content h2');
+    popupContent.textContent = message; // Atualiza a mensagem do pop-up
+    popupTitle.textContent = title
+    popup.style.display = 'flex'; // Exibe o pop-up
+}
+
+// Lógica para fechar o pop-up
+document.querySelector('.close-btn').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'none';
+});
+
+// Fechar o pop-up ao clicar fora do conteúdo
+window.addEventListener('click', function(event) {
+    const popup = document.getElementById('popup');
+    if (event.target === popup) {
+        popup.style.display = 'none';
+    }
+});
+
+
 // Função para coletar os dados do formulário e criar um objeto
-function register() {
+async function register() {
     const localidade = document.getElementById('input1').value; // Localidade
     const nomeResponsavel = document.querySelector('.responsible').value; // Nome do responsável
 
@@ -124,11 +147,16 @@ function register() {
             feminino: serviceFeminine
         },
     };
-
-    registrarInscricao(registrationData)
+    console.log(registrationData)
+        // Chama registrarInscricao e aguarda a resposta
+        const status = await registrarInscricao(registrationData);
+    
+        if (status >= 200 && status < 300) {
+            showPopup("Inscrição realizada com sucesso!", "Sua inscrição foi realizada com sucesso"); // Inscrição foi um sucesso
+        } else {
+            showPopup("Erro ao realizar a inscrição", "Erro ao releaziar sua inscrição, tente novamente ou entre em contato com o suporte."); // Ocorreu um erro
+        }
 }
-
-
 
 // Função de inicialização
 async function init() {

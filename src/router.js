@@ -22,26 +22,29 @@ export async function getLocations() {
     return cities;
 }
 
-export async function registrarInscricao() {
-
+export async function registrarInscricao(registrationData) {
     try {
         const response = await fetch(`${apiUrl}/registro`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(), // Converte o objeto em JSON
+            body: JSON.stringify(registrationData),
         });
+        
+        const responseData = await response.json(); // Converte a resposta JSON
 
-        const responseData = await response.json(); // Converte a resposta uma única vez
+        // Retorna o status da resposta diretamente
+        console.log('Resposta da inscrição:', responseData, 'Status:', response.status);
+        return response.status; // Retorna o código de status HTTP
 
-        if (!response.ok) {
-            console.error('Erro na inscrição:', responseData); // Lida com erro na inscrição
-        } else {
-            console.log('Inscrição realizada com sucesso:', responseData); // Lida com sucesso na inscrição
-        }
     } catch (error) {
-        console.error('Erro ao fazer a requisição:', error); // Lida com erro na requisição
+        console.error('Erro ao fazer a requisição:', error); // Log do erro de requisição
+        return 500; // Retorna 500 ou outro status representando erro
     }
 }
+
+
+
+
 
