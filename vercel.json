@@ -1,45 +1,52 @@
 {
-    "version": 2,
-    "public": true,
-    "builds": [
-      {
-        "src": "page/**/*.html",
-        "use": "@vercel/static"
-      },
-      {
-        "src": "style/**/*.css",
-        "use": "@vercel/static"
-      },
-      {
-        "src": "src/**/*.js",
-        "use": "@vercel/static"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/",
-        "dest": "/page/home.html"
-      },
-      {
-        "src": "/inscricao",
-        "dest": "/page/inscription.html"
-      },
-      {
-        "src": "/pagamento",
-        "dest": "/page/payment.html"
-      },
-      {
-        "src": "/documentacao",
-        "dest": "/page/documentation.html"
-      },
-      {
-        "src": "/style/(.*)",
-        "dest": "/style/$1"
-      },
-      {
-        "src": "/src/(.*)",
-        "dest": "/src/$1"
-      }
-    ]
-  }
-  
+  "version": 2,
+  "public": true,
+  "builds": [
+    {
+      "src": "page/**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "style/**/*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "src/**/*.js",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "img/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/page/home.html"
+    },
+    {
+      "src": "/inscricao",
+      "dest": "/page/inscription.html"
+    },
+    {
+      "src": "/pagamento",
+      "dest": "/page/payment.html"
+    },
+    {
+      "src": "/documentacao",
+      "dest": "/page/documentation.html"
+    },
+    {
+      "src": "/style/(.*)",
+      "dest": "/style/$1"
+    },
+    {
+      "src": "/src/(.*)",
+      "dest": "/src/$1"
+    },
+    {
+      "src": "/img/(.*)",
+      "dest": "/img/$1"
+    }
+  ]
+}
