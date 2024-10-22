@@ -12,13 +12,20 @@ nav {
     align-items: center;
     height: 70px;
     box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-    background-color: #fff;
-    width: 100%; /* Garante que a nav ocupe toda a largura */
-    position: relative; /* Para garantir que não afete o posicionamento dos elementos abaixo */
+    background-color: #3c5672;
+    width: 100%;
+    padding: 0 20px;
 }
 
 nav ul {
     list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 10px;
 }
 
 nav ul li a {
@@ -26,10 +33,11 @@ nav ul li a {
     font-weight: bold;
     text-transform: uppercase;
     font-size: 1.3rem;
-    user-select: none;
+    color: #fff;
+    letter-spacing: 0.1em;
 }
 
-.routes{
+.routes {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,37 +46,44 @@ nav ul li a {
     gap: 20px;
 }
 
- .routes a{
+.routes a {
     display: inline-block; /* Para que o link se comporte como um bloco */
     width: 240px; /* Largura do botão */
     height: 48px; /* Altura do botão */
-    background-color: #000; /* Cor de fundo do botão */
+    background-color: #28a745; /* Cor de fundo do botão */
     color: #fff; /* Cor do texto do botão */
     border-radius: 8px; /* Cantos arredondados */
+    border: none;
     font-size: 16px; /* Tamanho da fonte */
     font-weight: 500; /* Peso da fonte */
     text-align: center; /* Centraliza o texto */
     line-height: 48px; /* Alinha verticalmente o texto no centro */
     text-decoration: none; /* Remove o sublinhado padrão */
-    transition: background-color 0.3s; /* Transição suave ao passar o mouse */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Adiciona transição para a sombra */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
 }
 
-h1, p, a{
+.routes a:hover {
+    background-color: #218838; /* Cor de destaque ao passar o mouse */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra mais intensa ao passar o mouse */
+}
+
+h1, p, a {
     margin-bottom: 8px;
 }
 
-.observation{
+.observation {
     margin-left: 20px;
 }
 
-.documentation{
+.documentation {
     color: #1a73e8;
     text-decoration: none;
     font-weight: bold;
     font-size: 16px;
 }
 
-.documentation:hover{
+.documentation:hover {
     text-decoration: underline;
     color: #0869e7;
 }
@@ -78,4 +93,40 @@ p {
     margin-bottom: 12px; /* Espaço abaixo do parágrafo */
     line-height: 1.5; /* Espaçamento entre linhas */
     max-width: 1000px; /* Define uma largura máxima para o parágrafo */
-  }
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column; /* Muda a direção da lista para coluna em telas menores */
+        align-items: center; /* Centraliza os itens */
+    }
+
+    nav ul li {
+        margin: 5px 0; /* Ajusta a margem para os itens da lista */
+    }
+
+    .routes {
+        height: auto; /* Ajusta a altura das rotas para ser automática */
+        padding: 20px; /* Adiciona espaçamento interno */
+    }
+
+    .routes a {
+        width: 80%; /* Largura do botão em telas menores */
+    }
+
+    p {
+        font-size: 14px; /* Reduz o tamanho da fonte para parágrafos em telas menores */
+    }
+}
+
+@media (max-width: 480px) {
+    nav ul li a {
+        font-size: 1rem; /* Reduz o tamanho da fonte para links na navegação */
+    }
+
+    .routes a {
+        height: 40px; /* Ajusta a altura do botão para telas menores */
+        font-size: 14px; /* Reduz o tamanho da fonte dos botões */
+    }
+}
