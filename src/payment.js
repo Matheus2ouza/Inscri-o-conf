@@ -87,43 +87,81 @@ async function buscarSaldoDevedor(cidade, saldoDevedorInput) {
     }
 }
 
-function showPopup(title, message) {
+const buttonhome = document.querySelector('#btn-home');
+
+buttonhome.addEventListener('click', () => {
+
+    window.location.href = 'https://inscri-o-conf.vercel.app'; // Redireciona para o link desejado
+});
+
+function setupFormClear() {
+    const btnNovoPagamento = document.querySelector('#btn-novoPagamento'); // Seleciona o botão
+    btnNovoPagamento.addEventListener('click', (event) => {
+        event.preventDefault(); // Previne o comportamento padrão do botão
+        window.location.reload(); // Recarrega a página
+    });
+}
+
+function showPopup(message) {
     const popup = document.getElementById('popup');
-    if (popup) {
-        const popupContent = popup.querySelector('.popup-content p');
-        const popupTitle = popup.querySelector('.popup-content h2');
-        popupContent.textContent = message; // Atualiza a mensagem do pop-up
-        popupTitle.textContent = title;
-        popup.style.display = 'flex'; // Exibe o pop-up
-    }
+    const popupContent = popup.querySelector('.popup-content p');
+    popupContent.textContent = message; // Atualiza a mensagem do pop-up
+    popup.style.display = 'flex'; // Exibe o pop-up
 }
 
 // Lógica para fechar o pop-up
-document.addEventListener('DOMContentLoaded', () => {
-    const closeBtn = document.querySelector('.close-btn');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            const popup = document.getElementById('popup');
-            if (popup) {
-                popup.style.display = 'none';
-            }
-        });
+document.querySelector('.close-btn').addEventListener('click', function() {
+    document.getElementById('popup').style.display = 'none';
+});
+
+// Fechar o pop-up ao clicar fora do conteúdo
+window.addEventListener('click', function(event) {
+    const popup = document.getElementById('popup');
+    if (event.target === popup) {
+        popup.style.display = 'none';
     }
 });
 
+function showPopupError(message) {
+    const popup = document.getElementById('popupError');
+    const popupContent = popup.querySelector('.popup-contentError p');
+    popupContent.textContent = message; // Atualiza a mensagem do pop-up
+    popup.style.display = 'flex'; // Exibe o pop-up
+}
+
+// Lógica para fechar o pop-up
+document.querySelector('.close-btnError').addEventListener('click', function() {
+    document.getElementById('popupError').style.display = 'none';
+});
+
+// Fechar o pop-up ao clicar fora do conteúdo
+window.addEventListener('click', function(event) {
+    const popup = document.getElementById('popupError');
+    if (event.target === popup) {
+        popup.style.display = 'none';
+    }
+});
+
+// Função para coletar a localidade da URL e preencher o input
+function populateLocalidadeFromURL() {
+    const urlParams = new URLSearchParams(window.location.search); // Obtém os parâmetros da URL
+    const localidade = urlParams.get('localidade'); // Obtém a localidade
+
+    if (localidade) {
+        document.getElementById('input1').value = decodeURIComponent(localidade); // Preenche o input1 com a localidade
+    }
+}
+
 // Inicializa a aplicação
 async function init() {
+    populateLocalidadeFromURL();
+    setupFormClear()
     const cidadeInput = document.getElementById('input1'); // Obtém a referência ao input da cidade
     const saldoDevedorInput = document.getElementById('saldoDevedor'); // Referência ao campo de saldo devedor
     await initCitySuggestions(cidadeInput, saldoDevedorInput); // Inicializa as sugestões de cidade
 
     const valorPago = document.getElementById('valor_pago');
     const paymentForm = document.getElementById('paymentForm');
-
-    const popup = document.getElementById('popup');
-    if (popup) {
-        popup.style.display = 'none';
-    }
 
     // Função para registrar o pagamento
     if (paymentForm) {
@@ -159,25 +197,25 @@ async function init() {
                 if (response.status === 400) {
                     const errorResponse = await response.json();
                     console.error(`Erro ao registrar pagamento: ${errorResponse.message}`);
-                    showPopup("Erro ao realizar pagamento", errorResponse.message);
+                    showPopupError("Comprovante de pagamento não fornecido.");
                     return;
                 } else if (response.status === 404) {
                     const errorResponse = await response.json();
                     console.error(`Erro ao registrar pagamento: ${errorResponse.message}`);
-                    showPopup("Erro ao realizar pagamento", "Adicione o seu comprovante de pagamento");
+                    showPopupError("Localidade não encontrada.");
                     return;
                 } else if (!response.ok) {
-                    showPopup("Erro ao realizar pagamento", "Erro de pagamento");
+                    showPopupError("Erro inesperado ao registrar pagamento");
                     console.error('Erro inesperado ao registrar pagamento:', response);
                     return;
                 }
 
                 const result = await response.json();
-                showPopup("Inscrição realizada com sucesso!", "Seu pagamento foi registrado.");
+                showPopup("Seu pagamento já foi registrado.");
 
             } catch (error) {
                 console.error('Erro ao registrar pagamento:', error);
-                alert('Erro ao registrar pagamento. Verifique o console para mais detalhes.');
+                showPopupError("Erro inesperado ao registrar pagamento");
             }
         });
     }

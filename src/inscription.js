@@ -11,6 +11,16 @@ async function fetchCityNames() {
     }
 }
 
+const buttonpayment = document.querySelector('#btn-payment');
+
+buttonpayment.addEventListener('click', (event) => {
+    event.preventDefault(); // Evita o comportamento padrão do botão, se necessário
+    
+    const localidade = registrationData.localidade; // Obtém a localidade do objeto registrationData
+    const url = `https://inscri-o-conf.vercel.app/pagamento?localidade=${encodeURIComponent(localidade)}`; // Cria a URL com a localidade
+    window.location.href = url; // Redireciona para o link desejado com a localidade
+});
+
 
 document.getElementById('adicionar-nome-btn').addEventListener('click', function() {
     const nomeHospedagem = document.getElementById('nome_hospedagem').value.trim(); // Remove espaços extras no início e no fim
@@ -156,17 +166,20 @@ function setupFormParticipacaoToggle() {
     });
 }
 
+// Função para recarregar a página ao clicar no botão
+function setupFormClear() {
+    const btnNovoFormulario = document.querySelector('#btn-novoformulario'); // Seleciona o botão
+    btnNovoFormulario.addEventListener('click', (event) => {
+        event.preventDefault(); // Previne o comportamento padrão do botão
 
-// Chame a função para configurar os botões
-setupFormServiceToggle();
+        window.location.reload(); // Recarrega a página
+    });
+}
 
-
-function showPopup(title, message) {
+function showPopup(message) {
     const popup = document.getElementById('popup');
     const popupContent = popup.querySelector('.popup-content p');
-    const popupTitle = popup.querySelector('.popup-content h2');
     popupContent.textContent = message; // Atualiza a mensagem do pop-up
-    popupTitle.textContent = title
     popup.style.display = 'flex'; // Exibe o pop-up
 }
 
@@ -178,6 +191,26 @@ document.querySelector('.close-btn').addEventListener('click', function() {
 // Fechar o pop-up ao clicar fora do conteúdo
 window.addEventListener('click', function(event) {
     const popup = document.getElementById('popup');
+    if (event.target === popup) {
+        popup.style.display = 'none';
+    }
+});
+
+function showPopupError(message) {
+    const popup = document.getElementById('popupError');
+    const popupContent = popup.querySelector('.popup-contentError p');
+    popupContent.textContent = message; // Atualiza a mensagem do pop-up
+    popup.style.display = 'flex'; // Exibe o pop-up
+}
+
+// Lógica para fechar o pop-up
+document.querySelector('.close-btnError').addEventListener('click', function() {
+    document.getElementById('popupError').style.display = 'none';
+});
+
+// Fechar o pop-up ao clicar fora do conteúdo
+window.addEventListener('click', function(event) {
+    const popup = document.getElementById('popupError');
     if (event.target === popup) {
         popup.style.display = 'none';
     }
@@ -262,24 +295,26 @@ async function register() {
             const statusHospedagem = await registrarHospedagem(idInscricao, listaNomesHospedagem);
 
             if (statusHospedagem >= 200 && statusHospedagem < 300) {
-                showPopup("Inscrição realizada com sucesso!", "Sua inscrição e hospedagem foram registradas com sucesso!");
+                showPopup("Sua inscrição e hospedagem foram registradas com sucesso!");
             } else {
-                showPopup("Erro ao registrar hospedagem", "A inscrição foi realizada, mas ocorreu um erro ao registrar a hospedagem.");
+                showPopupError("A inscrição foi realizada, mas ocorreu um erro ao registrar a hospedagem.");
             }
         } else {
-            showPopup("Erro ao realizar a inscrição", "A inscrição foi realizada, mas o ID de inscrição não foi retornado.");
+            showPopupError("A inscrição foi realizada, mas o ID de inscrição não foi retornado.");
         }
     } else {
-        showPopup("Erro ao realizar a inscrição", "Erro ao realizar sua inscrição, tente novamente ou entre em contato com o suporte."); // Ocorreu um erro
+        showPopupError("Erro ao realizar sua inscrição, tente novamente ou entre em contato com o suporte.");
     }
 
 }
+
 
 // Função de inicialização
 async function init() {
     await initCitySuggestions(); // Inicializa as sugestões de cidade
     setupFormServiceToggle();
     setupFormParticipacaoToggle();
+    setupFormClear();
 
     // Adiciona evento ao botão de registro
     const btnRegister = document.querySelector('.btn-register');

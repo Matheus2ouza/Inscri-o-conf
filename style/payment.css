@@ -115,7 +115,7 @@ button:hover {
     background-color: #218838; /* Cor de destaque ao passar o mouse */
 }
 
-.popup {
+.popup,.popupError {
     display: none; /* Inicialmente oculto */
     position: fixed;
     z-index: 1000;
@@ -128,7 +128,7 @@ button:hover {
     align-items: center;
 }
 
-.popup-content {
+.popup-content,.popup-contentError {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
@@ -138,7 +138,7 @@ button:hover {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-.close-btn {
+.close-btn,.close-btnError {
     color: #dc3545; /* Cor do botão de fechar */
     float: right;
     font-size: 28px;
