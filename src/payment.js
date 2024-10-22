@@ -2,12 +2,15 @@ import { getLocations } from './router.js';
 
 // Função principal para buscar os nomes das cidades
 async function fetchCityNames() {
+    showLoader(); // Mostra o loader antes de fazer a requisição
     try {
         const cities = await getLocations(); // Chama a função para obter os locais
         return extractCityNames(cities); // Retorna apenas os nomes das cidades
     } catch (error) {
         console.error(`Erro ao buscar nomes das cidades: ${error.message}`);
         return []; // Retorna um array vazio em caso de erro
+    } finally {
+        hideLoader(); // Esconde o loader após a requisição
     }
 }
 
@@ -64,6 +67,7 @@ async function buscarSaldoDevedor(cidade, saldoDevedorInput) {
         return;
     }
 
+    showLoader(); // Mostra o loader antes de fazer a requisição
     try {
         const response = await fetch(`https://api-inscri-o.vercel.app/localidades?nome=${cidade}`);
         if (!response.ok) {
@@ -84,13 +88,14 @@ async function buscarSaldoDevedor(cidade, saldoDevedorInput) {
     } catch (error) {
         console.error('Erro ao buscar saldo devedor:', error);
         alert('Erro ao buscar saldo devedor. Verifique o console para mais detalhes.');
+    } finally {
+        hideLoader(); // Esconde o loader após a requisição
     }
 }
 
 const buttonhome = document.querySelector('#btn-home');
 
 buttonhome.addEventListener('click', () => {
-
     window.location.href = 'https://inscri-o-conf.vercel.app'; // Redireciona para o link desejado
 });
 
@@ -112,6 +117,7 @@ function showPopup(message) {
 // Lógica para fechar o pop-up
 document.querySelector('.close-btn').addEventListener('click', function() {
     document.getElementById('popup').style.display = 'none';
+    window.location.reload(); // Recarrega a página
 });
 
 // Fechar o pop-up ao clicar fora do conteúdo
@@ -152,10 +158,20 @@ function populateLocalidadeFromURL() {
     }
 }
 
+function showLoader() {
+    const loaderBackground = document.querySelector('.loader-background');
+    loaderBackground.classList.remove('hidden');
+}
+
+function hideLoader() {
+    const loaderBackground = document.querySelector('.loader-background');
+    loaderBackground.classList.add('hidden');
+}
+
 // Inicializa a aplicação
 async function init() {
     populateLocalidadeFromURL();
-    setupFormClear()
+    setupFormClear();
     const cidadeInput = document.getElementById('input1'); // Obtém a referência ao input da cidade
     const saldoDevedorInput = document.getElementById('saldoDevedor'); // Referência ao campo de saldo devedor
     await initCitySuggestions(cidadeInput, saldoDevedorInput); // Inicializa as sugestões de cidade
@@ -188,6 +204,7 @@ async function init() {
 
             console.log(...formData); // Exibe o conteúdo do FormData para debug
 
+            showLoader(); // Mostra o loader antes de fazer a requisição
             try {
                 const response = await fetch('https://api-inscri-o.vercel.app/pagamento', {
                     method: 'POST',
@@ -216,6 +233,8 @@ async function init() {
             } catch (error) {
                 console.error('Erro ao registrar pagamento:', error);
                 showPopupError("Erro inesperado ao registrar pagamento");
+            } finally {
+                hideLoader(); // Esconde o loader após a requisição
             }
         });
     }
