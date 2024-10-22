@@ -131,7 +131,7 @@ function setupFormParticipacaoToggle() {
                             <input type="text" class="participacao-masc" placeholder="Se não houver coloque 0">
                         </div>
                         <div class="form-group">
-                            <label for="input8">Irmães que vão participar somente da reunião -<span class="valor">R$ 100.00</span></label>
+                            <label for="input8">Irmãs que vão participar somente da reunião -<span class="valor">R$ 100.00</span></label>
                             <input type="text" class="participacao-fem" placeholder="Se não houver coloque 0">
                         </div>
                     </div>
