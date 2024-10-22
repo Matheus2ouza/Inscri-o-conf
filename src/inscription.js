@@ -278,15 +278,21 @@ async function register() {
     if (dadosInscricao.status >= 200 && dadosInscricao.status < 300) {
         // Supondo que o ID da inscrição seja retornado dentro de `data` ou direto no objeto
         const idInscricao = dadosInscricao.data?.enrollmentId; // Ajuste conforme o retorno da API
-
+    
         if (idInscricao) {
-        // Registrar hospedagem
-            const statusHospedagem = await registrarHospedagem(idInscricao, listaNomesHospedagem);
-
-            if (statusHospedagem >= 200 && statusHospedagem < 300) {
-                showPopup("Sua inscrição e hospedagem foram registradas com sucesso!");
+            // Verifica se a lista de nomes de hospedagem está vazia
+            if (listaNomesHospedagem.length > 0) {
+                // Registrar hospedagem
+                const statusHospedagem = await registrarHospedagem(idInscricao, listaNomesHospedagem);
+    
+                if (statusHospedagem >= 200 && statusHospedagem < 300) {
+                    showPopup("Sua inscrição e hospedagem foram registradas com sucesso!");
+                } else {
+                    showPopupError("A inscrição foi realizada, mas ocorreu um erro ao registrar a hospedagem.");
+                }
             } else {
-                showPopupError("A inscrição foi realizada, mas ocorreu um erro ao registrar a hospedagem.");
+                // Se não houver nomes na lista de hospedagem, apenas mostra o pop-up de sucesso da inscrição
+                showPopup("Sua inscrição foi realizada com sucesso!");
             }
         } else {
             showPopupError("A inscrição foi realizada, mas o ID de inscrição não foi retornado.");
@@ -294,6 +300,7 @@ async function register() {
     } else {
         showPopupError("Erro ao realizar sua inscrição, tente novamente ou entre em contato com o suporte.");
     }
+    
 
     const buttonpayment = document.querySelector('#btn-payment');
 
