@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 * {
     box-sizing: border-box; /* Inclui padding e borda nas dimensões do elemento */
 }
@@ -19,32 +18,30 @@ nav {
     display: flex;
     align-items: center;
     height: 70px;
-    background-color: #3c5672; /* Cor de fundo do nav */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    color: white; /* Cor do texto no nav */
+    box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    background-color: #3c5672;;
+    width: 100%;
     padding: 0 20px;
 }
 
 nav ul {
     list-style: none;
     display: flex;
-    margin: 0;
+    justify-content: center;
     padding: 0;
 }
 
 nav ul li {
-    margin: 0 15px; /* Espaçamento entre itens do menu */
+    margin: 0 10px;
 }
 
 nav ul li a {
     text-decoration: none;
-    color: white; /* Cor dos links no nav */
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-nav ul li a:hover {
-    color: #cce5ff; /* Cor ao passar o mouse */
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    color: #fff;
+    letter-spacing: 0.1em;
 }
 
 .second-container {
@@ -108,11 +105,13 @@ button {
     cursor: pointer;
     font-size: 16px;
     margin-top: 20px; /* Espaçamento acima do botão */
-    transition: background-color 0.3s; /* Transição suave para o hover */
+    transition: background-color 0.3, sbox-shadow 0.3s; /* Adiciona transição para a sombra */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
 }
 
 button:hover {
     background-color: #218838; /* Cor de destaque ao passar o mouse */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra mais intensa ao passar o mouse */
 }
 
 .popup,.popupError {
