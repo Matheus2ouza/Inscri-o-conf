@@ -20,6 +20,13 @@ nav {
 
 nav ul {
     list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 10px;
 }
 
 nav ul li a {
@@ -36,16 +43,16 @@ nav ul li a {
     align-items: center;
     justify-content: center;
     margin: 20px 0;
-    padding: 0 20px; /* Adicionado padding para ajuste em telas menores */
+    padding: 0 20px;
 }
 
 .container {
     display: flex;
     align-items: center;
     margin-top: 10px;
-    width: 100%; /* Ajusta para ocupar toda a largura disponível */
-    max-width: 1100px; /* Define um limite máximo de largura */
-    padding: 0 20px; /* Padding para ajuste em telas menores */
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 20px;
 }
 
 .container img {
@@ -65,22 +72,22 @@ nav ul li a {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%; /* Ajusta para ocupar toda a largura disponível */
-    max-width: 1100px; /* Limite máximo de largura */
+    width: 100%;
+    max-width: 1100px;
     margin: 20px 0;
     padding: 20px;
 }
 
 .form-container {
     display: grid;
-    grid-template-columns: 1fr; /* Inicialmente uma coluna */
+    grid-template-columns: 1fr;
     gap: 20px;
     width: 100%; 
 }
 
 @media (min-width: 768px) {
     .form-container {
-        grid-template-columns: repeat(2, 1fr); /* Duas colunas em telas maiores */
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -100,7 +107,7 @@ input {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    width: 100%; /* Ajusta para ocupar toda a largura disponível */
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -111,15 +118,15 @@ input::placeholder {
 }
 
 button {
-    width: 100%; /* Botão ocupa toda a largura disponível */
-    max-width: 240px; /* Limite máximo de largura */
+    width: 100%;
+    max-width: 240px;
     height: 48px;
     background-color: #000;
     color: #fff;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 500;
-    margin: 10px 0; /* Adicionado espaço entre os botões */
+    margin: 10px 0;
 }
 
 .group-service button {
@@ -169,7 +176,7 @@ button {
 }
 
 .popup {
-    display: none;
+    display: flex;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -197,15 +204,15 @@ button {
     font-weight: bold;
     cursor: pointer;
 }
-.form-hospedagem{
+
+.form-hospedagem {
     margin-top: 30px;
     width: 1100px;
 }
 
-/* Mantém a lista de nomes dentro de um contêiner fixo */
 .lista-nomes-container {
-    height: 150px; /* Limite de altura */
-    overflow-y: auto; /* Adiciona rolagem vertical se necessário */
+    height: 150px;
+    overflow-y: auto;
     margin-top: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -213,7 +220,6 @@ button {
     background-color: #f9f9f9;
 }
 
-/* Estilo dos itens da lista de nomes */
 #lista-nomes-hospedagem {
     list-style: none;
     padding: 0;
@@ -222,7 +228,7 @@ button {
 
 #lista-nomes-hospedagem li {
     display: flex;
-    justify-content: space-between; /* Coloca o "x" à direita */
+    justify-content: space-between;
     align-items: center;
     padding: 5px 0;
     border-bottom: 1px solid #ddd;
@@ -243,3 +249,62 @@ button {
     color: darkred;
 }
 
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .container img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .form-service, .form-hospedagem, .second-container {
+        padding: 10px;
+        max-width: 100%;
+    }
+
+    .group-service button {
+        width: 100%;
+        max-width: none;
+    }
+
+    .form-hospedagem {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .popup-content {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container img {
+        height: 120px;
+        width: 120px;
+    }
+
+    .container h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-container {
+        gap: 10px;
+    }
+
+    input, button {
+        font-size: 14px;
+    }
+
+    button {
+        height: 40px;
+    }
+
+    .form-container {
+        grid-template-columns: 1fr;
+    }
+}
