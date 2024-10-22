@@ -109,9 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Inicializa a aplicação
-    init();
 });
 
 // Inicializa a aplicação
