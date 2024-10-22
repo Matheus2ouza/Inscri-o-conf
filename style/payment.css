@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 * {
     box-sizing: border-box; /* Inclui padding e borda nas dimensões do elemento */
 }
@@ -92,7 +93,6 @@ input[type="file"] {
 input[type="text"]:focus,
 input[type="number"]:focus {
     border-color: #007BFF; /* Cor de destaque ao focar */
-    outline: none;
 }
 
 button {
@@ -105,7 +105,7 @@ button {
     cursor: pointer;
     font-size: 16px;
     margin-top: 20px; /* Espaçamento acima do botão */
-    transition: background-color 0.3, sbox-shadow 0.3s; /* Adiciona transição para a sombra */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Adiciona transição para a sombra */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
 }
 
@@ -114,7 +114,7 @@ button:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra mais intensa ao passar o mouse */
 }
 
-.popup,.popupError {
+.popup, .popupError {
     display: none; /* Inicialmente oculto */
     position: fixed;
     z-index: 1000;
@@ -127,7 +127,7 @@ button:hover {
     align-items: center;
 }
 
-.popup-content,.popup-contentError {
+.popup-content, .popup-contentError {
     background-color: white;
     padding: 20px;
     border-radius: 5px;
@@ -138,7 +138,7 @@ button:hover {
     user-select: none;
 }
 
-.close-btn,.close-btnError {
+.close-btn, .close-btnError {
     color: #dc3545; /* Cor do botão de fechar */
     float: right;
     font-size: 28px;
@@ -184,8 +184,8 @@ button:hover {
 
 .simple-loader {
     position: fixed;
-    top: 45%;
-    left: 48%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     width: 50px;
     height: 50px;
