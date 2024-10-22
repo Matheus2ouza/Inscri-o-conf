@@ -17,6 +17,10 @@
     {
       "src": "img/**/*",
       "use": "@vercel/static"
+    },
+    {
+      "src": "download/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -47,6 +51,10 @@
     {
       "src": "/img/(.*)",
       "dest": "/img/$1"
+    },
+    {
+      "src": "/download/(.*)",
+      "dest": "/downloadimg/$1"
     }
   ]
 }
