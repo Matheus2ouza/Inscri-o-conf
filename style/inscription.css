@@ -391,3 +391,19 @@ button:hover {
         height: 40px;
     }
 }
+.valor {
+    font-style: italic; /* Define o texto em itálico */
+    font-weight: 300; /* Torna o texto mais fino */
+    color: #555; /* Cor mais suave para dar destaque sutil */
+}
+span {
+    margin-left: 10px;
+    font-style: italic;
+    font-size: 0.8rem;
+    color:#555;
+}
+.form-hospedagem {
+    margin-top: 30px;
+    width: 100%;
+    max-width:1100px;
+}
