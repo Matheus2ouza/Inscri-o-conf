@@ -96,11 +96,11 @@ function setupFormServiceToggle() {
                 <form>
                     <div class="form-container">
                         <div class="form-group">
-                            <label for="input8">Numero de Irmãos que irão servir</label>
+                            <label for="input8">Numero de Irmãos que irão servir -<span class="valor">R$ 100.00</span></label>
                             <input type="text" class="service-masc" placeholder="Se não houver coloque 0">
                         </div>
                         <div class="form-group">
-                            <label for="input8">Numero de irmãs que irão servir</label>
+                            <label for="input8">Numero de irmãs que irão servir -<span class="valor">R$ 100.00</span></label>
                             <input type="text" class="service-fem" placeholder="Se não houver coloque 0">
                         </div>
                     </div>
@@ -127,11 +127,11 @@ function setupFormParticipacaoToggle() {
                 <form>
                     <div class="form-container">
                         <div class="form-group">
-                            <label for="input8">Irmãos que vão participar somente da reunião</label>
+                            <label for="input8">Irmãos que vão participar somente da reunião -<span class="valor">R$ 100.00</span></label>
                             <input type="text" class="participacao-masc" placeholder="Se não houver coloque 0">
                         </div>
                         <div class="form-group">
-                            <label for="input8">Irmães que vão participar somente da reunião</label>
+                            <label for="input8">Irmães que vão participar somente da reunião -<span class="valor">R$ 100.00</span></label>
                             <input type="text" class="participacao-fem" placeholder="Se não houver coloque 0">
                         </div>
                     </div>
