@@ -31,20 +31,41 @@ export async function registrarInscricao(registrationData) {
             },
             body: JSON.stringify(registrationData),
         });
-        
+
         const responseData = await response.json(); // Converte a resposta JSON
 
-        // Retorna o status da resposta diretamente
+        // Retorna o responseData e o response
         console.log('Resposta da inscrição:', responseData, 'Status:', response.status);
-        return response.status; // Retorna o código de status HTTP
+        return { data: responseData, status: response.status }; // Retorna ambos
 
     } catch (error) {
         console.error('Erro ao fazer a requisição:', error); // Log do erro de requisição
-        return 500; // Retorna 500 ou outro status representando erro
+        return { data: null, status: 500 }; // Retorna status de erro
     }
 }
 
 
+export async function registrarHospedagem(idInscricao, listaNomesHospedagem) {
+    try {
+        console.log(idInscricao)
+        console.log(listaNomesHospedagem)
+        const response = await fetch(`${apiUrl}/hospedagem`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id_inscricao: idInscricao,
+                nomes_hospedagem: listaNomesHospedagem
+            })
+        });
+
+        return response.status; // Retorna o status da requisição
+    } catch (error) {
+        console.error('Erro ao registrar hospedagem:', error);
+        return 500; // Retorna erro genérico se falhar
+    }
+}
 
 
 
