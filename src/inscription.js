@@ -11,17 +11,6 @@ async function fetchCityNames() {
     }
 }
 
-const buttonpayment = document.querySelector('#btn-payment');
-
-buttonpayment.addEventListener('click', (event) => {
-    event.preventDefault(); // Evita o comportamento padrão do botão, se necessário
-    
-    const localidade = registrationData.localidade; // Obtém a localidade do objeto registrationData
-    const url = `https://inscri-o-conf.vercel.app/pagamento?localidade=${encodeURIComponent(localidade)}`; // Cria a URL com a localidade
-    window.location.href = url; // Redireciona para o link desejado com a localidade
-});
-
-
 document.getElementById('adicionar-nome-btn').addEventListener('click', function() {
     const nomeHospedagem = document.getElementById('nome_hospedagem').value.trim(); // Remove espaços extras no início e no fim
     if (nomeHospedagem) { // Verifica se o valor não está vazio
@@ -305,6 +294,16 @@ async function register() {
     } else {
         showPopupError("Erro ao realizar sua inscrição, tente novamente ou entre em contato com o suporte.");
     }
+
+    const buttonpayment = document.querySelector('#btn-payment');
+
+    buttonpayment.addEventListener('click', (event) => {
+        event.preventDefault(); // Evita o comportamento padrão do botão, se necessário
+    
+        const localidade = registrationData.localidade; // Obtém a localidade do objeto registrationData
+        const url = `https://inscri-o-conf.vercel.app/pagamento?localidade=${encodeURIComponent(localidade)}`; // Cria a URL com a localidade
+        window.location.href = url; // Redireciona para o link desejado com a localidade
+    });
 
 }
 
