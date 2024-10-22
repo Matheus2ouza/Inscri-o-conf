@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+/* Reset de estilo básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
     font-family: "Roboto", sans-serif;
@@ -8,14 +14,23 @@ body {
     background-color: #fff;
 }
 
+/* Estilo da barra de navegação */
+.container {
+    display: flex;
+    flex-direction: column; /* Ajusta para coluna em mobile */
+}
+
 nav {
     display: flex;
     align-items: center;
     height: 70px;
     box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-    background-color: #3c5672;;
+    background-color: #3c5672;
     width: 100%;
     padding: 0 20px;
+    position: fixed; /* Fixa a navbar no topo da tela */
+    top: 0; /* Fica sempre no topo */
+    z-index: 1000; /* Garante que a navbar fique sobre outros elementos */
 }
 
 nav ul {
@@ -23,6 +38,7 @@ nav ul {
     display: flex;
     justify-content: center;
     padding: 0;
+    width: 100%; /* Certifique-se de que a lista ocupe toda a largura */
 }
 
 nav ul li {
@@ -33,7 +49,161 @@ nav ul li a {
     text-decoration: none;
     font-weight: bold;
     text-transform: uppercase;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: #fff;
     letter-spacing: 0.1em;
+}
+
+main {
+    padding: 20px;
+    margin-left: 20px; /* Espaço para o conteúdo não ficar atrás da navbar */
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 2rem;
+    color: #333;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #3c5672;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+h3 {
+    font-size: 1.2rem;
+    color: #454545;
+    margin-top: 10px;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+p {
+    line-height: 1.6;
+    color: #666;
+    position: relative; /* Necessário para posicionar o pseudo-elemento */
+    padding-left: 10px; /* Espaçamento para o ponto */
+    margin-bottom: 30px;
+}
+
+p::before {
+    content: "• "; /* O ponto que aparecerá antes do parágrafo */
+    position: absolute; /* Posiciona o ponto */
+    left: 0; /* Alinha o ponto à esquerda */
+    color: #3c5672; /* Cor do ponto */
+}
+
+.blue-text {
+    color: #3c5672; /* Cor azul específica para os títulos */
+}
+
+.carta-convite {
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.carta-convite:hover {
+    text-decoration: underline;
+    color: #0869e7;
+}
+
+.link-wp {
+    color: #3c5672; /* Cor do link do WhatsApp */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.link-wp:hover {
+    text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+}
+
+
+#estrutura li {
+    margin-top: 10px;
+}
+
+.suporte-item {
+    display: flex; /* Ativa o modelo de flexbox */
+    align-items: center; /* Alinha verticalmente ao centro */
+    margin-bottom: 10px; /* Espaço entre os itens */
+}
+
+.suporte-item p {
+    margin: 0; /* Remove a margem padrão do parágrafo */
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column; /* Alinha os itens verticalmente */
+        height: auto; /* Altura automática */
+    }
+
+    nav ul {
+        flex-direction: column; /* Alinha os links em coluna */
+        padding: 10px 0; /* Adiciona espaço ao redor da lista */
+    }
+
+    nav ul li {
+        margin: 5px 0; /* Reduz a margem entre os itens */
+    }
+
+    main {
+        margin-left: 0; /* Remove a margem lateral */
+        padding: 10px; /* Reduz o padding */
+    }
+
+    .toggle-btn {
+        top: 15px; /* Ajusta a posição do botão */
+        left: 15px; /* Ajusta a posição do botão */
+    }
+
+    h1 {
+        font-size: 1.8rem; /* Tamanho de fonte reduzido para o título */
+    }
+
+    h2 {
+        font-size: 1.3rem; /* Tamanho de fonte reduzido para h2 */
+    }
+
+    h3 {
+        font-size: 1rem; /* Tamanho de fonte reduzido para h3 */
+    }
+}
+
+@media (max-width: 480px) {
+    nav {
+        width: 100%; /* A barra de navegação ocupa toda a largura da tela */
+        height: auto; /* Altura automática */
+        position: relative; /* Para que não sobreponha o conteúdo */
+    }
+
+    main {
+        margin-left: 0; /* Remove a margem quando a navbar ocupa toda a largura */
+        padding: 10px; /* Reduz o padding */
+    }
+
+    .toggle-btn {
+        display: block; /* Mostra o botão */
+    }
+
+    h1 {
+        font-size: 1.5rem; /* Tamanho de fonte reduzido para o título */
+    }
+
+    h2 {
+        font-size: 1.2rem; /* Tamanho de fonte reduzido para h2 */
+    }
+
+    h3 {
+        font-size: 0.9rem; /* Tamanho de fonte reduzido para h3 */
+    }
 }
