@@ -88,22 +88,78 @@ function filterCities(cityNames, input, suggestions) {
 
 // Função para configurar a exibição da form-service
 function setupFormServiceToggle() {
-    const btnYes = document.querySelector('.btn-yes');
-    const btnNo = document.querySelector('.btn-no');
+    const btnYes = document.querySelector('.btnServiço-yes');
+    const btnNo = document.querySelector('.btnServiço-no');
     const formService = document.querySelector('.form-service');
 
     btnYes.addEventListener('click', (event) => {
         event.preventDefault();
-        formService.style.display = 'block'; // Mostra a form-service
+        
+        // Verifica se o formulário já foi adicionado
+        if (!formService.querySelector('form')) {
+            // Adiciona o HTML do formulário dinamicamente
+            formService.insertAdjacentHTML('beforeend', `
+                <form>
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="input8">Masculino</label>
+                            <input type="text" class="service-masc" placeholder="Se não houver coloque 0o">
+                        </div>
+                        <div class="form-group">
+                            <label for="input8">Feminino</label>
+                            <input type="text" class="service-fem" placeholder="Se não houver coloque 0">
+                        </div>
+                    </div>
+                </form>
+            `);
+        }
     });
 
     btnNo.addEventListener('click', (event) => {
         event.preventDefault();
-        formService.style.display = 'none'; // Esconde a form-service
+        // Limpa o conteúdo da form-service
+        formService.innerHTML = ''; // Remove o conteúdo do formulário
+    });
+}
+function setupFormParticipacaoToggle() {
+    const btnYes = document.querySelector('.btnParti-yes');
+    const btnNo = document.querySelector('.btnParti-no');
+    const formParticipacao = document.querySelector('.form-participacao');
+
+    btnYes.addEventListener('click', (event) => {
+        event.preventDefault();
+        
+        // Verifica se o formulário já foi adicionado
+        if (!formParticipacao.querySelector('form')) {
+            // Adiciona o HTML do formulário dinamicamente
+            formParticipacao.insertAdjacentHTML('beforeend', `
+                <form>
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label for="input8">Masculino</label>
+                            <input type="text" class="participacao-masc" placeholder="Se não houver coloque 0">
+                        </div>
+                        <div class="form-group">
+                            <label for="input8">Feminino</label>
+                            <input type="text" class="participacao-fem" placeholder="Se não houver coloque 0">
+                        </div>
+                    </div>
+                </form>
+            `);
+        }
     });
 
-    formService.style.display = 'none'; // Inicialmente esconde a form-service
+    btnNo.addEventListener('click', (event) => {
+        event.preventDefault();
+        // Limpa o conteúdo da form-service
+        formParticipacao.innerHTML = ''; // Remove o conteúdo do formulário
+    });
 }
+
+
+// Chame a função para configurar os botões
+setupFormServiceToggle();
+
 
 function showPopup(title, message) {
     const popup = document.getElementById('popup');
@@ -148,13 +204,16 @@ async function register() {
     const age10feminine = getValueOrDefault('.age-10-fem'); // 13+ Feminino
     const serviceMasculine = getValueOrDefault('.service-masc'); // serviço Masculino
     const serviceFeminine = getValueOrDefault('.service-fem'); // serviço Feminino
+    const participacaoMasculine = getValueOrDefault('.participacao-masc'); // serviço Masculino
+    const participacaoFeminine = getValueOrDefault('.participacao-fem'); // serviço Feminino
 
     // Função para somar todos os inscritos
     const calculateTotalInscritos = () => {
         return parseInt(age06masculine) + parseInt(age06feminine) +
                parseInt(age710masculine) + parseInt(age710feminine) +
                parseInt(age10masculine) + parseInt(age10feminine) +
-               parseInt(serviceMasculine) + parseInt(serviceFeminine);
+               parseInt(serviceMasculine) + parseInt(serviceFeminine)+
+               parseInt(participacaoMasculine) + parseInt(participacaoFeminine);
     };
 
     // Coleta os nomes de hospedagem da lista
@@ -183,6 +242,10 @@ async function register() {
         servico: {
             masculino: serviceMasculine,
             feminino: serviceFeminine
+        },
+        participacao: {
+            masculino: participacaoMasculine,
+            feminino: participacaoFeminine
         }
     };
 
@@ -212,11 +275,11 @@ async function register() {
 
 }
 
-
 // Função de inicialização
 async function init() {
     await initCitySuggestions(); // Inicializa as sugestões de cidade
-    setupFormServiceToggle(); // Configura a exibição do formulário de serviço
+    setupFormServiceToggle();
+    setupFormParticipacaoToggle();
 
     // Adiciona evento ao botão de registro
     const btnRegister = document.querySelector('.btn-register');
