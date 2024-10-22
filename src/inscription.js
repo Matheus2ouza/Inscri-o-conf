@@ -101,11 +101,11 @@ function setupFormServiceToggle() {
                 <form>
                     <div class="form-container">
                         <div class="form-group">
-                            <label for="input8">Irmãos que vão servir</label>
+                            <label for="input8">Numero de Irmãos que irão servir</label>
                             <input type="text" class="service-masc" placeholder="Se não houver coloque 0">
                         </div>
                         <div class="form-group">
-                            <label for="input8">Irmãs que vão servir</label>
+                            <label for="input8">Numero de irmãs que irão servir</label>
                             <input type="text" class="service-fem" placeholder="Se não houver coloque 0">
                         </div>
                     </div>
