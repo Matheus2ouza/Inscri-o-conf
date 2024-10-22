@@ -1,4 +1,4 @@
-import { getLocations, registrarInscricao } from './router.js';
+import { getLocations, registrarInscricao, registrarHospedagem } from './router.js';
 
 // Função principal para buscar os nomes das cidades
 async function fetchCityNames() {
@@ -10,6 +10,40 @@ async function fetchCityNames() {
         return []; // Retorna um array vazio em caso de erro
     }
 }
+
+
+document.getElementById('adicionar-nome-btn').addEventListener('click', function() {
+    const nomeHospedagem = document.getElementById('nome_hospedagem').value.trim(); // Remove espaços extras no início e no fim
+    if (nomeHospedagem) { // Verifica se o valor não está vazio
+        const listaNomes = document.getElementById('lista-nomes-hospedagem');
+
+        // Cria um novo item de lista
+        const li = document.createElement('li');
+        li.textContent = nomeHospedagem;
+
+        // Cria o botão de remover ("x")
+        const removeBtn = document.createElement('span');
+        removeBtn.textContent = 'x';
+        removeBtn.classList.add('remove-nome');
+
+        // Adiciona o botão de remover ao item
+        li.appendChild(removeBtn);
+
+        // Adiciona o item à lista
+        listaNomes.appendChild(li);
+
+        // Limpa o campo de entrada
+        document.getElementById('nome_hospedagem').value = '';
+
+        // Evento de clique para remover o nome
+        removeBtn.addEventListener('click', function() {
+            listaNomes.removeChild(li);
+        });
+    } else {
+        alert('Por favor, insira um nome válido.');
+    }
+});
+
 
 // Função para extrair os nomes das cidades de um objeto
 function extractCityNames(cities) {
@@ -123,6 +157,10 @@ async function register() {
                parseInt(serviceMasculine) + parseInt(serviceFeminine);
     };
 
+    // Coleta os nomes de hospedagem da lista
+    const listaNomesHospedagem = Array.from(document.querySelectorAll('#lista-nomes-hospedagem li'))
+        .map(li => li.textContent.replace('Remover', '').trim()); // Remove o botão de remover e pega o nome
+
     // Cria um objeto com os dados
     const registrationData = {
         localidade,
@@ -145,18 +183,35 @@ async function register() {
         servico: {
             masculino: serviceMasculine,
             feminino: serviceFeminine
-        },
-    };
-    console.log(registrationData)
-        // Chama registrarInscricao e aguarda a resposta
-        const status = await registrarInscricao(registrationData);
-    
-        if (status >= 200 && status < 300) {
-            showPopup("Inscrição realizada com sucesso!", "Sua inscrição foi realizada com sucesso"); // Inscrição foi um sucesso
-        } else {
-            showPopup("Erro ao realizar a inscrição", "Erro ao releaziar sua inscrição, tente novamente ou entre em contato com o suporte."); // Ocorreu um erro
         }
+    };
+
+    const dadosInscricao = await registrarInscricao(registrationData);
+    console.log(dadosInscricao);
+
+    // Se a inscrição foi um sucesso, registrar hospedagem
+    if (dadosInscricao.status >= 200 && dadosInscricao.status < 300) {
+        // Supondo que o ID da inscrição seja retornado dentro de `data` ou direto no objeto
+        const idInscricao = dadosInscricao.data?.enrollmentId; // Ajuste conforme o retorno da API
+
+        if (idInscricao) {
+        // Registrar hospedagem
+            const statusHospedagem = await registrarHospedagem(idInscricao, listaNomesHospedagem);
+
+            if (statusHospedagem >= 200 && statusHospedagem < 300) {
+                showPopup("Inscrição realizada com sucesso!", "Sua inscrição e hospedagem foram registradas com sucesso!");
+            } else {
+                showPopup("Erro ao registrar hospedagem", "A inscrição foi realizada, mas ocorreu um erro ao registrar a hospedagem.");
+            }
+        } else {
+            showPopup("Erro ao realizar a inscrição", "A inscrição foi realizada, mas o ID de inscrição não foi retornado.");
+        }
+    } else {
+        showPopup("Erro ao realizar a inscrição", "Erro ao realizar sua inscrição, tente novamente ou entre em contato com o suporte."); // Ocorreu um erro
+    }
+
 }
+
 
 // Função de inicialização
 async function init() {

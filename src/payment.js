@@ -1,4 +1,4 @@
-import { getLocations, registrarInscricao } from './router.js';
+import { getLocations } from './router.js';
 
 // Função principal para buscar os nomes das cidades
 async function fetchCityNames() {
