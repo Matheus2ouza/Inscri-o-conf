@@ -14,7 +14,6 @@ nav {
     box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
     background-color: #fff;
     width: 100%;
-    position: relative;
     padding: 0 20px;
 }
 
@@ -94,7 +93,6 @@ nav ul li a {
 .form-group {
     display: flex;
     flex-direction: column;
-    position: relative;
 }
 
 label {
@@ -114,7 +112,6 @@ input {
 input::placeholder {
     color: #949494;
     font-size: 0.75rem;
-    user-select: none;
 }
 
 button {
@@ -129,17 +126,87 @@ button {
     margin: 10px 0;
 }
 
-.group-service button {
-    width: 100%;
-    max-width: 100px;
+.group-service,
+.group-participacao {
+    display: flex; /* Muda para flex para que os botões fiquem lado a lado */
+    justify-content: flex-start; /* Alinha os botões à esquerda */
+    margin-top: 10px; /* Espaço entre o grupo e os elementos acima */
+}
+
+.group-service button,
+.group-participacao button {
+    width: 100%; /* Mantenha o botão com largura total */
+    max-width: 100px; /* Limita a largura máxima */
     height: 30px;
-    margin-top: 15px;
-    margin-right: 10px;
+    margin-right: 10px; /* Espaço entre os botões */
     background-color: #000;
     color: #fff;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 500;
+}
+
+.group-service button:last-child,
+.group-participacao button:last-child {
+    margin-right: 0; /* Remove a margem direita do último botão */
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .group-service,
+    .group-participacao {
+        flex-wrap: wrap; /* Permite que os botões quebrem para a próxima linha se necessário */
+        justify-content: center; /* Centraliza os botões */
+    }
+
+    .group-service button,
+    .group-participacao button {
+        width: 48%; /* Define a largura dos botões para ocupar 48% do contêiner */
+        margin: 1%; /* Espaço entre os botões */
+    }
+
+    .form-service,
+    .form-hospedagem,
+    .second-container {
+        padding: 10px;
+        max-width: 100%;
+    }
+
+    .form-hospedagem {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .popup-content {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container img {
+        height: 120px;
+        width: 120px;
+    }
+
+    .container h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-container {
+        gap: 10px;
+    }
+
+    input, button {
+        font-size: 14px;
+    }
+
+    button {
+        height: 40px;
+    }
+
+    .form-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 .suggestions {
@@ -167,12 +234,18 @@ button {
 }
 
 .form-service {
-    display: block;
     align-items: center;
     justify-content: center;
     width: 100%;
     max-width: 1100px;
-    margin-top: -25px;
+    margin-top: -15px;
+}
+.form-participacao {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 20px;
 }
 
 .popup {
@@ -247,64 +320,4 @@ button {
 
 #lista-nomes-hospedagem li:hover .remove-nome {
     color: darkred;
-}
-
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .container img {
-        margin-right: 0;
-        margin-bottom: 10px;
-    }
-
-    .form-service, .form-hospedagem, .second-container {
-        padding: 10px;
-        max-width: 100%;
-    }
-
-    .group-service button {
-        width: 100%;
-        max-width: none;
-    }
-
-    .form-hospedagem {
-        width: 100%;
-        margin-top: 20px;
-    }
-
-    .popup-content {
-        width: 90%;
-    }
-}
-
-@media (max-width: 480px) {
-    .container img {
-        height: 120px;
-        width: 120px;
-    }
-
-    .container h1 {
-        font-size: 1.5rem;
-    }
-
-    .form-container {
-        gap: 10px;
-    }
-
-    input, button {
-        font-size: 14px;
-    }
-
-    button {
-        height: 40px;
-    }
-
-    .form-container {
-        grid-template-columns: 1fr;
-    }
 }
