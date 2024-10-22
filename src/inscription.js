@@ -306,9 +306,7 @@ async function register() {
 
     buttonpayment.addEventListener('click', (event) => {
         event.preventDefault(); // Evita o comportamento padrão do botão, se necessário
-    
-        const localidade = registrationData.localidade; // Obtém a localidade do objeto registrationData
-        const url = `https://inscri-o-conf.vercel.app/pagamento?localidade=${encodeURIComponent(localidade)}`; // Cria a URL com a localidade
+        const url = `https://inscri-o-conf.vercel.app/pagamento?localidade`; // Cria a URL com a localidade
         window.location.href = url; // Redireciona para o link desejado com a localidade
     });
 
