@@ -112,11 +112,11 @@ function setupFormServiceToggle() {
                 <form>
                     <div class="form-container">
                         <div class="form-group">
-                            <label for="input8">Masculino</label>
-                            <input type="text" class="service-masc" placeholder="Se não houver coloque 0o">
+                            <label for="input8">Irmãos que vão servir</label>
+                            <input type="text" class="service-masc" placeholder="Se não houver coloque 0">
                         </div>
                         <div class="form-group">
-                            <label for="input8">Feminino</label>
+                            <label for="input8">Irmãs que vão servir</label>
                             <input type="text" class="service-fem" placeholder="Se não houver coloque 0">
                         </div>
                     </div>
@@ -146,11 +146,11 @@ function setupFormParticipacaoToggle() {
                 <form>
                     <div class="form-container">
                         <div class="form-group">
-                            <label for="input8">Masculino</label>
+                            <label for="input8">Irmãos que vão participar somente da reunião</label>
                             <input type="text" class="participacao-masc" placeholder="Se não houver coloque 0">
                         </div>
                         <div class="form-group">
-                            <label for="input8">Feminino</label>
+                            <label for="input8">Irmães que vão participar somente da reunião</label>
                             <input type="text" class="participacao-fem" placeholder="Se não houver coloque 0">
                         </div>
                     </div>
@@ -224,8 +224,8 @@ async function register() {
 
     // Função auxiliar para tratar valores vazios
     const getValueOrDefault = (selector) => {
-        const value = document.querySelector(selector).value;
-        return value.trim() === "" ? "0" : value; // Retorna "0" se o valor for vazio
+        const element = document.querySelector(selector);
+        return element && element.value.trim() !== "" ? element.value : "0"; // Retorna "0" se o valor for vazio ou o elemento não existir
     };
 
     // Obtém os valores, usando a função auxiliar
