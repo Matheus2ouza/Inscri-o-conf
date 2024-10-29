@@ -41,6 +41,10 @@
       "dest": "/page/documentation.html"
     },
     {
+      "src": "/dashboard",
+      "dest": "/page/dashboard.html"
+    },
+    {
       "src": "/style/(.*)",
       "dest": "/style/$1"
     },
