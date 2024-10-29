@@ -1,0 +1,385 @@
+/* Estilos para o modo claro */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f5; /* Fundo suave */
+    color: #333; /* Cor do texto */
+    transition: background-color 0.3s, color 0.3s; /* Transições suaves */
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    background-color: #2c3e50; /* Fundo nav moderno */
+    padding: 0 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Flexbox para navegação */
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s; /* Transição suave ao passar o mouse */
+}
+
+nav ul li a:hover {
+    color: #1abc9c; /* Cor ao passar o mouse */
+}
+
+.dashboard-container {
+    padding: 20px;
+}
+
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background-color: #ffffff; /* Fundo branco para contraste */
+    border-radius: 15px; /* Bordas mais arredondadas */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 20px;
+    transition: transform 0.3s, box-shadow 0.3s; /* Transições suaves */
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Elevação ao passar o mouse */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Sombra mais forte ao hover */
+}
+
+.card h2 {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+    color: #2c3e50; /* Cor do título */
+}
+
+.card p {
+    margin: 5px 0;
+    font-size: 1.2em; /* Tamanho da fonte diminuído para suavidade */
+    color: #555; /* Cor do texto mais suave */
+    font-weight: bold;
+    background-color: rgba(40, 167, 70, 0.1); /* Fundo suave */
+    padding: 10px; /* Espaçamento interno */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+/* Estilo do Carregador */
+.loader-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    visibility: hidden; /* Oculta inicialmente */
+}
+
+.loader-background.hidden {
+    visibility: hidden; /* Oculta quando a classe 'hidden' é aplicada */
+}
+
+.loader {
+    border: 8px solid #f3f3f3; /* Cor de fundo */
+    border-top: 8px solid #3498db; /* Cor do carregador */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite; /* Animação do carregador */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 15px; /* Bordas arredondadas do modal */
+    max-width: 90%;
+    max-height: 80%;
+    overflow-y: auto; /* Adiciona rolagem vertical se necessário */
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Estilo da tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table, th, td {
+    border: 1px solid #ddd; /* Bordas retas */
+}
+
+th, td {
+    padding: 12px; /* Aumenta o padding para mais conforto */
+    text-align: left;
+}
+
+th {
+    background-color: #3c5672; /* Cor do cabeçalho */
+    color: white; /* Cor do texto do cabeçalho */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Cor de fundo para linhas pares */
+}
+
+tr:hover {
+    background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
+}
+
+/* Botão circular */
+.details-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #3498db; /* Cor de fundo do botão */
+    color: white; /* Cor do texto */
+    border: none; /* Remove a borda padrão */
+    border-radius: 50%; /* Faz o botão ser circular */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
+}
+
+.details-btn:hover {
+    background-color: #2980b9; /* Cor mais escura ao passar o mouse */
+    transform: scale(1.05); /* Aumenta levemente o botão ao hover */
+}
+
+.list-container {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.list-card {
+    background-color: #ffffff; /* Fundo branco */
+    border-radius: 15px; /* Bordas arredondadas */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.list-card h2 {
+    font-size: 1.5em;
+    color: #2c3e50; /* Cor do título */
+}
+
+.list-card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.list-card th,
+.list-card td {
+    padding: 12px; /* Aumenta o padding para mais conforto */
+    border: 1px solid #ddd; /* Bordas retas */
+}
+
+.list-card th {
+    background-color: #3c5672;
+    color: white;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 15px; /* Bordas mais arredondadas */
+    padding: 16px;
+    margin: 16px 0;
+    background-color: #f9f9f9;
+}
+
+.card-title {
+    font-size: 1.5em;
+    margin-bottom: 12px;
+    color: #2c3e50; /* Cor do título */
+}
+
+.list {
+    list-style-type: none; /* Remove os marcadores padrão */
+    padding: 0; /* Remove o padding padrão */
+}
+
+.list-item {
+    padding: 8px 0; /* Espaçamento entre os itens */
+    border-bottom: 1px solid #ddd; /* Linha de separação entre os itens */
+}
+
+.list-item:last-child {
+    border-bottom: none; /* Remove a linha do último item */
+}
+
+/* Estilos para o modo noturno */
+body.night-mode {
+    background-color: #121212; /* Fundo escuro */
+    color: #e0e0e0; /* Cor do texto clara */
+}
+
+nav.night-mode {
+    background-color: #1f1f1f; /* Fundo nav escuro */
+}
+
+nav ul li a {
+    color: white; /* Cor do link no modo noturno */
+}
+
+nav ul li a:hover {
+    color: #1dd1a1; /* Cor ao passar o mouse */
+}
+
+.card.night-mode {
+    background-color: #1e1e1e; /* Fundo escuro dos cards */
+    color: #e0e0e0; /* Cor do texto clara */
+    border: 1px solid #444; /* Bordas escuras */
+}
+
+/* Estilo do modal no modo noturno */
+.modal.night-mode {
+    background: rgba(0, 0, 0, 0.9); /* Fundo escuro do modal */
+}
+
+.modal-content.night-mode {
+    background-color: #1e1e1e; /* Fundo escuro do conteúdo do modal */
+    color: #ffffff; /* Cor do texto clara */
+}
+
+/* Estilo da tabela no modo noturno */
+.table.night-mode, .list-card.night-mode {
+    background-color: #1e1e1e; /* Fundo escuro para a tabela */
+    border-color: #444; /* Cor da borda da tabela */
+}
+
+/* Estilo das células da tabela */
+table.night-mode th,
+table.night-mode td {
+    border: 1px solid #444; /* Borda das células mais visível */
+    color: #e0e0e0; /* Cor do texto */
+}
+
+/* Estilo do cabeçalho da tabela */
+table.night-mode th {
+    background-color: #333; /* Cor de fundo do cabeçalho mais escura */
+    color: #ffffff; /* Cor do texto do cabeçalho clara */
+}
+
+/* Estilo das linhas pares */
+table.night-mode tr:nth-child(even) {
+    background-color: #2a2a2a; /* Cor de fundo para linhas pares */
+}
+
+/* Estilo das linhas ao passar o mouse */
+table.night-mode tr:hover {
+    background-color: #444; /* Cor de fundo ao passar o mouse */
+}
+
+/* Aumenta o padding das células para mais conforto */
+table.night-mode th,
+table.night-mode td {
+    padding: 15px; /* Aumenta o padding para mais conforto */
+}
+
+/* Adicione isso aos seus botões */
+.details-btn.night-mode {
+    background-color: #3498db; /* Cor de fundo do botão */
+}
+
+.details-btn.night-mode:hover {
+    background-color: #2980b9; /* Cor mais escura ao passar o mouse */
+}
+/* Estilos para o modo noturno */
+body.night-mode {
+    background-color: #121212; /* Fundo escuro */
+    color: #e0e0e0; /* Cor do texto clara */
+}
+
+nav.night-mode {
+    background-color: #1f1f1f; /* Fundo nav escuro */
+}
+
+.card.night-mode {
+    background-color: #1e1e1e; /* Fundo escuro para os cartões */
+    color: #ffffff; /* Cor do texto dos cartões */
+}
+
+.ranking-cidades.night-mode,
+.list-card.night-mode,
+.lista-eventos.night-mode {
+    background-color: #1e1e1e; /* Fundo escuro para essas divs */
+    color: #ffffff; /* Cor do texto clara */
+}
+
+#toggleNightMode {
+    background-color: #fff; /* Cor de fundo padrão */
+    border: none; /* Remove a borda padrão */
+    border-radius: 50%; /* Faz o botão ser circular */
+    width: 50px; /* Largura do botão */
+    height: 50px; /* Altura do botão */
+    font-size: 24px; /* Tamanho da fonte */
+    cursor: pointer; /* Muda o cursor ao passar sobre o botão */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Animação suave */
+    display: flex; /* Usado para centralizar o conteúdo */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    margin-left: auto; /* Move o botão para o lado direito */
+}
+
+#toggleNightMode:hover {
+    background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
+    transform: scale(1.1); /* Aumenta o tamanho do botão ao passar o mouse */
+}
+
+.night-mode #toggleNightMode {
+    background-color: #333; /* Cor de fundo no modo noturno */
+    color: #fff; /* Cor do texto no modo noturno */
+}
