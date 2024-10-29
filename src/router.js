@@ -67,5 +67,17 @@ export async function registrarHospedagem(idInscricao, listaNomesHospedagem) {
     }
 }
 
-
+export async function getDashboardData() {
+    try {
+        const response = await fetch(`${apiUrl}/dashboard`);
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar dados do dashboard: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data; // Retorna os dados do dashboard
+    } catch (error) {
+        console.error(`Erro: ${error.message}`);
+        return null; // Retorna null em caso de erro
+    }
+}
 

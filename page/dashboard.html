@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/dashboard.css">
+    <title>Dashboard</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+        </ul>
+            <button id="toggleNightMode">☀️</button>
+        
+    </nav>  
+    <div class="loader-background hidden"> 
+        <div class="loader"></div>
+    </div>
+    <div class="dashboard-container">
+        <h1>Dashboard</h1>
+        <div class="cards-container">
+            
+            <div id="hospedagem" class="card"></div>
+            <div id="inscricoes0_6" class="card"></div>
+            <div id="inscricoes7_10" class="card"></div>
+            <div id="inscricoes10_acima" class="card"></div>
+            <div id="inscricaoGeral" class="card"></div>
+            <div id="movimentacaoFinanceira" class="card"></div>
+            <div id="pagamento" class="card"></div>
+            
+        </div>
+        <div class="list-container">
+            <div id="lista-eventos" class="list-card"></div>
+            <div id="lista-tipo-inscricao" class="list-card"></div>
+            <div id="ranking-cidades" class="list-card"></div>
+        </div>
+    </div>
+
+    <script type="module" src="../src/dashboard.js"></script>
+</body>
+</html>
