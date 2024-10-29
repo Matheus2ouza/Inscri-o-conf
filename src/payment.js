@@ -1,4 +1,4 @@
-import { getLocations } from './router.js';
+import { getLocations } from './router.js'; // Importa a função para obter os locais
 
 // Função principal para buscar os nomes das cidades
 async function fetchCityNames() {
@@ -93,12 +93,27 @@ async function buscarSaldoDevedor(cidade, saldoDevedorInput) {
     }
 }
 
-const buttonhome = document.querySelector('#btn-home');
+// Função para coletar a localidade da URL e preencher o input
+async function populateLocalidadeFromURL(saldoDevedorInput) {
+    const urlParams = new URLSearchParams(window.location.search); // Obtém os parâmetros da URL
+    const localidade = urlParams.get('localidade'); // Obtém a localidade
 
+    if (localidade) {
+        const cidadeInput = document.getElementById('input1');
+        cidadeInput.value = decodeURIComponent(localidade); // Preenche o input1 com a localidade
+
+        // Chama a função para buscar saldo devedor ao carregar a página
+        await buscarSaldoDevedor(localidade.trim().toUpperCase(), saldoDevedorInput);
+    }
+}
+
+// Função para gerenciar o botão "home"
+const buttonhome = document.querySelector('#btn-home');
 buttonhome.addEventListener('click', () => {
     window.location.href = 'https://inscri-o-conf.vercel.app'; // Redireciona para o link desejado
 });
 
+// Função para configurar o botão "Novo Pagamento"
 function setupFormClear() {
     const btnNovoPagamento = document.querySelector('#btn-novoPagamento'); // Seleciona o botão
     btnNovoPagamento.addEventListener('click', (event) => {
@@ -107,6 +122,7 @@ function setupFormClear() {
     });
 }
 
+// Funções para exibir e esconder pop-ups
 function showPopup(message) {
     const popup = document.getElementById('popup');
     const popupContent = popup.querySelector('.popup-content p');
@@ -114,7 +130,6 @@ function showPopup(message) {
     popup.style.display = 'flex'; // Exibe o pop-up
 }
 
-// Lógica para fechar o pop-up
 document.querySelector('.close-btn').addEventListener('click', function() {
     document.getElementById('popup').style.display = 'none';
     window.location.reload(); // Recarrega a página
@@ -128,6 +143,7 @@ window.addEventListener('click', function(event) {
     }
 });
 
+// Função para exibir erros em um pop-up
 function showPopupError(message) {
     const popup = document.getElementById('popupError');
     const popupContent = popup.querySelector('.popup-contentError p');
@@ -135,12 +151,11 @@ function showPopupError(message) {
     popup.style.display = 'flex'; // Exibe o pop-up
 }
 
-// Lógica para fechar o pop-up
 document.querySelector('.close-btnError').addEventListener('click', function() {
     document.getElementById('popupError').style.display = 'none';
 });
 
-// Fechar o pop-up ao clicar fora do conteúdo
+// Fechar o pop-up de erro ao clicar fora do conteúdo
 window.addEventListener('click', function(event) {
     const popup = document.getElementById('popupError');
     if (event.target === popup) {
@@ -148,21 +163,13 @@ window.addEventListener('click', function(event) {
     }
 });
 
-// Função para coletar a localidade da URL e preencher o input
-function populateLocalidadeFromURL() {
-    const urlParams = new URLSearchParams(window.location.search); // Obtém os parâmetros da URL
-    const localidade = urlParams.get('localidade'); // Obtém a localidade
-
-    if (localidade) {
-        document.getElementById('input1').value = decodeURIComponent(localidade); // Preenche o input1 com a localidade
-    }
-}
-
+// Função para mostrar o loader
 function showLoader() {
     const loaderBackground = document.querySelector('.loader-background');
     loaderBackground.classList.remove('hidden');
 }
 
+// Função para esconder o loader
 function hideLoader() {
     const loaderBackground = document.querySelector('.loader-background');
     loaderBackground.classList.add('hidden');
@@ -170,10 +177,11 @@ function hideLoader() {
 
 // Inicializa a aplicação
 async function init() {
-    populateLocalidadeFromURL();
-    setupFormClear();
-    const cidadeInput = document.getElementById('input1'); // Obtém a referência ao input da cidade
     const saldoDevedorInput = document.getElementById('saldoDevedor'); // Referência ao campo de saldo devedor
+    await populateLocalidadeFromURL(saldoDevedorInput); // Popula cidade e busca saldo devedor, se aplicável
+    setupFormClear();
+    
+    const cidadeInput = document.getElementById('input1'); // Obtém a referência ao input da cidade
     await initCitySuggestions(cidadeInput, saldoDevedorInput); // Inicializa as sugestões de cidade
 
     const valorPago = document.getElementById('valor_pago');
