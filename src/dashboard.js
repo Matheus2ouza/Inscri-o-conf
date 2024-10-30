@@ -1,6 +1,22 @@
 import { getDashboardData } from './router.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    showLoader();
+
+    fetchDashboardData();
+});
+
+function showLoader() {
+    const loaderBackground = document.querySelector('.loader-background');
+    loaderBackground.classList.remove('hidden');
+}
+
+function hideLoader() {
+    const loaderBackground = document.querySelector('.loader-background');
+    loaderBackground.classList.add('hidden');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
     const toggleButton = document.getElementById('toggleNightMode');
 
     toggleButton.addEventListener('click', () => {
@@ -58,16 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Função para mostrar o carregador
-function showLoader() {
-    const loaderBackground = document.querySelector('.loader-background');
-    loaderBackground.classList.remove('hidden');
-}
 
-function hideLoader() {
-    const loaderBackground = document.querySelector('.loader-background');
-    loaderBackground.classList.add('hidden');
-}
+
 
 // Função principal para buscar os dados do dashboard
 async function fetchDashboardData() {
@@ -96,11 +104,12 @@ function renderDashboard(data) {
     document.getElementById('inscricaoGeral').innerHTML = createCard('Inscrição Geral', calculateTotalInscricoes(data.inscricaoGeral.data), data.inscricaoGeral.data);
     document.getElementById('movimentacaoFinanceira').innerHTML = createCard('Movimentação Financeira', calculateTotalMovimentacao(data.movimentacaoFinanceira.data), data.movimentacaoFinanceira.data);
     document.getElementById('pagamento').innerHTML = createCard('Pagamentos', calculateTotalPagamento(data.pagamento.data), data.pagamento.data);
+    document.getElementById('saldoDevedor').innerHTML = createCard('Saldo Devedor Localidades', calculateTotalPagamento(data.localidades.data), data.localidades.data);
    
     document.getElementById('lista-eventos').innerHTML = createEventDataListCard(data.eventos?.data || []);
     document.getElementById('lista-tipo-inscricao').innerHTML = createDataListCard('Taxas de Inscrição', data.tipoInscricao?.data || []);
     document.getElementById('ranking-cidades').innerHTML = renderCityRanking(data.inscricaoGeral?.data || []);
-    
+    //document.getElementById('localidades-saldo').innerHTML = createDataListCard('Saldo Devedor por Localidade', data.localidades?.data || []);
     addDetailButtonsListeners();
 }
 
@@ -193,8 +202,8 @@ function calculateTotalInscricoes(items) {
 }
 
 function calculateTotalInscricoesFaixaEtaria(items) {
-    const totalMasculino = items.reduce((sum, item) => sum + (item.qtd_masculino || 0), 0);
-    const totalFeminino = items.reduce((sum, item) => sum + (item.qtd_feminino || 0), 0);
+    const totalMasculino = items.reduce((sum, item) => sum + Number(item.qtd_masculino || 0), 0);
+    const totalFeminino = items.reduce((sum, item) => sum + Number(item.qtd_feminino || 0), 0);
     return totalMasculino + totalFeminino;
 }
 
