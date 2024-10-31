@@ -66,13 +66,13 @@ nav ul li a:hover {
 .card h2 {
     margin: 0 0 10px;
     font-size: 1.5em;
-    color: #2c3e50; /* Cor do título */
+    color: #425c77; /* Cor do título */
 }
 
 .card p {
-    margin: 5px 0;
+    margin: 3px 0;
     font-size: 1.2em; /* Tamanho da fonte diminuído para suavidade */
-    color: #555; /* Cor do texto mais suave */
+    color: #959595; /* Cor do texto mais suave */
     font-weight: bold;
     background-color: rgba(40, 167, 70, 0.1); /* Fundo suave */
     padding: 10px; /* Espaçamento interno */
@@ -159,8 +159,12 @@ table, th, td {
 th, td {
     padding: 12px; /* Aumenta o padding para mais conforto */
     text-align: left;
+    color: #080808;
 }
-
+td h2 {
+    font-size: 1.5em;
+    color: #2c3e50; /* Cor do título */
+}
 th {
     background-color: #3c5672; /* Cor do cabeçalho */
     color: white; /* Cor do texto do cabeçalho */
@@ -177,14 +181,14 @@ tr:hover {
 /* Botão circular */
 .details-btn {
     position: absolute;
-    bottom: 20px;
+    bottom: 30px;
     right: 20px;
-    background-color: #3498db; /* Cor de fundo do botão */
+    background-color: #2c3e50; /* Cor de fundo do botão */
     color: white; /* Cor do texto */
     border: none; /* Remove a borda padrão */
     border-radius: 50%; /* Faz o botão ser circular */
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -213,7 +217,7 @@ tr:hover {
 
 .list-card h2 {
     font-size: 1.5em;
-    color: #2c3e50; /* Cor do título */
+    color: #425c77; /* Cor do título */
 }
 
 .list-card table {
@@ -243,7 +247,7 @@ tr:hover {
 .card-title {
     font-size: 1.5em;
     margin-bottom: 12px;
-    color: #2c3e50; /* Cor do título */
+    color: #425c77; /* Cor do título */
 }
 
 .list {
@@ -331,7 +335,7 @@ table.night-mode td {
 
 /* Adicione isso aos seus botões */
 .details-btn.night-mode {
-    background-color: #3498db; /* Cor de fundo do botão */
+    background-color: #2c3e50; /* Cor de fundo do botão */
 }
 
 .details-btn.night-mode:hover {
@@ -382,4 +386,91 @@ nav.night-mode {
 .night-mode #toggleNightMode {
     background-color: #333; /* Cor de fundo no modo noturno */
     color: #fff; /* Cor do texto no modo noturno */
+}
+
+.loader-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+}
+
+.print-btn {
+    background-color: #3b913d61;
+    color: #2b2a2a;
+    border: none;
+    margin-left: auto;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 5px 10px;
+}
+
+.print-btn:hover {
+    background-color: #2e732e;
+}
+
+.print-btn:active {
+    background-color: #388e3c00; /* Cor de fundo ao clicar */
+    transform: translateY(1px); /* Efeito de "pressionar" */
+}
+.info-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 10px; /* tamanho de fonte reduzido */
+    color: #888; /* cor clara */
+    border: 1px solid #888;
+    border-radius: 50%;
+    width: 14px; /* largura reduzida */
+    height: 14px; /* altura reduzida */
+    text-align: center;
+    line-height: 14px; /* alinhamento do texto para o novo tamanho */
+    cursor: pointer;
+}
+
+/* Estilos para o tooltip */
+.info-icon:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -10px;
+    right: 25px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
 }
