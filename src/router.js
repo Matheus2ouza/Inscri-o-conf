@@ -81,3 +81,40 @@ export async function getDashboardData() {
     }
 }
 
+export async function loginAdmin(userData) {
+    try {
+        const response = await fetch(`${apiUrl}/loginAdmin`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData),
+        });
+
+        const responseData = await response.json();
+
+        if (response.ok) {
+            console.log('Login bem-sucedido:', responseData.message);
+            return { success: true, data: responseData }; // Retorna dados de sucesso
+        } else {
+            // Verifica o status e retorna mensagens específicas de erro
+            if (response.status === 400) {
+                console.warn('Erro de validação:', responseData.errors);
+                return { success: false, message: 'Dados de entrada inválidos. Verifique seus dados.' };
+            } else if (response.status === 401) {
+                const message = responseData.message.includes('username')
+                    ? 'Nome de usuário inválido.'
+                    : 'Senha inválida.';
+                console.warn('Erro de autenticação:', message);
+                return { success: false, message: message };
+            } else {
+                console.error('Erro desconhecido:', response.status);
+                return { success: false, message: 'Erro ao tentar fazer login. Tente novamente mais tarde.' };
+            }
+        }
+    } catch (error) {
+        console.error('Erro no login:', error.message);
+        return { success: false, message: 'Erro no login. Tente novamente mais tarde.' };
+    }
+}
+
