@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Inscrições</title>
+    <link rel="stylesheet" href="../style/report.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="https://inscri-o-conf.vercel.app">Home</a></li> 
+        </ul>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="container">
+            <h1>Relatório de Inscrições por Localidade</h1>
+            <div class="filter-container">
+                <label for="localidadeSelect">Selecione a Localidade:</label>
+                <select id="localidadeSelect">
+                    <option value="">-- Selecione --</option>
+                    
+                </select>
+                <button id="consultarRelatorio">Consultar Relatório</button>
+            </div>
+            <div id="relatorioContainer">
+                
+            </div>
+            
+        </div>
+    </div>
+
+    <script type="module" src="../src/report.js"></script> 
+</body>
+</html>

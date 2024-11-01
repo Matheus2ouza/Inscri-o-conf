@@ -1,0 +1,172 @@
+/* Estilos para o modo claro */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f5; /* Fundo suave */
+    color: #333; /* Cor do texto */
+    transition: background-color 0.3s, color 0.3s; /* Transições suaves */
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    background-color: #2c3e50; /* Fundo nav moderno */
+    padding: 0 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Flexbox para navegação */
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s; /* Transição suave ao passar o mouse */
+}
+
+nav ul li a:hover {
+    color: #1abc9c; /* Cor ao passar o mouse */
+}
+
+.dashboard-container {
+    padding: 20px;
+}
+
+/* Estilo do contêiner do relatório */
+.container {
+    background-color: #ffffff; /* Fundo branco para contraste */
+    border-radius: 15px; /* Bordas arredondadas */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 20px;
+    max-width: 1500px; /* Largura máxima do contêiner */
+    margin: auto; /* Centraliza o contêiner */
+}
+
+/* Estilo do campo de seleção da localidade */
+#localidadeSelect {
+    padding: 10px; /* Padding para conforto */
+    border: 1px solid #ddd; /* Borda suave */
+    border-radius: 5px; /* Bordas arredondadas */
+    font-size: 16px; /* Tamanho da fonte */
+    margin-right: 10px; /* Espaçamento à direita */
+    width: calc(100% - 20px); /* Largura responsiva */
+    max-width: 250px; /* Largura máxima */
+}
+
+/* Estilo do botão Consultar */
+#consultarRelatorio {
+    background-color: #3498db; /* Cor do botão */
+    color: white; /* Cor do texto do botão */
+    border: none; /* Sem borda */
+    border-radius: 5px; /* Bordas arredondadas */
+    padding: 10px 15px; /* Padding para conforto */
+    font-size: 16px; /* Tamanho da fonte */
+    cursor: pointer; /* Cursor de mão */
+    transition: background-color 0.3s; /* Transição suave */
+}
+
+#consultarRelatorio:hover {
+    background-color: #2980b9; /* Cor ao passar o mouse */
+}
+
+/* Estilo da tabela */
+#relatorioContainer {
+    margin-top: 20px;
+    overflow-x: auto; /* Permite rolagem horizontal se necessário */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table, th, td {
+    border: 1px solid #ddd; /* Bordas retas */
+}
+
+th, td {
+    padding: 12px; /* Aumenta o padding para mais conforto */
+    text-align: left;
+    color: #080808;
+}
+
+th {
+    background-color: #3c5672; /* Cor do cabeçalho */
+    color: white; /* Cor do texto do cabeçalho */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Cor de fundo para linhas pares */
+}
+
+tr:hover {
+    background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
+}
+
+/* Estilo do botão de impressão */
+.print-btn {
+    background-color: #3b913d61;
+    color: #2b2a2a;
+    border: none;
+    margin-top: 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    padding: 5px 10px;
+}
+
+.print-btn:hover {
+    background-color: #2e732e;
+}
+
+.print-btn:active {
+    background-color: #388e3c00; /* Cor de fundo ao clicar */
+    transform: translateY(1px); /* Efeito de "pressionar" */
+}
+
+/* Estilos para o modo noturno */
+body.night-mode {
+    background-color: #121212; /* Fundo escuro */
+    color: #e0e0e0; /* Cor do texto clara */
+}
+
+nav.night-mode {
+    background-color: #1f1f1f; /* Fundo nav escuro */
+}
+
+table.night-mode {
+    background-color: #1e1e1e; /* Fundo escuro para a tabela */
+    border-color: #444; /* Cor da borda da tabela */
+}
+
+table.night-mode th,
+table.night-mode td {
+    border: 1px solid #444; /* Borda das células mais visível */
+    color: #e0e0e0; /* Cor do texto */
+}
+
+table.night-mode th {
+    background-color: #333; /* Cor de fundo do cabeçalho mais escura */
+    color: #ffffff; /* Cor do texto do cabeçalho clara */
+}
+
+table.night-mode tr:nth-child(even) {
+    background-color: #2a2a2a; /* Cor de fundo para linhas pares */
+}
+
+table.night-mode tr:hover {
+    background-color: #444; /* Cor de fundo ao passar o mouse */
+}
