@@ -118,3 +118,18 @@ export async function loginAdmin(userData) {
     }
 }
 
+export async function getRelatorio(localidadeId) {
+    try {
+        const response = await fetch(`${apiUrl}/report/${localidadeId}`);
+
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar relatório: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data; // Retorna os dados do relatório
+    } catch (error) {
+        console.error(`Erro ao buscar o relatório: ${error.message}`);
+        return null; // Retorna null em caso de erro
+    }
+}
