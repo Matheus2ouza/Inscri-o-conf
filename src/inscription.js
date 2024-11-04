@@ -15,12 +15,12 @@ async function fetchCityNames() {
 
 function showLoader() {
     const loaderBackground = document.querySelector('.loader-background');
-    loaderBackground.classList.remove('hidden');
+    loaderBackground.classList.remove('hiddenLoader');
 }
 
 function hideLoader() {
     const loaderBackground = document.querySelector('.loader-background');
-    loaderBackground.classList.add('hidden');
+    loaderBackground.classList.add('hiddenLoader');
 }
 
 document.getElementById('adicionar-nome-btn').addEventListener('click', function() {
@@ -194,7 +194,7 @@ window.addEventListener('click', function(event) {
 async function register() {
     showLoader(); 
 
-    const localidade = document.getElementById('input1').value; // Localidade
+    const localidade = document.getElementById('input1').value.toUpperCase(); // Localidade
     const nomeResponsavel = document.querySelector('.responsible').value; // Nome do responsável
 
     const getValueOrDefault = (selector) => {
