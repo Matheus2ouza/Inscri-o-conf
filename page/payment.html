@@ -30,13 +30,16 @@
                 </div>
                 <div class="form-group">
                     <label for="comprovante_pagamento">Comprovante de Pagamento:</label>
+                    <label for="comprovante_pagamento" class="custom-file-upload">Selecionar Arquivo</label>
                     <input type="file" id="comprovante_pagamento" name="comprovante_pagamento" accept="image/*" required>
+                    <span id="file-name" class="file-name">Nenhum arquivo selecionado</span>
                 </div>
+                
             </div>
             <button type="submit">Registrar Pagamento</button>
         </form>
     </div>
-
+ 
     <div class="loader-background">
         <div class="simple-loader"></div>
     </div>
