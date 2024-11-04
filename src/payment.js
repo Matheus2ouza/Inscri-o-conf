@@ -1,5 +1,16 @@
 import { getLocations } from './router.js'; // Importa a função para obter os locais
 
+// Função de debounce para limitar a frequência das chamadas
+function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
 // Função principal para buscar os nomes das cidades
 async function fetchCityNames() {
     showLoader(); // Mostra o loader antes de fazer a requisição
@@ -25,9 +36,17 @@ async function initCitySuggestions(cidadeInput, saldoDevedorInput) {
     const suggestions = document.getElementById('suggestions');
 
     if (cidadeInput) { // Verifica se o input existe
-        cidadeInput.addEventListener('input', () => filterCities(cityNames, cidadeInput, suggestions, saldoDevedorInput)); // Adiciona evento de input
+        cidadeInput.addEventListener('input', debounce(() => {
+            filterCities(cityNames, cidadeInput, suggestions, saldoDevedorInput);
+        }, 100)); // Debounce aplicado apenas na filtragem
+
+        // Chama a busca de saldo devedor com debounce
+        cidadeInput.addEventListener('input', debounce(() => {
+            buscarSaldoDevedor(cidadeInput.value.trim().toUpperCase(), saldoDevedorInput); // Chama a busca de saldo devedor
+        }, 1000)); // 1000ms de debounce para saldo devedor
     }
 }
+
 
 // Função para filtrar as cidades e exibir sugestões
 function filterCities(cityNames, input, suggestions, saldoDevedorInput) {
@@ -51,6 +70,7 @@ function filterCities(cityNames, input, suggestions, saldoDevedorInput) {
 
                 // Chama a lógica de buscar saldo devedor após selecionar a cidade
                 await buscarSaldoDevedor(city.trim().toUpperCase(), saldoDevedorInput);
+                suggestions.style.display = 'none'; // Esconde as sugestões após buscar o saldo devedor
             });
 
             suggestions.appendChild(item); // Adiciona o item de sugestão ao contêiner
@@ -60,12 +80,16 @@ function filterCities(cityNames, input, suggestions, saldoDevedorInput) {
     }
 }
 
+
 // Função para buscar saldo devedor
 async function buscarSaldoDevedor(cidade, saldoDevedorInput) {
     if (!cidade) {
         saldoDevedorInput.value = ''; // Limpa o campo se não houver cidade
         return;
     }
+
+    const suggestions = document.getElementById('suggestions'); // Obtém a referência para o elemento de sugestões
+    suggestions.style.display = 'none'; // Esconde as sugestões antes de buscar o saldo devedor
 
     showLoader(); // Mostra o loader antes de fazer a requisição
     try {
@@ -92,6 +116,7 @@ async function buscarSaldoDevedor(cidade, saldoDevedorInput) {
         hideLoader(); // Esconde o loader após a requisição
     }
 }
+
 
 // Função para coletar a localidade da URL e preencher o input
 async function populateLocalidadeFromURL(saldoDevedorInput) {
@@ -175,6 +200,17 @@ function hideLoader() {
     loaderBackground.classList.add('hidden');
 }
 
+// Função para atualizar o nome do arquivo selecionado
+function initFileUpload() {
+    const fileInput = document.getElementById("comprovante_pagamento");
+    if (fileInput) {
+        fileInput.addEventListener("change", function() {
+            const fileName = this.files[0]?.name || "Nenhum arquivo selecionado";
+            document.getElementById("file-name").textContent = fileName;
+        });
+    }
+}
+
 // Inicializa a aplicação
 async function init() {
     const saldoDevedorInput = document.getElementById('saldoDevedor'); // Referência ao campo de saldo devedor
@@ -186,6 +222,9 @@ async function init() {
 
     const valorPago = document.getElementById('valor_pago');
     const paymentForm = document.getElementById('paymentForm');
+
+    // Inicializa o campo de upload de arquivo
+    initFileUpload();
 
     // Função para registrar o pagamento
     if (paymentForm) {
