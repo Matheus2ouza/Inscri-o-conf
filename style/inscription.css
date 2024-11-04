@@ -380,7 +380,7 @@ button:hover {
 }
 
 /* Para esconder o loader */
-.hidden {
+.hiddenLoader {
     display: none;
 }
 
