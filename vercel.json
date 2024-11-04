@@ -45,8 +45,8 @@
       "dest": "/page/dashboard.html"
     },
     {
-      "src": "/admin",
-      "dest": "/page/loginManagement.html"
+      "src": "/report",
+      "dest": "/page/report.html"
     },
     {
       "src": "/style/(.*)",
