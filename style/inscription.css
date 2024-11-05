@@ -117,6 +117,21 @@ input::placeholder {
     font-size: 0.75rem;
 }
 
+.verification {
+    left: 510px;
+    bottom: 30px;
+    position: relative;
+    font-size: 1.2rem;
+}
+
+.bi-check2-circle{
+    color: #67c453;
+}
+
+.bi-exclamation-triangle{
+    color: #fa1d0b;
+}
+
 button {
     width: 100%;
     max-width: 240px;
@@ -135,6 +150,14 @@ button {
 button:hover {
     background-color: #218838; /* Cor de destaque ao passar o mouse */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra mais intensa ao passar o mouse */
+}
+
+.btn-register:disabled {
+    background-color: #c6c8ca; /* Cor de fundo quando desabilitado */
+    color: #6c757d; /* Cor do texto quando desabilitado */
+    cursor: not-allowed; /* Cursor muda para indicar que não pode ser clicado */
+    opacity: 0.65; /* Opacidade reduzida para dar a impressão de estar desabilitado */
+    box-shadow: none; /* Remove a sombra para um visual mais "plano" */
 }
 
 .group-service,
@@ -238,6 +261,9 @@ button:hover {
 
 #suggestions {
     display: none;
+    width: 100%;
+    max-width: 540px;
+    position: absolute;
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;

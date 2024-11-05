@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conferencia R2</title>
     <link rel="stylesheet" href="../style/inscription.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <nav>
@@ -26,6 +27,8 @@
                         <label for="input1">Localidade:</label>
                         <input type="text" id="input1" autocomplete="off" placeholder="Selecione o nome da cidade">
                         <div id="suggestions" class="suggestions"></div>
+                        <a class="verification"></i></a>
+                        <span>Verifique a Localidade está correta</span>
                     </div>
                     <div class="form-group">
                         <label for="input2">Nome do Irmão Responsável / WhatsApp</label>
@@ -91,7 +94,7 @@
                 </div>
             </div>
         </div>
-        <button class="btn-register">Realizar Inscrição</button>
+        <button class="btn-register" disabled>Realizar Inscrição</button>
     </div>
 
     <div class="loader-background">

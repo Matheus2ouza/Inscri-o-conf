@@ -1,61 +1,26 @@
 import { getLocations, registrarInscricao, registrarHospedagem } from './router.js';
 
+let cities = [];
+let isCitySelected = false;
+
+// Funções de Loader
+function toggleLoader(show) {
+    const loaderBackground = document.querySelector('.loader-background');
+    loaderBackground.classList.toggle('hiddenLoader', !show);
+}
+
+// Funções para manipulação de cidades
 async function fetchCityNames() {
     try {
-        showLoader();
-        const cities = await getLocations();
-        return extractCityNames(cities);
+        toggleLoader(true);
+        const fetchedCities = await getLocations();
+        cities = Object.values(fetchedCities);
+        return cities.map(city => city.nome);
     } catch (error) {
-        console.error(`Erro ao buscar nomes das cidades: ${error.message}`);
         return [];
     } finally {
-        hideLoader();
+        toggleLoader(false);
     }
-}
-
-function showLoader() {
-    const loaderBackground = document.querySelector('.loader-background');
-    loaderBackground.classList.remove('hiddenLoader');
-}
-
-function hideLoader() {
-    const loaderBackground = document.querySelector('.loader-background');
-    loaderBackground.classList.add('hiddenLoader');
-}
-
-document.getElementById('adicionar-nome-btn').addEventListener('click', function() {
-    const nomeHospedagem = document.getElementById('nome_hospedagem').value.trim();
-    if (nomeHospedagem) {
-        const listaNomes = document.getElementById('lista-nomes-hospedagem');
-        const li = document.createElement('li');
-        li.textContent = nomeHospedagem;
-
-        const removeBtn = document.createElement('span');
-        removeBtn.textContent = 'x';
-        removeBtn.classList.add('remove-nome');
-
-        li.appendChild(removeBtn);
-        listaNomes.appendChild(li);
-        document.getElementById('nome_hospedagem').value = '';
-
-        removeBtn.addEventListener('click', function() {
-            listaNomes.removeChild(li);
-        });
-    } else {
-        alert('Por favor, insira um nome válido.');
-    }
-});
-
-function extractCityNames(cities) {
-    return Object.values(cities).map(city => city.nome);
-}
-
-async function initCitySuggestions() {
-    const cityNames = await fetchCityNames();
-    const input = document.getElementById('input1');
-    const suggestions = document.getElementById('suggestions');
-
-    input.addEventListener('input', () => filterCities(cityNames, input, suggestions));
 }
 
 function filterCities(cityNames, input, suggestions) {
@@ -63,95 +28,138 @@ function filterCities(cityNames, input, suggestions) {
     suggestions.innerHTML = '';
 
     const filteredCities = cityNames.filter(city => city.toLowerCase().includes(inputValue));
+    suggestions.style.display = filteredCities.length > 0 && inputValue ? 'block' : 'none';
 
-    if (filteredCities.length > 0 && inputValue) {
-        suggestions.style.display = 'block';
-        filteredCities.forEach(city => {
-            const item = document.createElement('div');
-            item.classList.add('suggestion-item');
-            item.textContent = city;
+    filteredCities.forEach(city => {
+        const item = document.createElement('div');
+        item.classList.add('suggestion-item');
+        item.textContent = city;
 
-            item.addEventListener('click', () => {
-                input.value = city;
-                suggestions.innerHTML = '';
-                suggestions.style.display = 'none';
-            });
+        item.addEventListener('click', async () => {
+            input.value = city;
+            suggestions.innerHTML = '';
+            suggestions.style.display = 'none';
+            isCitySelected = true;  // Marca que a cidade foi selecionada
 
-            suggestions.appendChild(item);
+            // Verificar cidade ao clicar em uma sugestão
+            const isValid = await checkLocation();
+            toggleRegisterButton(isValid);
+
+            // Impede a verificação no evento de input após o clique
+            setTimeout(() => {
+                isCitySelected = false;  // Reseta a variável para permitir futuras interações
+            }, 500);  // Reseta após um pequeno atraso para garantir que o clique seja processado
         });
-    } else {
-        suggestions.style.display = 'none';
-    }
+
+        suggestions.appendChild(item);
+    });
 }
 
-function setupFormServiceToggle() {
-    const btnYes = document.querySelector('.btnServiço-yes');
-    const btnNo = document.querySelector('.btnServiço-no');
-    const formService = document.querySelector('.form-service');
+// Função para verificar se a cidade é válida
+async function checkLocation() {
+    const locality = document.querySelector('#input1');
+    const verification = document.querySelector('.verification');
+    const suggestions = document.querySelector('#suggestions');
 
-    btnYes.addEventListener('click', (event) => {
-        event.preventDefault();
-        if (!formService.querySelector('form')) {
-            formService.insertAdjacentHTML('beforeend', `
-                <form>
-                    <div class="form-container">
-                        <div class="form-group">
-                            <label for="input8">Numero de Irmãos que irão servir -<span class="valor">R$ 100.00</span></label>
-                            <input type="text" class="service-masc" placeholder="Se não houver coloque 0">
-                        </div>
-                        <div class="form-group">
-                            <label for="input8">Numero de irmãs que irão servir -<span class="valor">R$ 100.00</span></label>
-                            <input type="text" class="service-fem" placeholder="Se não houver coloque 0">
-                        </div>
-                    </div>
-                </form>
-            `);
+    const cityName = locality.value.trim().toUpperCase();
+    const cityList = cities;
+
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            const cityExists = cityList.some(city => city.nome.toUpperCase() === cityName);
+            if (cityExists) {
+                verification.innerHTML = '<i class="bi bi-check2-circle"></i>';
+                locality.style.border = 'solid 3px #67c453';
+                suggestions.style.display = 'none';
+                resolve(true);
+            } else {
+                verification.innerHTML = '<i class="bi bi-exclamation-triangle"></i>';
+                locality.style.border = 'solid 3px #fa1d0b';
+                resolve(false);
+            }
+        }, 1000);  // Atraso de 1000ms
+    });
+}
+
+// Função para inicializar sugestões de cidades
+async function initCitySuggestions() {
+    const cityNames = await fetchCityNames();
+    const input = document.getElementById('input1');
+    const suggestions = document.getElementById('suggestions');
+
+    input.addEventListener('input', () => {
+        if (!isCitySelected) {
+            filterCities(cityNames, input, suggestions);
         }
     });
 
-    btnNo.addEventListener('click', (event) => {
-        event.preventDefault();
-        formService.innerHTML = '';
+    // Verificação no evento blur para quando o usuário sair do campo de input
+    input.addEventListener('blur', async () => {
+        // Realiza a verificação apenas se a cidade não foi selecionada
+        if (!isCitySelected) {
+            const isValid = await checkLocation();
+            toggleRegisterButton(isValid);
+        }
+        isCitySelected = false;  // Reseta a variável após o blur
     });
 }
 
-function setupFormParticipacaoToggle() {
-    const btnYes = document.querySelector('.btnParti-yes');
-    const btnNo = document.querySelector('.btnParti-no');
-    const formParticipacao = document.querySelector('.form-participacao');
+// Função para alternar o estado do botão de registro
+function toggleRegisterButton(isValid) {
+    document.querySelector('.btn-register').disabled = !isValid;
+}
 
-    btnYes.addEventListener('click', (event) => {
-        event.preventDefault();
-        if (!formParticipacao.querySelector('form')) {
-            formParticipacao.insertAdjacentHTML('beforeend', `
-                <form>
-                    <div class="form-container">
-                        <div class="form-group">
-                            <label for="input8">Irmãos que vão participar somente da reunião -<span class="valor">R$ 100.00</span></label>
-                            <input type="text" class="participacao-masc" placeholder="Se não houver coloque 0">
-                        </div>
-                        <div class="form-group">
-                            <label for="input8">Irmãs que vão participar somente da reunião -<span class="valor">R$ 100.00</span></label>
-                            <input type="text" class="participacao-fem" placeholder="Se não houver coloque 0">
-                        </div>
-                    </div>
-                </form>
-            `);
+// Funções de Toggle para Formulários
+function setupFormToggle(btnSelector, formSelector, formHTML) {
+    const btnYes = document.querySelector(`${btnSelector}-yes`);
+    const btnNo = document.querySelector(`${btnSelector}-no`);
+    const formContainer = document.querySelector(formSelector);
+
+    btnYes.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!formContainer.querySelector('form')) {
+            formContainer.innerHTML = formHTML;
         }
     });
 
-    btnNo.addEventListener('click', (event) => {
-        event.preventDefault();
-        formParticipacao.innerHTML = '';
+    btnNo.addEventListener('click', (e) => {
+        e.preventDefault();
+        formContainer.innerHTML = '';
     });
 }
 
-function setupFormClear() {
-    const btnNovoFormulario = document.querySelector('#btn-novoformulario');
-    btnNovoFormulario.addEventListener('click', (event) => {
-        event.preventDefault();
-        window.location.reload();
-    });
+function setupServiceForm() {
+    setupFormToggle('.btnServiço', '.form-service', `
+        <form>
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="input8">Numero de Irmãos que irão servir -<span class="valor">R$ 100.00</span></label>
+                    <input type="text" class="service-masc" placeholder="Se não houver coloque 0">
+                </div>
+                <div class="form-group">
+                    <label for="input8">Numero de irmãs que irão servir -<span class="valor">R$ 100.00</span></label>
+                    <input type="text" class="service-fem" placeholder="Se não houver coloque 0">
+                </div>
+            </div>
+        </form>
+    `);
+}
+
+function setupParticipationForm() {
+    setupFormToggle('.btnParti', '.form-participacao', `
+        <form>
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="input8">Irmãos que vão participar somente da reunião -<span class="valor">R$ 100.00</span></label>
+                    <input type="text" class="participacao-masc" placeholder="Se não houver coloque 0">
+                </div>
+                <div class="form-group">
+                    <label for="input8">Irmãs que vão participar somente da reunião -<span class="valor">R$ 100.00</span></label>
+                    <input type="text" class="participacao-fem" placeholder="Se não houver coloque 0">
+                </div>
+            </div>
+        </form>
+    `);
 }
 
 function showPopup(message) {
@@ -161,17 +169,6 @@ function showPopup(message) {
     popup.style.display = 'flex';
 }
 
-document.querySelector('.close-btn').addEventListener('click', function() {
-    window.location.reload();
-});
-
-window.addEventListener('click', function(event) {
-    const popup = document.getElementById('popup');
-    if (event.target === popup) {
-        popup.style.display = 'none';
-    }
-});
-
 function showPopupError(message) {
     const popup = document.getElementById('popupError');
     const popupContent = popup.querySelector('.popup-contentError p');
@@ -179,41 +176,32 @@ function showPopupError(message) {
     popup.style.display = 'flex';
 }
 
+document.querySelector('.close-btn').addEventListener('click', function() {
+    window.location.reload();
+});
+
 document.querySelector('.close-btnError').addEventListener('click', function() {
     document.getElementById('popupError').style.display = 'none';
 });
 
-window.addEventListener('click', function(event) {
-    const popup = document.getElementById('popupError');
-    if (event.target === popup) {
-        popup.style.display = 'none';
-    }
-});
-
-// Função para coletar os dados do formulário e criar um objeto
+// Função para coletar dados do formulário e registrar a inscrição
 async function register() {
-    showLoader(); 
+    toggleLoader(true); 
 
-    const localidade = document.getElementById('input1').value.toUpperCase(); // Localidade
-    const nomeResponsavel = document.querySelector('.responsible').value; // Nome do responsável
+    const locality = document.getElementById('input1').value.toUpperCase();
+    const nameResponsavel = document.querySelector('.responsible').value;
+    const age06masculine = document.querySelector('.age-06-masc').value || "0";
+    const age06feminine = document.querySelector('.age-06-fem').value || "0";
+    const age710masculine = document.querySelector('.age-710-masc').value || "0";
+    const age710feminine = document.querySelector('.age-710-fem').value || "0";
+    const age10masculine = document.querySelector('.age-10-masc').value || "0";
+    const age10feminine = document.querySelector('.age-10-fem').value || "0";
+    const serviceMasculine = document.querySelector('.service-masc').value || "0";
+    const serviceFeminine = document.querySelector('.service-fem').value || "0";
+    const participacaoMasculine = document.querySelector('.participacao-masc').value || "0";
+    const participacaoFeminine = document.querySelector('.participacao-fem').value || "0";
 
-    const getValueOrDefault = (selector) => {
-        const element = document.querySelector(selector);
-        return element && element.value.trim() !== "" ? element.value : "0"; 
-    };
-
-    const age06masculine = getValueOrDefault('.age-06-masc');
-    const age06feminine = getValueOrDefault('.age-06-fem');
-    const age710masculine = getValueOrDefault('.age-710-masc');
-    const age710feminine = getValueOrDefault('.age-710-fem');
-    const age10masculine = getValueOrDefault('.age-10-masc');
-    const age10feminine = getValueOrDefault('.age-10-fem');
-    const serviceMasculine = getValueOrDefault('.service-masc');
-    const serviceFeminine = getValueOrDefault('.service-fem');
-    const participacaoMasculine = getValueOrDefault('.participacao-masc');
-    const participacaoFeminine = getValueOrDefault('.participacao-fem');
-
-    const calculateTotalInscritos = () => {
+    const calculateTotal = () => {
         return parseInt(age06masculine) + parseInt(age06feminine) +
                parseInt(age710masculine) + parseInt(age710feminine) +
                parseInt(age10masculine) + parseInt(age10feminine) +
@@ -221,82 +209,54 @@ async function register() {
                parseInt(participacaoMasculine) + parseInt(participacaoFeminine);
     };
 
-    const listaNomesHospedagem = Array.from(document.querySelectorAll('#lista-nomes-hospedagem li'))
-        .map(li => li.textContent.replace('x', '').trim());
-
     const registrationData = {
-        localidade,
-        nomeResponsavel,
-        totalInscritos: calculateTotalInscritos(),
+        locality,
+        nameResponsavel,
+        totalInscritos: calculateTotal(),
         inscritos: {
-            '0-6': {
-                masculino: age06masculine,
-                feminino: age06feminine
-            },
-            '7-10': {
-                masculino: age710masculine,
-                feminino: age710feminine
-            },
-            '10+': {
-                masculino: age10masculine,
-                feminino: age10feminine
-            },
+            '0-6': { masculino: age06masculine, feminino: age06feminine },
+            '7-10': { masculino: age710masculine, feminino: age710feminine },
+            '10+': { masculino: age10masculine, feminino: age10feminine },
         },
-        servico: {
-            masculino: serviceMasculine,
-            feminino: serviceFeminine
-        },
-        participacao: {
-            masculino: participacaoMasculine,
-            feminino: participacaoFeminine
-        }
+        servico: { masculino: serviceMasculine, feminino: serviceFeminine },
+        participacao: { masculino: participacaoMasculine, feminino: participacaoFeminine }
     };
 
     try {
-        const dadosInscricao = await registrarInscricao(registrationData);
-        console.log(dadosInscricao);
+        const data = await registrarInscricao(registrationData);
+        const idInscricao = data?.enrollmentId;
 
-        if (dadosInscricao.status >= 200 && dadosInscricao.status < 300) {
-            const idInscricao = dadosInscricao.data?.enrollmentId; 
+        if (idInscricao) {
+            const names = Array.from(document.querySelectorAll('#lista-nomes-hospedagem li'))
+                .map(li => li.textContent.replace('x', '').trim());
 
-            if (idInscricao) {
-                if (listaNomesHospedagem.length > 0) {
-                    const statusHospedagem = await registrarHospedagem(idInscricao, listaNomesHospedagem);
-
-                    if (statusHospedagem >= 200 && statusHospedagem < 300) {
-                        showPopup("Sua inscrição e hospedagem foram registradas com sucesso!");
-                    } else {
-                        showPopupError("A inscrição foi realizada, mas ocorreu um erro ao registrar a hospedagem.");
-                    }
+            if (names.length > 0) {
+                const statusHospedagem = await registrarHospedagem(idInscricao, names);
+                if (statusHospedagem >= 200 && statusHospedagem < 300) {
+                    showPopup("Sua inscrição e hospedagem foram registradas com sucesso!");
                 } else {
-                    showPopup("Sua inscrição foi realizada com sucesso!");
+                    showPopupError("A inscrição foi realizada, mas ocorreu um erro ao registrar a hospedagem.");
                 }
             } else {
-                showPopupError("A inscrição foi realizada, mas o ID de inscrição não foi retornado.");
+                showPopup("Sua inscrição foi realizada com sucesso!");
             }
         } else {
             showPopupError("Erro ao realizar sua inscrição, tente novamente ou entre em contato com o suporte.");
         }
     } catch (error) {
-        console.error(`Erro ao registrar: ${error.message}`);
         showPopupError("Ocorreu um erro ao realizar a inscrição, tente novamente.");
     } finally {
-        hideLoader();
+        toggleLoader(false);
     }
-
-    const buttonpayment = document.querySelector('#btn-payment');
-    buttonpayment.addEventListener('click', (event) => {
-        event.preventDefault();
-        const url = `https://inscri-o-conf.vercel.app/pagamento?localidade=${localidade}`;
-        window.location.href = url;
-    });
 }
 
+// Função para iniciar e configurar tudo
 async function init() {
     await initCitySuggestions();
-    setupFormServiceToggle();
-    setupFormParticipacaoToggle();
-    setupFormClear();
+    setupServiceForm();
+    setupParticipationForm();
+
+    btnRegister.disabled = true
 
     const btnRegister = document.querySelector('.btn-register');
     btnRegister.addEventListener('click', (event) => {
