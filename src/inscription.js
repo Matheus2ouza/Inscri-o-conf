@@ -55,6 +55,29 @@ function filterCities(cityNames, input, suggestions) {
     });
 }
 
+document.getElementById('adicionar-nome-btn').addEventListener('click', function() {
+    const nomeHospedagem = document.getElementById('nome_hospedagem').value.trim();
+    if (nomeHospedagem) {
+        const listaNomes = document.getElementById('lista-nomes-hospedagem');
+        const li = document.createElement('li');
+        li.textContent = nomeHospedagem;
+
+        const removeBtn = document.createElement('span');
+        removeBtn.textContent = 'x';
+        removeBtn.classList.add('remove-nome');
+
+        li.appendChild(removeBtn);
+        listaNomes.appendChild(li);
+        document.getElementById('nome_hospedagem').value = '';
+
+        removeBtn.addEventListener('click', function() {
+            listaNomes.removeChild(li);
+        });
+    } else {
+        alert('Por favor, insira um nome válido.');
+    }
+});
+
 // Função para verificar se a cidade é válida
 async function checkLocation() {
     const locality = document.querySelector('#input1');
