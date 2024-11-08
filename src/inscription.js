@@ -231,6 +231,10 @@ async function register() {
                parseInt(serviceMasculine) + parseInt(serviceFeminine) +
                parseInt(participacaoMasculine) + parseInt(participacaoFeminine);
     };
+    
+    const listaNomesHospedagem = Array.from(document.querySelectorAll('#lista-nomes-hospedagem li'))
+        .map(li => li.textContent.replace('x', '').trim());
+
 
     const registrationData = {
         locality,
@@ -250,11 +254,9 @@ async function register() {
         const idInscricao = data?.enrollmentId;
 
         if (idInscricao) {
-            const names = Array.from(document.querySelectorAll('#lista-nomes-hospedagem li'))
-                .map(li => li.textContent.replace('x', '').trim());
-
-            if (names.length > 0) {
-                const statusHospedagem = await registrarHospedagem(idInscricao, names);
+            if (listaNomesHospedagem.length > 0) {
+                const statusHospedagem = await registrarHospedagem(idInscricao, listaNomesHospedagem);
+    
                 if (statusHospedagem >= 200 && statusHospedagem < 300) {
                     showPopup("Sua inscrição e hospedagem foram registradas com sucesso!");
                 } else {
