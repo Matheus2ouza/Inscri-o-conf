@@ -256,7 +256,7 @@ async function init() {
     setupServiceForm();
     setupParticipationForm();
 
-    btnRegister.disabled = true
+    //btnRegister.disabled = true
 
     const btnRegister = document.querySelector('.btn-register');
     btnRegister.addEventListener('click', (event) => {
