@@ -211,8 +211,8 @@ document.querySelector('.close-btnError').addEventListener('click', function() {
 async function register() {
     toggleLoader(true); 
 
-    const locality = document.getElementById('input1').value.toUpperCase();
-    const nameResponsavel = document.querySelector('.responsible').value;
+    const localidade = document.getElementById('input1').value.toUpperCase();
+    const nomeResponsavel = document.querySelector('.responsible').value;
     const age06masculine = document.querySelector('.age-06-masc').value || "0";
     const age06feminine = document.querySelector('.age-06-fem').value || "0";
     const age710masculine = document.querySelector('.age-710-masc').value || "0";
@@ -237,8 +237,8 @@ async function register() {
 
 
     const registrationData = {
-        locality,
-        nameResponsavel,
+        localidade,
+        nomeResponsavel,
         totalInscritos: calculateTotal(),
         inscritos: {
             '0-6': { masculino: age06masculine, feminino: age06feminine },
