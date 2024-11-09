@@ -224,7 +224,6 @@ async function register() {
     const participacaoMasculine = document.querySelector('.participacao-masc') ? document.querySelector('.participacao-masc').value || "0" : "0";
     const participacaoFeminine = document.querySelector('.participacao-fem') ? document.querySelector('.participacao-fem').value || "0" : "0";
     
-
     const calculateTotal = () => {
         return parseInt(age06masculine) + parseInt(age06feminine) +
                parseInt(age710masculine) + parseInt(age710feminine) +
