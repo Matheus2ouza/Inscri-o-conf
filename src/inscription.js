@@ -219,11 +219,11 @@ async function register() {
     const age710feminine = document.querySelector('.age-710-fem').value || "0";
     const age10masculine = document.querySelector('.age-10-masc').value || "0";
     const age10feminine = document.querySelector('.age-10-fem').value || "0";
-    const serviceMasculine = document.querySelector('.service-masc').value || "0";
-    const serviceFeminine = document.querySelector('.service-fem').value || "0";
-    const participacaoMasculine = document.querySelector('.participacao-masc').value || "0";
-    const participacaoFeminine = document.querySelector('.participacao-fem').value || "0";
-
+    const serviceMasculine = document.querySelector('.service-masc') ? document.querySelector('.service-masc').value || "0" : "0";
+    const serviceFeminine = document.querySelector('.service-fem') ? document.querySelector('.service-fem').value || "0" : "0";
+    const participacaoMasculine = document.querySelector('.participacao-masc') ? document.querySelector('.participacao-masc').value || "0" : "0";
+    const participacaoFeminine = document.querySelector('.participacao-fem') ? document.querySelector('.participacao-fem').value || "0" : "0";
+    
     const calculateTotal = () => {
         return parseInt(age06masculine) + parseInt(age06feminine) +
                parseInt(age710masculine) + parseInt(age710feminine) +
