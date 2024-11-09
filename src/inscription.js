@@ -281,7 +281,6 @@ async function init() {
     setupServiceForm();
     setupParticipationForm();
 
-
     const btnRegister = document.querySelector('.btn-register');
     btnRegister.addEventListener('click', (event) => {
         event.preventDefault();
