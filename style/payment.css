@@ -191,6 +191,27 @@ button:hover {
     }
 }
 
+@media (max-width: 480px) {
+    .main-container {
+        flex-direction: column; /* Empilha os elementos verticalmente em telas muito pequenas */
+        align-items: center;
+        padding: 0;
+    }
+
+    .account-payment {
+        position: static !important; /* Remove o posicionamento absoluto para alinhar no fluxo normal */
+        margin: 20px 0 5px 0;
+        text-align: center !important; /* Centraliza o texto em telas muito pequenas */
+        transform: scale(0.8);
+        max-width: 420px;
+    }
+
+    .second-container {
+        transform: scale(0.97);
+        width: 100%; /* Ocupa toda a largura */
+    }
+}
+
 .simple-loader {
     position: fixed;
     top: 50%;
@@ -282,7 +303,7 @@ input[type="number"] {
     left: 100px; /* Posiciona 20px à esquerda */
     font-family: Arial, sans-serif;
     text-align: center; /* Alinha o texto à esquerda */
-    max-width: 300px;
+    max-width: 400px;
 }
 
 .account-payment p {
