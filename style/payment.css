@@ -45,12 +45,21 @@ nav ul li a {
     letter-spacing: 0.1em;
 }
 
+.main-container {
+    display: flex;
+    justify-content: center; /* Centraliza o conteúdo principal (second-container) */
+    align-items: center;
+    gap: 20px; /* Espaço entre o account-payment e o second-container */
+    height: 100vh; /* Altura total da tela */
+    padding: 0 20px;
+    position: relative;
+}
+
 .second-container {
-    flex: 1; /* Para ocupar o espaço restante */
+    flex: 1; /* Para ocupar o espaço disponível */
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
 }
 
 .form-container {
@@ -267,3 +276,29 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
     -moz-appearance: textfield; /* Muda a aparência para um campo de texto, removendo as setas */
 }
+
+.account-payment {
+    position: absolute;
+    left: 100px; /* Posiciona 20px à esquerda */
+    font-family: Arial, sans-serif;
+    text-align: center; /* Alinha o texto à esquerda */
+    max-width: 300px;
+}
+
+.account-payment p {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.account-payment p strong {
+    font-weight: bold;
+}
+
+.account-payment a {
+    color: blue;
+    text-decoration: underline;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+

@@ -12,32 +12,39 @@
             <li><a href="https://inscri-o-conf.vercel.app/">Registrar Pagamento</a></li>
         </ul>
     </nav>
-    <div class="second-container">
-        <form id="paymentForm">
-            <div class="form-container">
-                <div class="form-group">
-                    <label for="cidade">Nome da Cidade:</label>
-                    <input type="text" id="input1" autocomplete="off" placeholder="Selecione o nome da cidade">
-                    <div id="suggestions" class="suggestions"></div> <!-- Correto aqui -->
+    <div class="main-container">
+        <div class="account-payment">
+            <p><strong>Favorecido:</strong> IGREJA EM CASTANHAL</p>
+            <p><strong>Banco</strong> Bradesco <strong>AGÊNCIA:</strong> 6667-2 <strong>CONTA:</strong> 6779-2</p>
+            <p><strong>Chave PIX:</strong> <a href="mailto:ofertaigcastanhal@gmail.com">ofertaigcastanhal@gmail.com</a></p>
+        </div>
+        <div class="second-container">
+            <form id="paymentForm">
+                <div class="form-container">
+                    <div class="form-group">
+                        <label for="cidade">Nome da Cidade:</label>
+                        <input type="text" id="input1" autocomplete="off" placeholder="Selecione o nome da cidade">
+                        <div id="suggestions" class="suggestions"></div> <!-- Correto aqui -->
+                    </div>
+                    <div class="form-group">
+                        <label for="saldoDevedor">Saldo Devedor:</label>
+                        <input type="text" id="saldoDevedor" name="saldoDevedor" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="valor_pago">Valor Pago:</label>
+                        <input type="number" id="valor_pago" name="valor_pago" required step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label for="comprovante_pagamento">Comprovante de Pagamento:</label>
+                        <label for="comprovante_pagamento" class="custom-file-upload">Selecionar Arquivo</label>
+                        <input type="file" id="comprovante_pagamento" name="comprovante_pagamento" accept="image/*" required>
+                        <span id="file-name" class="file-name">Nenhum arquivo selecionado</span>
+                    </div>
+                    
                 </div>
-                <div class="form-group">
-                    <label for="saldoDevedor">Saldo Devedor:</label>
-                    <input type="text" id="saldoDevedor" name="saldoDevedor" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="valor_pago">Valor Pago:</label>
-                    <input type="number" id="valor_pago" name="valor_pago" required step="0.01">
-                </div>
-                <div class="form-group">
-                    <label for="comprovante_pagamento">Comprovante de Pagamento:</label>
-                    <label for="comprovante_pagamento" class="custom-file-upload">Selecionar Arquivo</label>
-                    <input type="file" id="comprovante_pagamento" name="comprovante_pagamento" accept="image/*" required>
-                    <span id="file-name" class="file-name">Nenhum arquivo selecionado</span>
-                </div>
-                
-            </div>
-            <button type="submit">Registrar Pagamento</button>
-        </form>
+                <button type="submit">Registrar Pagamento</button>
+            </form>
+        </div>
     </div>
  
     <div class="loader-background">
