@@ -203,7 +203,7 @@ button:hover {
         margin: 20px 0 5px 0;
         text-align: center !important; /* Centraliza o texto em telas muito pequenas */
         transform: scale(0.75);
-        max-width: 420px;
+        max-width: 450px;
     }
 
     .second-container {
