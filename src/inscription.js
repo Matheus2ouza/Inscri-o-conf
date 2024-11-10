@@ -199,6 +199,21 @@ function showPopupError(message) {
     popup.style.display = 'flex';
 }
 
+document.querySelector('#btn-novoformulario').addEventListener('click', () =>{
+    window.location.reload();
+})
+
+document.querySelector('#btn-payment').addEventListener('click', () => {
+    const locality = document.querySelector('#input1').value;
+    
+    // Cria a URL com o parâmetro `locality`
+    const url = new URL('https://inscri-o-conf.vercel.app/pagamento');
+    url.searchParams.append('locality', locality);
+    
+    // Redireciona para a URL gerada
+    window.location.href = url;
+  });
+
 document.querySelector('.close-btn').addEventListener('click', function() {
     window.location.reload();
 });
