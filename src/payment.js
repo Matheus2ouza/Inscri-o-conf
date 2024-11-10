@@ -43,7 +43,7 @@ async function initCitySuggestions(cidadeInput, saldoDevedorInput) {
         // Chama a busca de saldo devedor com debounce
         cidadeInput.addEventListener('input', debounce(() => {
             buscarSaldoDevedor(cidadeInput.value.trim().toUpperCase(), saldoDevedorInput); // Chama a busca de saldo devedor
-        }, 1000)); // 1000ms de debounce para saldo devedor
+        }, 2500)); // 1000ms de debounce para saldo devedor
     }
 }
 
@@ -114,21 +114,6 @@ async function buscarSaldoDevedor(cidade, saldoDevedorInput) {
         alert('Erro ao buscar saldo devedor. Verifique o console para mais detalhes.');
     } finally {
         hideLoader(); // Esconde o loader após a requisição
-    }
-}
-
-
-// Função para coletar a localidade da URL e preencher o input
-async function populateLocalidadeFromURL(saldoDevedorInput) {
-    const urlParams = new URLSearchParams(window.location.search); // Obtém os parâmetros da URL
-    const localidade = urlParams.get('localidade'); // Obtém a localidade
-
-    if (localidade) {
-        const cidadeInput = document.getElementById('input1');
-        cidadeInput.value = decodeURIComponent(localidade); // Preenche o input1 com a localidade
-
-        // Chama a função para buscar saldo devedor ao carregar a página
-        await buscarSaldoDevedor(localidade.trim().toUpperCase(), saldoDevedorInput);
     }
 }
 
@@ -211,14 +196,28 @@ function initFileUpload() {
     }
 }
 
+// Função para coletar a localidade da URL e preencher o input
+async function populateLocalidadeFromURL(saldoDevedorInput) {
+    const urlParams = new URLSearchParams(window.location.search); // Obtém os parâmetros da URL
+    const localidade = urlParams.get('locality'); // Tenta obter o valor do parâmetro `locality`
+
+    if (localidade) {
+        const cidadeInput = document.getElementById('input1');
+        cidadeInput.value = decodeURIComponent(localidade); // Decodifica e preenche o input1 com a localidade
+
+        // Chama a função para buscar saldo devedor ao carregar a página
+        await buscarSaldoDevedor(localidade.trim().toUpperCase(), saldoDevedorInput);
+    }
+}
+
 // Inicializa a aplicação
 async function init() {
     const saldoDevedorInput = document.getElementById('saldoDevedor'); // Referência ao campo de saldo devedor
     await populateLocalidadeFromURL(saldoDevedorInput); // Popula cidade e busca saldo devedor, se aplicável
     setupFormClear();
     
-    const cidadeInput = document.getElementById('input1'); // Obtém a referência ao input da cidade
-    await initCitySuggestions(cidadeInput, saldoDevedorInput); // Inicializa as sugestões de cidade
+    const cidadeInput = document.getElementById('input1'); // Input do nome da cidade
+    await initCitySuggestions(cidadeInput, saldoDevedorInput); // Inicializa sugestões de cidade e busca saldo
 
     const valorPago = document.getElementById('valor_pago');
     const paymentForm = document.getElementById('paymentForm');
