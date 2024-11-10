@@ -249,8 +249,10 @@ async function register() {
         participacao: { masculino: participacaoMasculine, feminino: participacaoFeminine }
     };
 
+    console.log(registrationData)
+
     try {
-        const data = await registrarInscricao(registrationData);
+        const { data, status } = await registrarInscricao(registrationData);
         const idInscricao = data?.enrollmentId;
 
         if (idInscricao) {
@@ -260,13 +262,13 @@ async function register() {
                 if (statusHospedagem >= 200 && statusHospedagem < 300) {
                     showPopup("Sua inscrição e hospedagem foram registradas com sucesso!");
                 } else {
-                    showPopupError("A inscrição foi realizada, mas ocorreu um erro ao registrar a hospedagem.");
+                    showPopupError("A inscrição foi realizada, mas ocorreu um erro ao registrar a hospedagem. Entre em contato com o suporte");
                 }
             } else {
                 showPopup("Sua inscrição foi realizada com sucesso!");
             }
         } else {
-            showPopupError("Erro ao realizar sua inscrição, tente novamente ou entre em contato com o suporte.");
+            showPopupError("A inscrição foi realizada, mas ocorreu um erro ao registrar a hospedagem. Entre em contato com o suporte");
         }
     } catch (error) {
         showPopupError("Ocorreu um erro ao realizar a inscrição, tente novamente.");
