@@ -202,7 +202,7 @@ button:hover {
         position: static !important; /* Remove o posicionamento absoluto para alinhar no fluxo normal */
         margin: 20px 0 5px 0;
         text-align: center !important; /* Centraliza o texto em telas muito pequenas */
-        transform: scale(0.8);
+        transform: scale(0.75);
         max-width: 420px;
     }
 
