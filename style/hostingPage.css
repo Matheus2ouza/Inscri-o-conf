@@ -1,0 +1,338 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* Reset de estilo básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f5;
+}
+
+/* Estilo da barra de navegação */
+.container {
+    display: flex;
+    flex-direction: column; /* Ajusta para coluna em mobile */
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    background-color: #3c5672;
+    width: 100%;
+    padding: 0 20px;
+    position: fixed; /* Fixa a navbar no topo da tela */
+    top: 0; /* Fica sempre no topo */
+    z-index: 1000; /* Garante que a navbar fique sobre outros elementos */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    width: 100%; /* Certifique-se de que a lista ocupe toda a largura */
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    color: #fff;
+    letter-spacing: 0.1em;
+}
+
+/* Seção de filtro */
+.filter-locality {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 100px 20px 0 20px;
+    flex-wrap: wrap; /* Permite quebra de linha em telas pequenas */
+    gap: 20px;
+}
+
+.form-group {
+    display: relative;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    width: 100%; /* Ajusta largura automaticamente */
+}
+
+label{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    height: 40px;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-top: 10px;
+}
+
+input::placeholder {
+    color: #949494;
+    font-size: 0.75rem;
+}
+
+input:focus {
+    outline: none;
+}
+
+.button {
+    width: 100px;
+    margin-top: 30px;
+}
+
+button {
+    width: 100%;
+    max-width: 240px;
+    height: 40px;
+    background-color: #28a745;
+    color: #fff;
+    border-radius: 8px;
+    border: none; /* Removido o border, pode ser desnecessário */
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
+}
+
+button:hover {
+    background-color: #23903c; /* Cor de destaque ao passar o mouse */
+}
+
+button:focus {
+    outline: 2px solid #333; /* Destaque ao usar teclado */
+    outline-offset: 2px;
+}
+
+#suggestions {
+    display: none;
+    width: 100%;
+    max-width: 400px;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .filter-locality {
+        flex-direction: column; /* Alinha os elementos verticalmente */
+        margin: 85px 20px 0 5px; /* Reduz margem superior */
+    }
+
+    nav ul {
+        justify-content: center; /* Centraliza itens na navbar */
+    }
+
+    .button-search {
+        align-self: flex-start; /* Ajusta alinhamento para ficar no início */
+        margin-left: 8px;
+    }
+}
+
+.list-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 50px 0 0 0;
+}
+
+.list-head {
+    display: flex;
+    width: 800px;
+    height: 60px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: solid 1px #ccc;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px 5px 0 0 ;
+    
+}
+
+.title-list {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    justify-content: space-between; /* Garante que os itens fiquem organizados */
+    width: calc(100% - 80px); /* Ajusta o espaço para o alinhamento dos controles */
+}
+
+.title-list p {
+    color: #6b6b6b;
+    margin-right: 10px; /* Adiciona espaço entre o texto e os controles */
+    user-select: none;
+}
+
+
+.control {
+    display: flex;
+    width: 130px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-right: 10px;
+}
+
+.control i:nth-child(2) {
+    margin-right: 10px; /* Move a seta direita 10px para a esquerda */
+}
+
+i {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    transition: linear 0.3s;
+    color: #414141;
+    transform: scale(1.15);
+    user-select: none;
+}
+
+.bi-download {
+    width: 35px;
+    height: 35px;
+}
+
+i:hover {
+    background-color: #d9d9d9;
+    color: #414141;
+}
+
+.name-table {
+    width: 800px; /* Largura fixa */
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 0 0 5px 5px ;
+    overflow: hidden; /* Garante que bordas arredondadas funcionem */
+}
+
+.name-table th, .name-table td {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 1rem;
+    color: #414141;
+    border: 1px solid #ddd;
+}
+
+.name-table th {
+    background-color: #3c5672;
+    color: #ffffff;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.name-table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alterna as cores das linhas */
+}
+
+.name-table tr:hover {
+    background-color: #eef5ff; /* Destaque ao passar o mouse */
+}
+
+.name-table td label {
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.name-table th:first-child,
+.name-table td:first-child {
+    text-align: center;
+    width: 5%; /* Coluna de números menor */
+}
+
+.name-table td:last-child {
+    font-weight: bold;
+}
+
+/* Responsividade */
+@media (max-width: 820px) {
+    .name-table {
+        width: 100%; /* Ajusta para ocupar o espaço disponível */
+        margin: 20px 10px; /* Reduz a margem lateral */
+    }
+}
+
+/* Garantir que o contêiner da tabela esteja centralizado */
+.list-container {
+    display: flex;
+    justify-content: center; /* Centraliza o conteúdo */
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+
+.simple-loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 6px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 6px solid #3498db;
+    animation: spin 1s linear infinite;
+    z-index: 1001; /* Certifique-se que o loader esteja acima do fundo escuro */
+}
+
+/* Fundo escuro */
+.loader-background {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Cor preta com 50% de opacidade */
+    z-index: 1000; /* Abaixo do loader, mas acima de tudo */
+}
+
+/* Animação de rotação */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

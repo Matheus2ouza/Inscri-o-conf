@@ -49,6 +49,10 @@
       "dest": "/page/report.html"
     },
     {
+      "src": "/hospedagem",
+      "dest": "/page/listHosting.html"
+    },
+    {
       "src": "/style/(.*)",
       "dest": "/style/$1"
     },

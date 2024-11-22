@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/hostingPage.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.0/jspdf.plugin.autotable.min.js"></script> <!-- Inclusão do plugin -->
+    <title>Hospedagem</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="https://inscri-o-conf.vercel.app/">Conferência Regional</a></li>
+        </ul>
+    </nav>
+
+    <div class="filter-locality">
+        <div class="form-group">
+            <label for="input1">Localidade:</label>
+            <input type="text" id="input1" autocomplete="off" placeholder="Selecione o nome da cidade">
+            <div id="suggestions" class="suggestions"></div>
+        </div>
+
+        <div class="button search"><button>BUSCAR</button></div>
+        <div class="button filter"><button>LIMPAR</button></div>
+    </div>
+    
+
+    <div class="list-container">
+        <div class="list-head">
+            <div class="title-list">
+                <h2 id="current-location">Localidade: Todas</h2>
+                <p>pagina 1 de 1</p>
+            </div>
+            <div class="control">
+                <i class="bi bi-caret-left"></i>
+                <i class="bi bi-caret-right"></i>
+                <i class="bi bi-download"></i>
+            </div>
+        </div>
+        <div class="list-body">
+            <table class="name-table">
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Nome</th>
+                    </tr>
+                </thead>
+                <tbody id="name-table-body">
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="loader-background">
+        <div class="simple-loader"></div>
+    </div>
+    
+    <script type="module" src="../src/hostingPage.js"></script>
+</body>
+</html>
