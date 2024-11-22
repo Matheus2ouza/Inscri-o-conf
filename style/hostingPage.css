@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
 /* Reset de estilo básico */
 * {
     margin: 0;
@@ -72,7 +70,7 @@ nav ul li a {
     width: 100%; /* Ajusta largura automaticamente */
 }
 
-label{
+label {
     font-size: 1.2rem;
     font-weight: bold;
 }
@@ -149,23 +147,6 @@ button:focus {
     background-color: #f0f0f0;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .filter-locality {
-        flex-direction: column; /* Alinha os elementos verticalmente */
-        margin: 85px 20px 0 5px; /* Reduz margem superior */
-    }
-
-    nav ul {
-        justify-content: center; /* Centraliza itens na navbar */
-    }
-
-    .button-search {
-        align-self: flex-start; /* Ajusta alinhamento para ficar no início */
-        margin-left: 8px;
-    }
-}
-
 .list-container {
     display: flex;
     align-items: center;
@@ -183,8 +164,7 @@ button:focus {
     border: solid 1px #ccc;
     justify-content: space-between;
     align-items: center;
-    border-radius: 5px 5px 0 0 ;
-    
+    border-radius: 5px 5px 0 0;
 }
 
 .title-list {
@@ -200,7 +180,6 @@ button:focus {
     margin-right: 10px; /* Adiciona espaço entre o texto e os controles */
     user-select: none;
 }
-
 
 .control {
     display: flex;
@@ -220,23 +199,18 @@ i {
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    width: 25px;
-    height: 25px;
+    width: 30px; /* Tamanho do ícone */
+    height: 30px; /* Tamanho do ícone */
     border-radius: 50%;
     transition: linear 0.3s;
     color: #414141;
     transform: scale(1.15);
     user-select: none;
-}
-
-.bi-download {
-    width: 35px;
-    height: 35px;
+    overflow: hidden; /* Garantir que o preenchimento seja visível apenas dentro do ícone */
 }
 
 i:hover {
     background-color: #d9d9d9;
-    color: #414141;
 }
 
 .name-table {
@@ -244,7 +218,7 @@ i:hover {
     border-collapse: collapse;
     background-color: #ffffff;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    border-radius: 0 0 5px 5px ;
+    border-radius: 0 0 5px 5px;
     overflow: hidden; /* Garante que bordas arredondadas funcionem */
 }
 
@@ -293,6 +267,36 @@ i:hover {
         width: 100%; /* Ajusta para ocupar o espaço disponível */
         margin: 20px 10px; /* Reduz a margem lateral */
     }
+
+    .list-head {
+        flex-direction: column;
+        width: 98%;
+        height: 80px;
+    }
+
+    .title-list {
+        width: 100%;
+        justify-content: space-between;
+        margin: 10px 0 5px 0;
+        font-size: 0.78rem;
+    }
+    .title-list h2, .title-list p {
+        margin: 0 10px 0 5px;
+    }
+
+    .control {
+        width: 80%;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .name-table {
+        margin: 0;
+    }
+
+    .list-body {
+        width: 98%;
+    }
 }
 
 /* Garantir que o contêiner da tabela esteja centralizado */
@@ -304,7 +308,7 @@ i:hover {
     margin-bottom: 20px;
 }
 
-
+/* Ajuste para o loader */
 .simple-loader {
     position: fixed;
     top: 50%;
