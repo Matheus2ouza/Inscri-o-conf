@@ -50,7 +50,7 @@
     },
     {
       "src": "/hospedagem",
-      "dest": "/page/listHosting.html"
+      "dest": "/page/hostingPage.html"
     },
     {
       "src": "/style/(.*)",
