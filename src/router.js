@@ -133,3 +133,64 @@ export async function getRelatorio(localidadeId) {
         return null; // Retorna null em caso de erro
     }
 }
+
+export async function getlistHosting() {
+    try {
+        const response = await fetch(`${apiUrl}/listHosting`);
+        
+        // Verificando se a resposta foi bem-sucedida (status 200-299)
+        if (!response.ok) {
+            console.error(`Erro ao buscar a lista: ${response.status} ${response.statusText}`);
+            return null; // Retorna null ou um valor adequado em caso de erro
+        }
+
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error(`Erro inesperado: ${error.message}`);
+        return null; // Retorna null ou outro valor em caso de erro
+    }
+}
+
+export async function generatePdf(localidade = null) {
+    try {
+        // Monta a URL com ou sem o parâmetro de filtro
+        const queryParam = localidade ? `?localidade=${encodeURIComponent(localidade)}` : '';
+        const response = await fetch(`${apiUrl}/generatePdf/generate-pdf${queryParam}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro ao gerar PDF: ${response.status} ${response.statusText}`);
+        }
+
+        // Converte a resposta em blob para download
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        // Define o nome do arquivo com base na localidade
+        let pdfFilename = 'lista de hospedagem geral.pdf'; // Padrão sem filtro de localidade
+        if (localidade) {
+            pdfFilename = `lista de hospedagem - ${localidade}.pdf`; // Se houver filtro de localidade
+        }
+
+        // Cria um link para download
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = pdfFilename;  // Define o nome do arquivo dinamicamente
+        document.body.appendChild(link);
+        link.click();
+
+        // Remove o link após o download
+        link.remove();
+        window.URL.revokeObjectURL(url);
+        console.log('PDF gerado e baixado com sucesso.');
+    } catch (error) {
+        console.error(`Erro ao baixar o PDF: ${error.message}`);
+    }
+}
+
