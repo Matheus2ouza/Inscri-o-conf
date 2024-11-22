@@ -1,135 +1,118 @@
 import { getlistHosting, generatePdf } from "./router.js";
 
-let currentLocationIndex = 0; // Índice da localidade atual
-let locationsData = []; // Cache das localidades e pessoas
-let cachedPeople = []; // Variável global para armazenar os dados de pessoas
+let currentLocationIndex = 0; // Índice da localidade atualmente exibida
+let locationsData = []; // Armazena as localidades e suas pessoas
+let cachedPeople = []; // Cache global para evitar buscas repetitivas
 
 // Função para buscar e organizar os dados de localidades e pessoas
 async function fetchLocationsData() {
-    // Verifica se os dados já foram carregados
     if (cachedPeople.length > 0) {
+        // Usa os dados em cache, se já disponíveis
         console.log("Usando dados em cache");
-        return groupByLocation(cachedPeople); // Se já houver dados em cache, usa-os
+        return groupByLocation(cachedPeople);
     }
 
     try {
-        toggleLoader(true); // Exibe o loader enquanto os dados estão sendo carregados
-        const pessoas = await getlistHosting(); // Obtém a lista de pessoas
-        console.log(pessoas)
-        // Armazena os dados na variável global
-        cachedPeople = pessoas;
+        toggleLoader(true); // Mostra o indicador de carregamento
+        const pessoas = await getlistHosting(); // Obtém os dados do servidor
+        cachedPeople = pessoas; // Armazena em cache os dados obtidos
 
-        // Organiza as pessoas por localidade
-        const groupedByLocation = groupByLocation(pessoas); // Agrupa por localidade
-
-        console.log(groupedByLocation); // Exibe as localidades organizadas
-        return groupedByLocation; // Retorna as localidades organizadas
+        return groupByLocation(pessoas); // Organiza os dados por localidade
     } catch (error) {
         console.error("Erro ao buscar dados de localidades:", error);
-        return []; // Retorna um array vazio em caso de erro
+        return []; // Retorna vazio caso ocorra um erro
     } finally {
-        toggleLoader(false); // Esconde o loader após o carregamento
+        toggleLoader(false); // Esconde o indicador de carregamento
     }
 }
 
-// Função para organizar as pessoas por localidade
+// Agrupa as pessoas por localidade
 function groupByLocation(pessoas) {
-    const groupedByLocation = pessoas.reduce((acc, pessoa) => {
+    const grouped = pessoas.reduce((acc, pessoa) => {
         if (!acc[pessoa.localidade]) acc[pessoa.localidade] = [];
         acc[pessoa.localidade].push(pessoa);
         return acc;
     }, {});
 
-    // Retorna um array de objetos com localidade e pessoas associadas
-    return Object.entries(groupedByLocation).map(([localidade, pessoas]) => ({
+    // Retorna as localidades em formato de array de objetos
+    return Object.entries(grouped).map(([localidade, pessoas]) => ({
         localidade,
         pessoas,
     }));
 }
 
-// Função para carregar as pessoas de uma localidade
+// Exibe as pessoas de uma localidade específica na página
 function carregarPessoasNaPagina(localidadeIndex) {
     const { localidade, pessoas } = locationsData[localidadeIndex];
-    carregarPessoas(pessoas);
-    updateLocalidadeDisplay(localidade);
-    updateNavigation(localidadeIndex);
+    carregarPessoas(pessoas); // Preenche a tabela de pessoas
+    updateLocalidadeDisplay(localidade); // Atualiza o nome da localidade exibida
+    updateNavigation(localidadeIndex); // Configura a navegação com base na localidade
 }
 
-// Função para atualizar o nome da localidade exibida
+// Atualiza o título exibido com o nome da localidade
 function updateLocalidadeDisplay(localidade) {
-    const localidadeDisplay = document.getElementById("current-location");
-    if (localidadeDisplay) {
-        localidadeDisplay.textContent = `Localidade: ${localidade.toUpperCase()}`;
+    const display = document.getElementById("current-location");
+    if (display) {
+        display.textContent = `Localidade: ${localidade.toUpperCase()}`;
     }
 }
 
-// Função para atualizar as setas de navegação, o número de páginas e a cor dos ícones
+// Atualiza o estado das setas de navegação e a numeração da página
 function updateNavigation(currentIndex) {
     const leftArrow = document.querySelector('.bi-caret-left');
     const rightArrow = document.querySelector('.bi-caret-right');
-    const pageInfo = document.querySelector('.title-list p'); // Seleciona o elemento do número de páginas
+    const pageInfo = document.querySelector('.title-list p');
+    const totalPages = locationsData.length;
 
-    const totalPages = locationsData.length; // Total de localidades
+    // Habilita/desabilita a seta esquerda
+    leftArrow.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+    leftArrow.style.color = currentIndex === 0 ? '#d5d5d5' : '';
 
-    // Habilita ou desabilita as setas e altera a cor
-    if (currentIndex === 0) {
-        leftArrow.style.pointerEvents = 'none';
-        leftArrow.style.color = '#d5d5d5'; // Cor para estado desabilitado
-    } else {
-        leftArrow.style.pointerEvents = 'auto';
-        leftArrow.style.color = ''; // Remove a cor desabilitada
-    }
+    // Habilita/desabilita a seta direita
+    rightArrow.style.pointerEvents = currentIndex === totalPages - 1 ? 'none' : 'auto';
+    rightArrow.style.color = currentIndex === totalPages - 1 ? '#d5d5d5' : '';
 
-    if (currentIndex === totalPages - 1) {
-        rightArrow.style.pointerEvents = 'none';
-        rightArrow.style.color = '#d5d5d5'; // Cor para estado desabilitado
-    } else {
-        rightArrow.style.pointerEvents = 'auto';
-        rightArrow.style.color = ''; // Remove a cor desabilitada
-    }
-
-    // Atualiza o texto do número de páginas
+    // Atualiza o número da página exibida
     if (pageInfo) {
         pageInfo.textContent = `Página ${currentIndex + 1} de ${totalPages}`;
     }
 }
 
-// Função para configurar a navegação entre as localidades
+// Configura eventos de clique nas setas de navegação
 function setupPagination() {
     const leftArrow = document.querySelector('.bi-caret-left');
     const rightArrow = document.querySelector('.bi-caret-right');
 
-    // Evento para a seta para a esquerda
     leftArrow.addEventListener('click', () => {
         if (currentLocationIndex > 0) {
-            currentLocationIndex--; // Decrementa o índice da localidade
+            currentLocationIndex--;
             carregarPessoasNaPagina(currentLocationIndex);
         }
     });
 
-    // Evento para a seta para a direita
     rightArrow.addEventListener('click', () => {
         if (currentLocationIndex < locationsData.length - 1) {
-            currentLocationIndex++; // Incrementa o índice da localidade
+            currentLocationIndex++;
             carregarPessoasNaPagina(currentLocationIndex);
         }
     });
 }
 
-// Função para inicializar sugestões de cidades
+// Inicializa o sistema de sugestões de localidades
 async function initCitySuggestions() {
-    const cities = await fetchLocationsData(); // Obtém as localidades e pessoas
+    const cities = await fetchLocationsData(); // Obtém os dados de localidades
     const cityNames = cities.map(location => location.localidade); // Extrai os nomes das localidades
     const input = document.getElementById("input1");
     const suggestions = document.getElementById("suggestions");
 
+    // Adiciona evento para filtrar localidades enquanto o usuário digita
     input.addEventListener("input", () => filterCities(cityNames, input, suggestions));
 }
 
-// Função para filtrar as cidades na lista de sugestões
+// Filtra localidades e atualiza a lista de sugestões
 function filterCities(cityNames, input, suggestions) {
     const inputValue = input.value.toLowerCase();
-    suggestions.innerHTML = "";
+    suggestions.innerHTML = ""; // Limpa a lista de sugestões
 
     const filteredCities = cityNames.filter(city =>
         city.toLowerCase().includes(inputValue)
@@ -142,11 +125,12 @@ function filterCities(cityNames, input, suggestions) {
             item.classList.add("suggestion-item");
             item.textContent = city;
 
+            // Define o comportamento ao selecionar uma sugestão
             item.addEventListener("click", () => {
                 input.value = city;
                 suggestions.innerHTML = "";
                 suggestions.style.display = "none";
-                filterByLocation(city);
+                filterByLocation(city); // Filtra com base na cidade selecionada
             });
 
             suggestions.appendChild(item);
@@ -156,141 +140,114 @@ function filterCities(cityNames, input, suggestions) {
     }
 }
 
-// Função para carregar as pessoas na tabela
+// Exibe as pessoas na tabela
 function carregarPessoas(pessoas) {
     const tbody = document.getElementById("name-table-body");
-    tbody.innerHTML = ""; // Limpa a tabela antes de adicionar os dados
+    tbody.innerHTML = ""; // Limpa a tabela antes de adicionar novos dados
 
     if (pessoas.length === 0) {
         const tr = document.createElement("tr");
         const td = document.createElement("td");
-        td.colSpan = 2; // Expande a célula para a largura total
+        td.colSpan = 2;
         td.textContent = "Nenhuma pessoa encontrada";
         tr.appendChild(td);
         tbody.appendChild(tr);
     } else {
         pessoas.forEach((pessoa, index) => {
             const tr = document.createElement("tr");
-
-            const tdNumero = document.createElement("td");
-            tdNumero.innerHTML = `<label>${index + 1}</label>`;
-
-            const tdNome = document.createElement("td");
-            tdNome.innerHTML = `<label>${pessoa.nome}</label>`;
-
-            tr.appendChild(tdNumero);
-            tr.appendChild(tdNome);
+            tr.innerHTML = `
+                <td><label>${index + 1}</label></td>
+                <td><label>${pessoa.nome}</label></td>
+            `;
             tbody.appendChild(tr);
         });
     }
 }
 
-
-// Função para filtrar as pessoas pela localidade selecionada no input
+// Filtra pessoas com base em uma localidade informada
 function filterByLocation(inputValue) {
     try {
-        if (inputValue === "") {
-            carregarPessoas([]); // Caso o input esteja vazio, não exibe ninguém
+        if (!inputValue) {
+            carregarPessoas([]); // Limpa a tabela se nenhum valor for informado
             updateLocalidadeDisplay("Nenhuma localidade selecionada");
-            limparTabela(); // Limpa a tabela
+            limparTabela();
         } else {
-            // Usando o groupByLocation para agrupar as pessoas
             const groupedData = groupByLocation(cachedPeople);
-
-            // Filtra o grupo que corresponde à localidade informada no inputValue
-            const locationGroup = groupedData.find(group => group.localidade.toLowerCase() === inputValue.toLowerCase());
+            const locationGroup = groupedData.find(group =>
+                group.localidade.toLowerCase() === inputValue.toLowerCase()
+            );
 
             if (locationGroup) {
-                // Limpa a tabela existente antes de adicionar as novas pessoas
                 limparTabela();
-
-                // Carrega as pessoas da localidade filtrada
                 carregarPessoas(locationGroup.pessoas);
-                updateLocalidadeDisplay(inputValue); // Atualiza o nome da localidade exibida
+                updateLocalidadeDisplay(inputValue);
 
-                // Atualiza as páginas para a localidade filtrada
-                locationsData = [locationGroup]; // Atualiza com apenas uma localidade filtrada
-                currentLocationIndex = 0; // Reseta o índice para a primeira página da localidade filtrada
-                updateNavigation(currentLocationIndex); // Atualiza a navegação
+                locationsData = [locationGroup]; // Atualiza os dados para a localidade selecionada
+                currentLocationIndex = 0;
+                updateNavigation(currentLocationIndex);
             } else {
-                // Se não encontrar nenhuma pessoa com a localidade, mostra uma mensagem de "nenhum resultado"
-                limparTabela(); // Limpa a tabela
+                limparTabela();
                 updateLocalidadeDisplay("Nenhuma pessoa encontrada para esta localidade");
             }
         }
-
-        // Reseta o índice da página para a primeira
-        currentLocationIndex = 0;
-        updateNavigation(currentLocationIndex); // Atualiza a navegação
-
     } catch (error) {
         console.error('Erro ao filtrar por localidade:', error);
     }
 }
 
-// Função para limpar a tabela de pessoas
+// Remove todos os dados da tabela
 function limparTabela() {
     const tbody = document.getElementById("name-table-body");
-    if (tbody) {
-        tbody.innerHTML = ""; // Limpa o conteúdo da tabela
-    }
+    if (tbody) tbody.innerHTML = "";
 }
 
-// Função para mostrar/ocultar o carregamento
+// Mostra ou oculta o indicador de carregamento
 function toggleLoader(show) {
     const loaderBackground = document.querySelector(".loader-background");
     loaderBackground.style.display = show ? "flex" : "none";
 }
 
-// Função principal para inicializar o comportamento
+// Inicializa o comportamento principal da aplicação
 async function init() {
-    await initCitySuggestions(); // Inicializa sugestões de cidades
+    await initCitySuggestions(); // Configura as sugestões de localidades
 
+    // Configura o botão de busca
     const searchButton = document.querySelector('.search');
     searchButton.addEventListener('click', () => {
-        const inputValue = document.getElementById('input1').value.trim(); // Pega o valor do input de cidade
-        console.log(inputValue)
+        const inputValue = document.getElementById('input1').value.trim();
         if (inputValue) {
-            filterByLocation(inputValue); // Filtra a tabela pela localidade
+            filterByLocation(inputValue);
         } else {
-            carregarPessoas(cachedPeople); // Exibe todas as pessoas usando o cache
-            updateLocalidadeDisplay("Todas"); // Reseta o nome da localidade exibida
+            carregarPessoas(cachedPeople);
+            updateLocalidadeDisplay("Todas");
         }
     });
 
+    // Configura o botão de resetar filtros
     const filterButton = document.querySelector(".filter");
     filterButton.addEventListener("click", () => {
-        // Limpa o valor do input de filtro de cidade
         document.getElementById("input1").value = "";
-    
-        // Reseta a exibição para todas as localidades
         carregarPessoas(cachedPeople);
-    
-        // Atualiza a exibição para "Todas as localidades"
         updateLocalidadeDisplay("Todas as localidades");
-    
-        // Reseta a navegação para a primeira página
-        locationsData = groupByLocation(cachedPeople); // Recarrega todas as localidades agrupadas
-        currentLocationIndex = 0; // Reseta o índice para a primeira localidade
-        updateNavigation(currentLocationIndex); // Atualiza a navegação
-    
-        // Carrega as pessoas da primeira localidade
-        carregarPessoasNaPagina(currentLocationIndex); 
-    
-        // Reconfigura a navegação para todas as localidades
-        setupPagination(); // Reaplica a lógica de navegação
+        locationsData = groupByLocation(cachedPeople);
+        currentLocationIndex = 0;
+        updateNavigation(currentLocationIndex);
+        carregarPessoasNaPagina(currentLocationIndex);
+        setupPagination();
     });
-    
+
+    // Configura o botão de download do PDF
     const iconDownload = document.querySelector('.bi-download');
     iconDownload.addEventListener('click', () => {
-        const localityInput = document.querySelector('#input1').value.trim(); // Obtém e remove espaços
-        const locality = localityInput !== '' ? localityInput : null; // Verifica se é vazio e ajusta para null
-        generatePdf(locality); // Chama a função passando o valor correto
+        const localityInput = document.querySelector('#input1').value.trim();
+        const locality = localityInput || null;
+        generatePdf(locality);
     });
-    
-    locationsData = await fetchLocationsData(); // Carrega os dados das localidades e pessoas
-    carregarPessoasNaPagina(0); // Carrega a primeira localidade
-    setupPagination(); // Configura os eventos de navegação
+
+    // Carrega os dados iniciais
+    locationsData = await fetchLocationsData();
+    carregarPessoasNaPagina(0); // Exibe a primeira localidade
+    setupPagination(); // Configura a navegação
 }
 
-init();
+init(); // Executa a inicialização
