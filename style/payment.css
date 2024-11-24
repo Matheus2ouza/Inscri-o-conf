@@ -302,7 +302,7 @@ input[type="number"] {
     left: 100px; /* Posiciona 20px à esquerda */
     font-family: Arial, sans-serif;
     text-align: center; /* Alinha o texto à esquerda */
-    max-width: 400px;
+    max-width: 450px;
 }
 
 .account-payment p {
@@ -319,6 +319,11 @@ input[type="number"] {
     text-decoration: underline;
     font-size: 18px;
     font-weight: bold;
+}
+
+.account-payment span {
+    color: #333;
+    opacity: 90%;
 }
 
 
