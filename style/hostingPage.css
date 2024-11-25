@@ -185,6 +185,7 @@ button:focus {
 .suggestion-item {
     padding: 8px;
     cursor: pointer;
+    color: #000;
 }
 
 .suggestion-item:hover {
