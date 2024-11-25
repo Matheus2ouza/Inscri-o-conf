@@ -26,6 +26,13 @@ async function fetchLocationsData() {
     }
 }
 
+function darkmode() {
+    const checkbox = document.querySelector('#chk');
+    checkbox.addEventListener('change', () => {
+        document.body.classList.toggle('dark-mode');
+    });
+}
+
 // Agrupa as pessoas por localidade
 function groupByLocation(pessoas) {
     const grouped = pessoas.reduce((acc, pessoa) => {
@@ -210,6 +217,7 @@ function toggleLoader(show) {
 // Inicializa o comportamento principal da aplicação
 async function init() {
     await initCitySuggestions(); // Configura as sugestões de localidades
+    
 
     // Configura o botão de busca
     const searchButton = document.querySelector('.search');
@@ -248,6 +256,7 @@ async function init() {
     locationsData = await fetchLocationsData();
     carregarPessoasNaPagina(0); // Exibe a primeira localidade
     setupPagination(); // Configura a navegação
+    darkmode(); //Modo dark-mode
 }
 
 init(); // Executa a inicialização
