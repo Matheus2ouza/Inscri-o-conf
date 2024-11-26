@@ -316,7 +316,7 @@ button:focus {
     .list-head {
         flex-direction: column;
         width: 98%;
-        height: 80px;
+        height: 95px;
     }
 
     .title-list {
