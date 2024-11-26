@@ -185,6 +185,7 @@ button:focus {
 .suggestion-item {
     padding: 8px;
     cursor: pointer;
+    color: #000;
 }
 
 .suggestion-item:hover {
@@ -315,7 +316,7 @@ button:focus {
     .list-head {
         flex-direction: column;
         width: 98%;
-        height: 80px;
+        height: 95px;
     }
 
     .title-list {
