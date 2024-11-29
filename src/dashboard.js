@@ -126,6 +126,20 @@ import { getDashboardData } from './router.js';
             data.inscricoes10_acima.data,
             'Total de inscrições para participantes com 10 anos ou mais'
         );
+        
+        document.getElementById('inscricao_servico').innerHTML = createCard(
+            'Inscrições Serviço',
+            calculateTotalInscricoesFaixaEtaria(data.inscricao_servico.data),
+            data.inscricao_servico.data,
+            'Total de inscrições para participantes que servirão na conferencia'
+        );
+        
+        document.getElementById('inscricao_tx_participacao').innerHTML = createCard(
+            'Inscrições Taxa de Participação',
+            calculateTotalInscricoesFaixaEtaria(data.inscricao_tx_participacao.data),
+            data.inscricao_tx_participacao.data,
+            'Total de inscrições para participantes de taxa de participação'
+        );
 
         document.getElementById('inscricaoGeral').innerHTML = createCard(
             'Inscrição Geral',
