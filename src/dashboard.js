@@ -164,7 +164,7 @@ import { getDashboardData } from './router.js';
 
         document.getElementById('saldoDevedor').innerHTML = createCard(
             'Saldo Devedor Localidades',
-            calculateTotalPagamento(data.localidades.data),
+            calculateTotalSaldo(data.localidades.data),
             data.localidades.data,
             'Resumo do saldo devedor por localidade'
         );
@@ -279,6 +279,10 @@ import { getDashboardData } from './router.js';
 
     function calculateTotalPagamento(items) {
         return items.reduce((sum, item) => sum + (parseFloat(item.valor_pago) || 0), 0);
+    }
+
+   function calculateTotalSaldo(items) {
+        return items.reduce((sum, item) => sum + (parseFloat(item.saldo_devedor) || 0), 0);
     }
 
     function calculateTotalTipoInscricao(items) {
