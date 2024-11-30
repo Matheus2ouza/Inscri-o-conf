@@ -226,7 +226,7 @@ document.querySelector('.close-btnError').addEventListener('click', function() {
 async function register() {
     toggleLoader(true); 
 
-    const localidade = document.getElementById('input1').value.toUpperCase();
+    const localidade = document.getElementById('input1').value.toUpperCase().trim();
     const nomeResponsavel = document.querySelector('.responsible').value;
     const age06masculine = document.querySelector('.age-06-masc').value || "0";
     const age06feminine = document.querySelector('.age-06-fem').value || "0";
