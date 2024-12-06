@@ -162,32 +162,184 @@ function clearPopupFields() {
     });
 }
 
+function initRegistrationTable() {
+    // Seleciona todos os campos necessários
+    const rows = document.querySelectorAll(".registration-table tbody tr");
+    const totalItems = document.querySelectorAll(".totais .total-item");
 
-buttonConfigTicket.addEventListener('click', (event) =>{
-    event.preventDefault()
-    popupTicket.style.display = 'flex'
-})
+    // Atualiza os totais sempre que algo muda nos campos de entrada
+    const updateTotals = () => {
+        let totalGeral = 0;
 
+        rows.forEach((row, index) => {
+            const masculinoInput = row.querySelector(".masculino");
+            const femininoInput = row.querySelector(".feminino");
+            const valorInput = row.querySelector(".valor");
+
+            // Obtém os valores inseridos
+            const masculino = parseInt(masculinoInput.value) || 0;
+            const feminino = parseInt(femininoInput.value) || 0;
+            const valor = parseFloat(valorInput.value) || 0;
+
+            // Calcula o total por faixa etária
+            const totalQuantidade = masculino + feminino;
+            const totalValor = totalQuantidade * valor;
+
+            // Atualiza os totais na seção Totais com base no data-faixa
+            const faixa = row.dataset.faixa;
+            const totalItem = document.querySelector(`.totais .total-item[data-faixa="${faixa}"]`);
+            if (totalItem) {
+                totalItem.querySelector(".total-quantity").textContent = totalQuantidade;
+                totalItem.querySelector(".total-value").textContent = `R$ ${totalValor.toFixed(2)}`;
+            }
+
+            // Adiciona ao total geral
+            totalGeral += totalValor;
+        });
+
+        // Atualiza o total geral
+        document.querySelector(".totais .total-value.geral").textContent = `R$ ${totalGeral.toFixed(2)}`;
+    };
+
+    // Adiciona o evento de entrada para todos os campos relevantes
+    document.querySelectorAll(".registration-table input").forEach(input => {
+        input.addEventListener("input", updateTotals);
+    });
+
+    // Atualiza os totais ao carregar a página
+    updateTotals();
+}
+
+function updatePaymentInfo() {
+    // Definindo as faixas etárias e valores padrão
+    const faixas = [
+        { faixa: '0-6', valor: 0 },
+        { faixa: '7-10', valor: 120 },
+        { faixa: '10+', valor: 200 },
+        { faixa: 'Visitante', valor: 100 }
+    ];
+
+    let totalGeral = 0;
+
+    // Iterando sobre as faixas para calcular os totais
+    faixas.forEach((faixa) => {
+        // Acessando os inputs da tabela pela faixa
+        const masculinoInput = document.querySelector(`tr[data-faixa="${faixa.faixa}"] .masculino`);
+        const femininoInput = document.querySelector(`tr[data-faixa="${faixa.faixa}"] .feminino`);
+        const valorInput = document.querySelector(`tr[data-faixa="${faixa.faixa}"] .valor`);
+
+        // Verificando se os inputs existem antes de acessar os valores
+        if (masculinoInput && femininoInput && valorInput) {
+            const masculinoQty = parseInt(masculinoInput.value) || 0;
+            const femininoQty = parseInt(femininoInput.value) || 0;
+            const totalValue = (masculinoQty + femininoQty) * faixa.valor;
+
+            // Atualizando os valores no painel de totais
+            const totalItem = document.querySelector(`.totais .total-item[data-faixa="${faixa.faixa}"]`);
+            if (totalItem) {
+                totalItem.querySelector(".total-quantity").textContent = masculinoQty + femininoQty;
+                totalItem.querySelector(".total-value").textContent = `R$ ${totalValue.toFixed(2)}`;
+            }
+
+            // Atualizando o total geral
+            totalGeral += totalValue;
+        }
+    });
+
+    // Atualizando o total geral no painel de pagamento
+    document.querySelector(".totais .total-value.geral").textContent = `R$ ${totalGeral.toFixed(2)}`;
+}
+
+
+// Função para abrir o modal de pagamento
+function openPaymentModal() {
+    const totalValueElement = document.querySelector('#total-value'); // Assumindo que você tenha esse elemento no seu código
+    const totalQuantityElement = document.querySelector('#total-quantity');
+
+    if (!totalValueElement || !totalQuantityElement) {
+        console.error("Elementos de total geral não encontrados!");
+        return; // Caso os elementos não existam, não faça nada
+    }
+
+    const totalGeral = totalValueElement.textContent.replace('R$', '').trim();
+    const totalQuantity = totalQuantityElement.textContent;
+    
+    // Exibir o modal
+    document.getElementById('payment-modal').style.display = 'flex';
+
+    // Atualizar as informações no modal de pagamento
+    document.querySelector('#total-quantity-modal').textContent = totalQuantity; // Atualizando o Total Geral
+    document.querySelector('#total-value-modal').textContent = `R$ ${totalGeral}`; // Atualizando o Valor Final
+}
+
+
+// Função para finalizar o pagamento
+function finalizePayment() {
+    const paymentType = document.querySelector('#payment-type').value;
+    const paymentAmount = parseFloat(document.querySelector('#amount').value) || 0;
+    const totalGeral = parseFloat(document.querySelector('#total-value-geral').textContent.replace('R$', '').trim());
+
+    if (paymentAmount >= totalGeral) {
+        alert(`Pagamento de R$ ${paymentAmount.toFixed(2)} realizado com sucesso! Forma de pagamento: ${paymentType}`);
+    } else {
+        alert('Valor insuficiente para pagamento!');
+    }
+
+    // Fechar o modal após o pagamento
+    closePaymentModal();
+}
+
+// Atribuir os eventos aos botões e inputs
+document.querySelector('.btn-submit-payment').addEventListener('click', finalizePayment);
+document.querySelector('#close-payment-modal').addEventListener('click', closePaymentModal);
+document.querySelector('button').addEventListener('click', openPaymentModal);
+
+// Função para fechar o modal de pagamento
+function closePaymentModal() {
+    // Fecha o modal de pagamento, alterando o estilo de display para 'none'
+    document.getElementById('payment-modal').style.display = 'none';
+}
+
+// Atualizar os totais assim que os valores de quantidade ou faixa forem modificados
+const allInputs = document.querySelectorAll('.masculino, .feminino');
+allInputs.forEach(input => {
+    input.addEventListener('input', updatePaymentInfo);
+});
+
+// Atualizando os totais na primeira execução
+updatePaymentInfo();
+
+// Função para exibir o popup de ticket
+buttonConfigTicket.addEventListener('click', (event) => {
+    event.preventDefault();
+    popupTicket.style.display = 'flex';
+});
+
+// Função para fechar o popup de despesas
 closePopupExpenses.addEventListener('click', (event) => {
     event.preventDefault();
     popup.style.display = 'none';
 });
 
+// Função para fechar o popup de ticket
 closePopupTicket.addEventListener('click', (event) => {
     event.preventDefault();
     popupTicket.style.display = 'none';
 });
 
+// Função para fechar o popup de criação
 closePopUpCreate.addEventListener('click', (event) => {
     event.preventDefault();
-    popupTicketCreate.style.display = 'none'
+    popupTicketCreate.style.display = 'none';
     clearPopupFields();
-})
+});
 
+// Função para fechar o popup de alerta
 closePopUpAlert.addEventListener('click', (event) => {
     event.preventDefault();
-    popUpAlert.style.display = 'none'
-})
+    popUpAlert.style.display = 'none';
+});
+
 
 function extractCityNames(cities) {
     return Object.values(cities).map(city => city.nome);
@@ -405,9 +557,6 @@ function updatePaymentHistory(data) {
     }
 }
 
-
-
-
 // Função para configurar o botão de salvar
 function configureSaveMealEntryButton() {
     document.querySelector('.btn-save').addEventListener('click', (event) => {
@@ -472,8 +621,6 @@ function registerExpense() {
     });
 }
 
-
-
 function checkTableContent() {
     if (expensesTable.children.length === 0) {
         document.querySelector('.table-none').style.display = 'block';
@@ -489,12 +636,14 @@ async function init() {
     registrationContent.classList.add('hidden');
     setActive(ticketLink);
     registerExpense();
+    initRegistrationTable();
     showPopup();
     await initCitySuggestions();
     configFood();
     newpaymentMothod();
     showCreateTicket();
     configureSaveMealEntryButton();
+    updatePaymentInfo();
 
     // Evento de atualização para inputs da tabela de refeições
     document.querySelectorAll('.meal-table input[type="text"]').forEach(input => {
