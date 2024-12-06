@@ -45,18 +45,8 @@
                             <div id="suggestions" class="suggestions"></div>
                         </div>
                     </div>
-                    <div class="payment-select-group">
-                        <label for="payment-select">Forma de Pagamento:</label>
-                        <select class="form-select" id="payment-select">
-                            <option value="">Escolha uma forma de pagamento</option>
-                            <option value="Dinheiro">Dinheiro</option>
-                            <option value="Debito">Débito</option>
-                            <option value="Credito">Crédito</option>
-                            <option value="PIX">PIX</option>
-                        </select>
-                    </div>
                 </div>
-
+    
                 <div class="registration-table-container">
                     <div class="registration-table">
                         <table>
@@ -87,41 +77,106 @@
                                     <td><input type="number" placeholder="0" class="feminino"></td>
                                     <td><input type="number" placeholder="Valor" class="valor" value="200"></td>
                                 </tr>
+                                <tr>
+                                    <td>Visitante</td>
+                                    <td><input type="number" placeholder="0" class="masculino"></td>
+                                    <td><input type="number" placeholder="0" class="feminino"></td>
+                                    <td><input type="number" placeholder="Valor" class="valor" value="100"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
-
+    
                     <div class="totais">
                         <h2>Totais</h2>
                         <div class="total-row">
-                            <div class="total-item">
+                            <!-- Total para faixa 0-6 -->
+                            <div class="total-item" data-faixa="0-6">
                                 <span class="age-group">0-6:</span>
                                 <span class="total-quantity">0</span>
-                                <span class="total-value">0</span>
+                                <span class="total-value">R$ 0,00</span>
                             </div>
-                            <div class="total-item">
+                    
+                            <!-- Total para faixa 7-10 -->
+                            <div class="total-item" data-faixa="7-10">
                                 <span class="age-group">7-10:</span>
                                 <span class="total-quantity">0</span>
-                                <span class="total-value">0</span>
+                                <span class="total-value">R$ 0,00</span>
                             </div>
-                            <div class="total-item">
+                    
+                            <!-- Total para faixa 10+ -->
+                            <div class="total-item" data-faixa="10-plus">
                                 <span class="age-group">10+:</span>
                                 <span class="total-quantity">0</span>
-                                <span class="total-value">0</span>
+                                <span class="total-value">R$ 0,00</span>
                             </div>
-                            <div class="total-item">
+                    
+                            <!-- Total para visitantes -->
+                            <div class="total-item" data-faixa="visitante">
+                                <span class="age-group">Visitante:</span>
+                                <span class="total-quantity">0</span>
+                                <span class="total-value">R$ 0,00</span>
+                            </div>
+                    
+                            <!-- Total Geral -->
+                            <div class="total-item geral">
                                 <span>Total Geral:</span>
-                                <span class="total-value geral">0</span>
+                                <span class="total-value geral">R$ 0,00</span>
                             </div>
-                        </div>
+                        </div>                        
                     </div>
+                    
                 </div>
             </div>
         </form>
-        
+    
         <button>GERAR PAGAMENTO</button>
-        
+    
+        <!-- Modal de Pagamento -->
+        <div id="payment-modal" class="payment-modal">
+            <div class="payment-modal-content">
+                <span class="close-btn" id="close-payment-modal">&times;</span>
+                <h2>Selecione a Forma de Pagamento</h2>
+                <!-- Total Geral e Valor Final -->
+                <div class="payment-info-wrapper">
+                    <!-- Coluna única com total geral -->
+                    <div class="payment-info-left">
+                        <p><strong>Total Geral:</strong> <label id="total-quantity-modal">12</label></p>
+                    </div>
+
+                    <!-- Coluna central com valor final -->
+                    <div class="payment-info-center">
+                        <p><strong>Valor Final:</strong> <label id="total-value-modal"></label></p>
+                    </div>
+                </div>
+
+                <div class="input-group-payment">
+                    <div class="icon-add">
+                        <i class="bi bi-plus-circle-fill"></i>
+                    </div>
+
+                    <div class="input-group-payment-left">
+                        <label for="payment-type">Forma de pagamento:</label>
+                        <select class="select-payment" id="payment-type">
+                            <option value="Dinheiro">Dinheiro</option>
+                            <option value="PIX">PIX</option>
+                            <option value="Debito">Débito</option>
+                            <option value="Credito">Crédito</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group-payment-right">
+                        <label for="amount">Valor:</label>
+                        <input type="number" class="input-amount" id="amount" placeholder="R$ 00,00">
+                    </div>
+                </div>
+                <div class="payment-button-container">
+                    <button type="button" class="btn-submit-payment">Finalizar Pagamento</button>
+                </div>
+            </div>
+        </div>
     </div>
+    
 
     <div class="ticket-content">
         <div class="table-container">
@@ -234,30 +289,40 @@
                 </div>
             </div>
 
-            <div class="payment-container">
-                <div class="input-group-payment">
-                    <div class="icon-add">
-                        <i class="bi bi-plus-circle-fill"></i>
+            <!-- Modal de Pagamento -->
+            <div id="payment-modal" class="payment-modal">
+                <div class="payment-modal-content">
+                    <span class="close-btn" id="close-payment-modal">&times;</span>
+                    <h2>Selecione a Forma de Pagamento</h2>
+
+                    <div class="payment-container">
+                        <div class="input-group-payment">
+                            <div class="icon-add">
+                                <i class="bi bi-plus-circle-fill"></i>
+                            </div>
+
+                            <div class="input-group-payment-left">
+                                <label for="payment-type">Forma de pagamento:</label>
+                                <select class="select-payment" id="payment-type">
+                                    <option value="Dinheiro">Dinheiro</option>
+                                    <option value="PIX">PIX</option>
+                                    <option value="Debito">Débito</option>
+                                    <option value="Credito">Crédito</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group-payment-right">
+                                <label for="amount">Valor:</label>
+                                <input type="number" class="input-amount" id="amount" placeholder="R$ 00,00">
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="input-group-payment-left">
-                        <label for="payment-type">Forma de pagamento:</label>
-                        <select class="select-payment" id="payment-type">
-                            <option value="Dinheiro">Dinheiro</option>
-                            <option value="PIX">PIX</option>
-                            <option value="Debito">Débito</option>
-                            <option value="Credito">Crédito</option>
-                        </select>
+
+                    <div class="payment-button-container">
+                        <button type="button" class="btn-submit-payment">Finalizar Pagamento</button>
                     </div>
-                
-                    <div class="input-group-payment-right">
-                        <label for="amount">Valor:</label>
-                        <input type="number" class="input-amount" id="amount" placeholder="R$ 00,00">
-                    </div>
-                </div>              
+                </div>
             </div>
-            
-            
             <div class="button-container">            
                 <button class="btn-save">SALVAR</button>
             </div>
@@ -330,6 +395,13 @@
                 <span class="close-btn-expenses">&times;</span>
                 <h2 class="popup-title">Registrar Despesa</h2>
                 <div class="popup-expenses">
+                    <div class="input-grup-popup">
+                        <label class="Tipo-saida">Tipo:</label>
+                        <select class="select-payment" id="Tipo-saida">
+                            <option value="Entrada">Entrada</option>
+                            <option value="Saida">Saida</option>
+                        </select>
+                    </div>
                     <div class="input-grup-popup">
                         <label for="">Responsável:</label>
                         <input type="text" name="" class="input-responsible">
