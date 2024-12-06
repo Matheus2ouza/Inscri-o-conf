@@ -30,7 +30,7 @@
     },
     {
       "src": "/inscricao",
-      "dest": "/page/inscription.html"
+      "dest": "/page/inscriptionError.html"
     },
     {
       "src": "/pagamento",
