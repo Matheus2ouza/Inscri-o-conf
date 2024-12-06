@@ -256,10 +256,17 @@ export async function registrarInscricaoAvulsa(tipoInscricaoId, vlTotal, data, d
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                tipo_inscricao_id: tipoInscricaoId,
+                tipo_inscricao_id: tipoInscricaoId, 
+                qtd_masculino_06: detalhes.qtd_masculino_06 || 0,
+                qtd_feminino_06: detalhes.qtd_feminino_06 || 0,
+                qtd_masculino_7_10: detalhes.qtd_masculino_7_10 || 0,
+                qtd_feminino_7_10: detalhes.qtd_feminino_7_10 || 0,
+                qtd_masculino_normal: detalhes.qtd_masculino_normal || 0,
+                qtd_feminino_normal: detalhes.qtd_feminino_normal || 0,
+                qtd_masculino_visitante: detalhes.qtd_masculino_visitante || 0,
+                qtd_feminino_visitante: detalhes.qtd_feminino_visitante || 0,
                 vl_total: vlTotal,
-                data: data,
-                detalhes: detalhes
+                data: data 
             })
         });
 
@@ -270,42 +277,65 @@ export async function registrarInscricaoAvulsa(tipoInscricaoId, vlTotal, data, d
     }
 }
 
-export async function registrarVendaAlimentacao(descricao, quantidade, precoUnitario, dataVenda) {
+
+export async function registrarVendaAlimentacao(tipoRefeicao, quantidade, precoUnitario, dataVenda, formPagamento) {
     try {
-        console.log(descricao, quantidade, precoUnitario, dataVenda);
-        const response = await fetch(`${apiUrl}/venda-alimentacao`, {
+        console.log(tipoRefeicao, quantidade, precoUnitario, dataVenda, formPagamento);
+        
+        
+        const responseVenda = await fetch(`${apiUrl}/venda-alimentacao`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                descricao: descricao,
+                tipo_refeicao: tipoRefeicao, 
                 quantidade: quantidade,
-                preco_unitario: precoUnitario,
-                data_venda: dataVenda
+                valortotal: precoUnitario * quantidade 
             })
         });
 
-        return response.status; 
+        if (responseVenda.status === 200) {
+            const vendaData = await responseVenda.json(); 
+
+            
+            const responseDetalhe = await fetch(`${apiUrl}/venda-alimentacao-detalhes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id_alimentacao: vendaData.id, 
+                    valor: precoUnitario * quantidade, 
+                    formapagamento: formPagamento 
+                })
+            });
+
+            return responseDetalhe.status;
+        }
+
+        return responseVenda.status; 
     } catch (error) {
         console.error('Erro ao registrar venda de alimentação:', error);
         return 500; 
     }
 }
 
-export async function registrarEntradaCaixa(tipoTransacao, valor, dataTransacao, descricao) {
+
+export async function registrarEntradaCaixa(tipoTransacao, valor, dataTransacao, descricao, responsavel) {
     try {
-        console.log(tipoTransacao, valor, dataTransacao, descricao);
+        console.log(tipoTransacao, valor, dataTransacao, descricao, responsavel);
         const response = await fetch(`${apiUrl}/caixa`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                tipo_transacao: tipoTransacao,
-                valor: valor,
-                data_transacao: dataTransacao,
-                descricao: descricao
+                descricao: descricao, 
+                responsavel: responsavel, 
+                valor: valor, 
+                tipomovimento: tipoTransacao, 
+                data: dataTransacao 
             })
         });
 
