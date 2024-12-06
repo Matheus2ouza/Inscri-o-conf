@@ -53,6 +53,10 @@
       "dest": "/page/hostingPage.html"
     },
     {
+      "src": "/comprovante",
+      "dest": "/page/proofPayment.html"
+    },
+    {
       "src": "/style/(.*)",
       "dest": "/style/$1"
     },
