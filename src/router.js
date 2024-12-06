@@ -250,6 +250,7 @@ export async function getComprovantes() {
 export async function registrarInscricaoAvulsa(tipoInscricaoId, vlTotal, data, detalhes) {
     try {
         console.log(tipoInscricaoId, vlTotal, data, detalhes);
+       
         const response = await fetch(`${apiUrl}/inscricao-avulsa`, {
             method: 'POST',
             headers: {
@@ -270,10 +271,27 @@ export async function registrarInscricaoAvulsa(tipoInscricaoId, vlTotal, data, d
             })
         });
 
-        return response.status; 
+        if (response.status === 201) {
+            const inscricaoData = await response.json();
+            
+            const responseDetalhe = await fetch(`${apiUrl}/inscricao-avulsa/detalhes/${inscricaoData.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    valor: vlTotal,
+                    formapagamento: detalhes.formapagamento
+                })
+            });
+
+            return responseDetalhe.status;
+        }
+
+        return response.status;
     } catch (error) {
         console.error('Erro ao registrar inscrição avulsa:', error);
-        return 500; 
+        return 500;
     }
 }
 
@@ -281,8 +299,7 @@ export async function registrarInscricaoAvulsa(tipoInscricaoId, vlTotal, data, d
 export async function registrarVendaAlimentacao(tipoRefeicao, quantidade, precoUnitario, dataVenda, formPagamento) {
     try {
         console.log(tipoRefeicao, quantidade, precoUnitario, dataVenda, formPagamento);
-        
-        
+
         const responseVenda = await fetch(`${apiUrl}/venda-alimentacao`, {
             method: 'POST',
             headers: {
@@ -295,17 +312,15 @@ export async function registrarVendaAlimentacao(tipoRefeicao, quantidade, precoU
             })
         });
 
-        if (responseVenda.status === 200) {
-            const vendaData = await responseVenda.json(); 
+        if (responseVenda.status === 201) {
+            const vendaData = await responseVenda.json();
 
-            
-            const responseDetalhe = await fetch(`${apiUrl}/venda-alimentacao-detalhes`, {
+            const responseDetalhe = await fetch(`${apiUrl}/venda-alimentacao/detalhes/${vendaData.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    id_alimentacao: vendaData.id, 
                     valor: precoUnitario * quantidade, 
                     formapagamento: formPagamento 
                 })
@@ -314,10 +329,10 @@ export async function registrarVendaAlimentacao(tipoRefeicao, quantidade, precoU
             return responseDetalhe.status;
         }
 
-        return responseVenda.status; 
+        return responseVenda.status;
     } catch (error) {
         console.error('Erro ao registrar venda de alimentação:', error);
-        return 500; 
+        return 500;
     }
 }
 
@@ -345,3 +360,4 @@ export async function registrarEntradaCaixa(tipoTransacao, valor, dataTransacao,
         return 500;
     }
 }
+
