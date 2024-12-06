@@ -253,24 +253,38 @@ function updatePaymentInfo() {
 
 // Função para abrir o modal de pagamento
 function openPaymentModal() {
-    const totalValueElement = document.querySelector('#total-value'); // Assumindo que você tenha esse elemento no seu código
-    const totalQuantityElement = document.querySelector('#total-quantity');
+    // Localizando o elemento que contém o total geral
+    const totalValueElement = document.querySelector('.total-value.geral'); // Busca pelo total geral no painel
+    const totalQuantityElement = document.querySelector('.totais .total-quantity[data-faixa="geral"]'); // Ajuste se necessário
 
-    if (!totalValueElement || !totalQuantityElement) {
-        console.error("Elementos de total geral não encontrados!");
-        return; // Caso os elementos não existam, não faça nada
+    if (!totalValueElement) {
+        console.error("Elemento de total geral não encontrado!");
+        return;
     }
 
+    // Obtendo os valores necessários
     const totalGeral = totalValueElement.textContent.replace('R$', '').trim();
-    const totalQuantity = totalQuantityElement.textContent;
     
     // Exibir o modal
     document.getElementById('payment-modal').style.display = 'flex';
 
     // Atualizar as informações no modal de pagamento
-    document.querySelector('#total-quantity-modal').textContent = totalQuantity; // Atualizando o Total Geral
-    document.querySelector('#total-value-modal').textContent = `R$ ${totalGeral}`; // Atualizando o Valor Final
+    document.querySelector('#total-quantity-modal').textContent = "N/A"; // Atualize para refletir a quantidade geral (se necessário)
+    document.querySelector('#total-value-modal').textContent = `R$ ${totalGeral}`;
 }
+
+function calculateTotalQuantity() {
+    let totalQuantity = 0;
+
+    document.querySelectorAll('.totais .total-quantity').forEach(element => {
+        totalQuantity += parseInt(element.textContent) || 0;
+    });
+
+    return totalQuantity;
+}
+
+const totalQuantity = calculateTotalQuantity();
+document.querySelector('#total-quantity-modal').textContent = totalQuantity;
 
 
 // Função para finalizar o pagamento
