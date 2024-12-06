@@ -22,6 +22,21 @@ export async function getLocations() {
     return cities;
 }
 
+export async function getDataLocations() {
+    try {
+        const response = await fetch (`${apiUrl}/localidades`)
+
+        if(!response.ok) {
+            throw new console.log(`Erro ao buscar os dados: ${response.status}: ${response.statusText}`)
+        }
+
+        const data = await response.json();
+        return data
+    } catch(error) {
+        console.log(`Error: ${error.message}`)
+    }
+}
+
 export async function registrarInscricao(registrationData) {
     try {
         const response = await fetch(`${apiUrl}/registro`, {
@@ -194,3 +209,39 @@ export async function generatePdf(localidade = null) {
     }
 }
 
+export async function getpaymentReceipts() {
+    try {
+        const response = await fetch(`${apiUrl}/comprovantes`);
+        
+        // Verificando se a resposta foi bem-sucedida (status 200-299)
+        if (!response.ok) {
+            console.error(`Erro ao buscar a lista: ${response.status} ${response.statusText}`);
+            return null; // Retorna null ou um valor adequado em caso de erro
+        }
+
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error(`Erro inesperado: ${error.message}`);
+        return null; // Retorna null ou outro valor em caso de erro
+    }
+}
+
+// Função para buscar os comprovantes
+export async function getComprovantes() {
+    try {
+        // Fazendo requisição para a rota GET /comprovantes
+        const response = await fetch(`${apiUrl}/buscarComporvante`);
+        
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar comprovantes: ${response.status} ${response.statusText}`);
+        }
+        
+        const data = await response.json();
+        return data.comprovantes; // Retorna a lista de comprovantes
+
+    } catch (error) {
+        console.error('Erro ao carregar comprovantes:', error);
+    }
+}

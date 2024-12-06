@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style/proofPayment.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Busca de Saldo</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="">Comprovantes</a>
+            <span id="connection-status" class="connection-status online">Online</span>
+        </div>
+        <div class="nav-right">
+            <input type="checkbox" class="checkbox" id="chk">
+            <label for="chk" class="label">
+                <i class="bi bi-brightness-high-fill"></i>
+                <i class="bi bi-moon-fill"></i>
+                <div class="ball"></div>
+            </label>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="container-left">
+            <div class="container-search">
+                <div class="form-group">
+                    <label for="input1" class="label-locality">Buscar Localidade:</label>
+                    <input type="text" id="input1" autocomplete="off" placeholder="Selecione o nome da cidade">
+                    <div id="suggestions" class="suggestions"></div>
+                </div>
+                <div class="search"><button class="search-locality">BUSCAR</button></div>
+            </div>
+
+            <div class="data-locality">
+                <div class="first-column-data">
+                    <div class="data">
+                        <p>Localidade: </p>
+                        <p class="data-locality-name"></p>
+                    </div>
+                    <div class="data">
+                        <p>Responsavel: </p>
+                        <p class="data-locality-responsible"></p>
+                    </div>
+                    <div class="data">
+                        <p>quantidade: </p>
+                        <p class="data-locality-qtd"></p>
+                    </div>
+                    <div class="status">PAGO</div>
+                </div>
+                <div class="second-column-data">
+                    <div class="data-second">
+                        <p>0-6:</p>
+                        <p class="data-06-qtd"></p>
+                    </div>
+                    <div class="data-second">
+                        <p>7-10:</p>
+                        <p class="data-710-qtd"></p>
+                    </div>
+                    <div class="data-second">
+                        <p>10+:</p>
+                        <p class="data-10more-qtd"></p>
+                    </div>
+                    <div class="data-second">
+                        <p>Serviço:</p>
+                        <p class="data-service-qtd"></p>
+                    </div>
+                    <div class="data-second">
+                        <p>participação:</p>
+                        <p class="data-participation-qtd"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="table-locality">
+                <div class="first-table">
+                    <!-- Título para a primeira tabela -->
+                    <h1>Status das localidades</h1>
+                    <table class="locality-table">
+                        <thead>
+                            <tr>
+                                <th class="col-number">Nº</th>
+                                <th class="col-locality">Localidade</th>
+                                <th class="col-payment">Saldo devedor</th>
+                                <th class="col-status">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="second-table">                    
+                    <!-- Título para a segunda tabela -->
+                    <h1 class="hidden">Histórico de pagamentos</h1>
+                    <table class="table-payments hidden">
+                        <thead>
+                            <tr>
+                                <th class="payment-number">Nº</th>
+                                <th class="payment-value">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <!-- Div de aviso -->
+                    <div class="no-data-message">
+                        Localidade não selecionada ou não há comprovantes.
+                    </div>
+                </div>
+                
+            </div>
+            
+            
+        </div>
+
+        <div class="container-right">
+            <div class="saldo-total">
+                <label class="title-saldo">SALDO TOTAL</label>
+                <label class="value">R$: 0,00</label>
+            </div>
+            <div class="saldo-devedor">
+                <label class="title-saldo">SALDO TOTAL</label>
+                <label class="value">R$: 0,00</label>
+            </div>
+        </div>
+    </div>
+    <div class="container-bottom">
+        <div class="proof-payment" id="gallery">
+            
+        </div>    
+    </div>
+    
+    <div id="imageModal" class="modal hidden">
+        <div class="modal-controls">
+            <button id="zoomIn">+</button>
+            <button id="zoomOut">-</button>
+            <button id="resetZoom">⟳</button>
+            <span class="close">&times;</span>
+        </div>
+        <img class="modal-content" id="modalImage" />
+        <object class="modal-content" id="modalPDF" type="application/pdf"></object>
+        <div id="caption"></div>
+    </div>
+    
+    
+    
+    <div class="loader-background">
+        <div class="simple-loader"></div>
+    </div>
+
+    <script type="module" src="../src/proofPayment.js"></script>
+</body>
+</html>
