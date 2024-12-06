@@ -1,0 +1,1540 @@
+/* Importando a fonte Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/* Reseta o box-sizing e remove margens/paddings para todos os elementos */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif; /* Define a fonte padrão */
+}
+
+/* Estilos gerais para o corpo */
+body {
+    display: flex;
+    flex-direction: column; /* Organiza o layout em coluna */
+    height: 100vh;
+    background-color: #f2f2f2; /* Cor de fundo clara */
+    transition: background-color 0.3s, color 0.3s; /* Transições suaves para mudanças de cor */
+}
+
+/* Modo escuro para o corpo */
+body.dark-mode {
+    background-color: #121212; /* Cor de fundo escura */
+    color: #e0e0e0; /* Cor do texto clara */
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    align-items: center; /* Alinha itens verticalmente */
+    height: 90px; /* Altura da navbar */
+    box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+    background-color: #3c5672; /* Cor de fundo da navbar */
+    width: 100%; /* Ocupa a largura total */
+    padding: 0 20px; /* Espaçamento horizontal interno */
+    position: fixed; /* Navbar fixa no topo */
+    top: 0; /* Posicionada no topo */
+    z-index: 1000; /* Mantém a navbar acima de outros elementos */
+    flex-wrap: wrap; /* Permite que itens quebrem para nova linha se necessário */
+}
+
+/* Divisão dos itens da navbar em três seções */
+.nav-left, .nav-center, .nav-right {
+    display: flex;
+    align-items: center; /* Alinha itens verticalmente */
+}
+
+/* Lista de links na seção esquerda da navbar */
+.nav-left ul {
+    list-style: none; /* Remove marcadores da lista */
+    display: flex;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+}
+
+/* Itens da lista na navbar esquerda */
+.nav-left ul li {
+    margin: 0 10px; /* Espaçamento entre itens */
+}
+
+/* Links da lista na navbar esquerda */
+.nav-left ul li a {
+    text-decoration: none; /* Remove sublinhado */
+    font-weight: bold; /* Fonte em negrito */
+    text-transform: uppercase; /* Texto em maiúsculas */
+    font-size: 1.1rem; /* Tamanho da fonte */
+    color: #fff; /* Cor do texto branco */
+    letter-spacing: 0.1em; /* Espaçamento entre letras */
+}
+
+/* Seção central da navbar */
+.nav-center {
+    flex: 1; /* Ocupa espaço flexível */
+    justify-content: center; /* Centraliza o conteúdo */
+    color: #fff; /* Cor do texto branco */
+    font-weight: bold; /* Texto em negrito */
+    font-size: 1.1rem; /* Tamanho da fonte */
+    text-transform: uppercase; /* Texto em maiúsculas */
+    letter-spacing: 0.1em; /* Espaçamento entre letras */
+    align-items: flex-end; /* Alinha ao final verticalmente */
+}
+
+/* Links adicionais na seção central da navbar */
+.nav-center .navbar-links {
+    display: flex;
+    justify-content: flex-start; /* Alinha ao início horizontalmente */
+    align-items: center; /* Alinha itens verticalmente */
+    width: 100%;
+    margin-top: 55px; /* Espaço acima dos links */
+    gap: 10px; /* Espaçamento entre links */
+    padding-left: 250px; /* Espaço à esquerda */
+}
+
+/* Estilo dos links na seção central da navbar */
+.nav-center .navbar-links a {
+    text-decoration: none; /* Remove sublinhado */
+    color: #fff; /* Cor do texto branco */
+    font-size: 1.1rem; /* Tamanho da fonte reduzido */
+    margin: 5px 0; /* Margem vertical */
+    height: 30px; /* Altura do link */
+    width: 115px; /* Largura do link */
+    display: flex;
+    align-items: center; /* Centraliza texto verticalmente */
+    justify-content: center; /* Centraliza texto horizontalmente */
+    border-radius: 5px 5px 0 0; /* Bordas arredondadas na parte superior */
+}
+
+/* Seção direita da navbar */
+.nav-right {
+    margin-left: auto; /* Move para o final da linha flex */
+    display: flex;
+    height: 100%; /* Ocupa a altura total da navbar */
+}
+
+/* Modo escuro para a navbar */
+body.dark-mode nav {
+    background-color: #1c1c1c; /* Cor de fundo escura para a navbar no modo escuro */
+}
+
+/* Checkbox invisível para alternância do modo claro/escuro */
+.checkbox {
+    position: absolute; /* Posiciona o checkbox fora do fluxo do layout */
+    opacity: 0; /* Deixa o checkbox invisível */
+}
+
+/* Estilos do botão de alternância do modo escuro */
+nav .label {
+    background-color: #111; /* Cor de fundo do botão */
+    border-radius: 50px; /* Bordas arredondadas para o botão */
+    cursor: pointer; /* Cursor de mão para indicar que é clicável */
+    display: flex;
+    align-items: center; /* Centraliza verticalmente o conteúdo */
+    justify-content: space-between; /* Espaça os ícones de sol e lua */
+    padding: 5px; /* Espaçamento interno */
+    position: relative; /* Posicionamento relativo para o movimento da bola */
+    height: 26px; /* Altura do botão */
+    width: 50px; /* Largura do botão */
+    transform: scale(0.9); /* Reduz ligeiramente o tamanho */
+}
+
+/* Bola dentro do botão de alternância */
+.label .ball {
+    background-color: #fff; /* Cor da bola */
+    border-radius: 50%; /* Deixa a bola redonda */
+    position: absolute; /* Posiciona a bola para facilitar a animação */
+    top: 2.1px; /* Posiciona a bola verticalmente */
+    left: 2px; /* Posiciona a bola horizontalmente */
+    height: 20px; /* Altura da bola */
+    width: 20px; /* Largura da bola */
+    transform: translateX(0px); /* Posição inicial da bola */
+    transition: transform 0.2s linear; /* Transição suave da bola */
+}
+
+/* Movimento da bola ao alternar o checkbox */
+.checkbox:checked + .label .ball {
+    transform: translateX(24px); /* Move a bola para a direita ao alternar */
+}
+
+/* Ícone de sol para o modo claro */
+.bi-brightness-high-fill {
+    color: #f1c40f; /* Cor dourada para o ícone de sol */
+}
+
+/* Ícone de lua para o modo escuro */
+.bi-moon-fill {
+    color: #fff; /* Cor branca para o ícone de lua */
+}
+
+/* Configuração da tabela de inscrição */
+.registration-table {
+    width: 100%; /* Largura total da tabela */
+    border-collapse: collapse; /* Colapsa as bordas da tabela */
+    margin-top: 20px; /* Espaçamento acima da tabela */
+}
+
+/* Estilos das células da tabela */
+.registration-table th, .registration-table td {
+    border: 1px solid #ccc; /* Borda cinza clara */
+    padding: 25px; /* Aumenta o espaçamento interno */
+    text-align: center; /* Centraliza o texto */
+}
+
+/* Estilos para cabeçalhos da tabela */
+.registration-table th {
+    background-color: #f2f2f2; /* Cor de fundo dos cabeçalhos */
+    font-weight: bold; /* Texto em negrito para cabeçalhos */
+}
+
+/* Inputs dentro das células da tabela */
+.registration-table td input {
+    width: 100%; /* Define a largura dos inputs como 100% */
+    max-width: none; /* Remove o limite de largura máxima dos inputs */
+}
+
+/* Estilos para o formulário */
+.form-container {
+    display: flex; /* Usa flexbox para layout */
+    flex-direction: column; /* Alinha itens verticalmente */
+    width: 90%; /* Aumenta a largura do formulário */
+    margin-top: 120px; /* Ajuste para não ficar coberto pela navbar */
+    margin-left: 20px; /* Espaçamento à esquerda */
+}
+
+/* Grupo de campos do formulário */
+.form-group {
+    display: flex;
+    align-items: center; /* Alinha itens verticalmente */
+}
+
+/* Estilos para os rótulos dos campos */
+label {
+    margin-bottom: 5px; /* Espaço abaixo dos rótulos */
+    font-weight: bold; /* Texto em negrito para destaque */
+}
+/* Estilos básicos para inputs */
+input {
+    padding: 8px; /* Espaçamento interno para conforto ao digitar */
+    border: 1px solid #ccc; /* Borda cinza clara */
+    border-radius: 4px; /* Bordas arredondadas */
+    font-size: 16px; /* Tamanho da fonte */
+    width: 160%; /* Aumenta a largura dos inputs */
+    max-width: 600px; /* Limite máximo de largura */
+    box-sizing: border-box; /* Inclui borda e padding no cálculo da largura */
+}
+
+/* Estilos para o placeholder dos inputs */
+input::placeholder {
+    color: #949494; /* Cor do placeholder */
+    font-size: 0.75rem; /* Tamanho menor da fonte para o placeholder */
+}
+
+#input1 {
+    width: 400px;
+}
+
+/* Classe para ocultar elementos */
+.hidden {
+    display: none !important; /* Oculta o elemento */
+}
+
+/* Classe para destacar o item ativo */
+.active {
+    background-color: #fff; /* Fundo branco para o item ativo */
+    color: #111 !important; /* Cor do texto preto */
+}
+
+/* Loader circular simples */
+.simple-loader {
+    position: fixed; /* Fixa o loader no centro da tela */
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta para o centro exato */
+    width: 50px; /* Largura do loader */
+    height: 50px; /* Altura do loader */
+    border: 6px solid #f3f3f3; /* Borda externa do loader */
+    border-radius: 50%; /* Forma redonda */
+    border-top: 6px solid #3498db; /* Cor do topo do loader para girar */
+    animation: spin 1s linear infinite; /* Animação de rotação contínua */
+    z-index: 1001; /* Posição acima de outros elementos */
+}
+
+/* Fundo semi-transparente para o loader */
+.loader-background {
+    position: fixed; /* Cobre a tela inteira */
+    top: 0;
+    left: 0;
+    width: 100%; /* Largura total */
+    height: 100%; /* Altura total */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo preto semi-transparente */
+    z-index: 1000; /* Colocado abaixo do loader */
+}
+
+/* Animação de rotação para o loader */
+@keyframes spin {
+    0% { transform: rotate(0deg); } /* Início da rotação */
+    100% { transform: rotate(360deg); } /* Completa uma rotação completa */
+}
+
+/* Classe para ocultar o loader */
+.hiddenLoader {
+    display: none; /* Oculta o loader */
+}
+
+/* Contêiner para o input */
+.input-container {
+    position: relative; /* Posiciona elementos internos relativamente */
+    width: 100%; /* Largura total do contêiner */
+}
+
+/* Sugestões de preenchimento automático */
+#suggestions {
+    display: none; /* Oculta por padrão */
+    position: absolute; /* Posiciona sugestões abaixo do input */
+    top: calc(100%); /* Espaçamento para ficar logo abaixo do input */
+    left: 0; /* Alinha à esquerda do input */
+    width: 400px; /* Largura da lista de sugestões */
+    background-color: #fff; /* Fundo branco */
+    border: 1px solid #ccc; /* Borda cinza clara */
+    border-radius: 4px; /* Bordas arredondadas */
+    max-height: 150px; /* Altura máxima para rolagem */
+    overflow-y: auto; /* Rolagem vertical, se necessário */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para efeito de profundidade */
+    z-index: 1000; /* Acima de outros elementos */
+}
+
+/* Item individual da lista de sugestões */
+.suggestion-item {
+    padding: 8px; /* Espaçamento interno */
+    cursor: pointer; /* Indica que é clicável */
+}
+
+/* Efeito ao passar o mouse em um item de sugestão */
+.suggestion-item:hover {
+    background-color: #f0f0f0; /* Fundo claro ao passar o mouse */
+}
+
+/* Modo escuro para a tabela e lista de sugestões */
+body.dark-mode .registration-table th {
+    background-color: #333; /* Fundo escuro para o cabeçalho */
+    color: #e0e0e0; /* Cor do texto clara */
+}
+
+body.dark-mode .registration-table td {
+    background-color: #222; /* Fundo escuro para células */
+    color: #e0e0e0; /* Cor do texto clara */
+    border: 1px solid #444; /* Borda mais escura */
+}
+
+body.dark-mode #suggestions {
+    background-color: #222; /* Fundo escuro para a lista de sugestões */
+    border: 1px solid #444; /* Borda mais escura */
+}
+
+body.dark-mode .suggestion-item {
+    color: #e0e0e0; /* Texto claro para sugestões no modo escuro */
+}
+
+/* Contêiner para a tabela de inscrição e a seção de totais */
+.registration-table-container {
+    display: flex; /* Usa flexbox para layout lado a lado */
+    justify-content: space-between; /* Espaço entre a tabela e a seção de totais */
+}
+
+/* Estilos da tabela de inscrição */
+.registration-table {
+    flex: 1; /* Permite que a tabela ocupe espaço flexível */
+    margin-right: 20px; /* Espaço entre a tabela e a seção de totais */
+}
+
+/* Seção de totais */
+.totais {
+    width: 400px; /* Largura fixa para a seção de totais */
+    margin-top: 20px; /* Remover margem superior */
+    padding: 15px; /* Espaçamento interno */
+    border: 1px solid #ccc; /* Borda cinza */
+    border-radius: 8px; /* Bordas arredondadas */
+    background-color: #f9f9f9; /* Fundo claro */
+}
+
+/* Título da seção de totais */
+.totais h2 {
+    margin-bottom: 10px; /* Espaçamento inferior */
+    text-align: center; /* Centraliza o título */
+}
+
+/* Linha de totalização */
+.total-row {
+    display: flex;
+    flex-direction: column; /* Alinha itens verticalmente */
+    align-items: flex-start; /* Alinha itens à esquerda */
+}
+/* Estilos para o item de totalização individual */
+.total-item {
+    display: flex; /* Usar flexbox para alinhar texto e valor */
+    justify-content: space-between; /* Espaço entre texto e valor */
+    width: 100%; /* Largura total do item */
+    padding: 5px 10px; /* Espaçamento interno */
+    border-bottom: 1px solid #ddd; /* Linha de separação inferior */
+}
+
+/* Estilo para o valor de quantidade total */
+.total-quantity {
+    margin-top: 4px; /* Espaçamento superior */
+    margin-left: 5px; /* Espaço lateral */
+}
+
+/* Grupo etário com destaque */
+.age-group {
+    font-size: 1.2rem; /* Tamanho da fonte maior */
+    font-weight: bold; /* Texto em negrito */
+}
+
+/* Último item de totalização */
+.total-item:last-child {
+    border-bottom: none; /* Remove a linha de separação */
+    font-weight: bold; /* Negrito */
+    font-size: 1.2rem; /* Tamanho da fonte maior */
+}
+
+/* Estilo para o valor total */
+.total-value {
+    margin-left: auto; /* Alinha à direita */
+    color: #333; /* Cor do texto */
+}
+
+/* Destaque para o total geral */
+.geral {
+    color: #007bff; /* Azul para o total geral */
+}
+
+/* Remover setas de incremento e decremento em inputs numéricos no Webkit (Chrome, Safari) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Remove as setas */
+    margin: 0; /* Remove margem */
+}
+
+/* Remover setas de incremento e decremento em Firefox */
+input[type="number"] {
+    -moz-appearance: textfield; /* Estilo como campo de texto */
+}
+
+/* Modo escuro para a seção de totais */
+body.dark-mode .totais {
+    background-color: #1c1c1c; /* Fundo escuro */
+    border: 1px solid #444; /* Borda mais escura */
+}
+
+body.dark-mode .totais h2 {
+    color: #e0e0e0; /* Cor clara para o título */
+}
+
+body.dark-mode .total-value {
+    color: #e0e0e0; /* Cor clara para valores */
+}
+
+body.dark-mode input {
+    background-color: #333; /* Fundo escuro para inputs */
+    color: #e0e0e0; /* Cor do texto clara */
+    border: 1px solid #444; /* Borda escura */
+}
+
+body.dark-mode input::placeholder {
+    color: #bbb; /* Cor clara para placeholder */
+}
+
+body.dark-mode .loader-background {
+    background-color: rgba(18, 18, 18, 0.8); /* Fundo escuro opaco para o loader */
+}
+
+body.dark-mode .simple-loader {
+    border-top: 6px solid #3498db; /* Cor do loader no topo */
+}
+
+body.dark-mode .suggestion-item:hover {
+    background-color: #444; /* Fundo escuro ao passar o mouse sobre sugestões */
+}
+
+body.dark-mode .geral {
+    color: #f93232; /* Vermelho para o total geral */
+}
+
+/* Estilos para o grupo de seleção de pagamento */
+.payment-select-group {
+    display: flex; /* Alinhamento em flexbox */
+    flex-direction: column; /* Elementos alinhados verticalmente */
+    width: 400px; /* Largura fixa */
+    margin-left: 200px; /* Margem à esquerda */
+}
+
+.payment-select-group label {
+    margin-bottom: 0; /* Remove espaçamento inferior */
+    font-weight: bold; /* Texto em negrito */
+    font-size: 1rem; /* Tamanho do rótulo */
+}
+
+/* Estilo do seletor de pagamento */
+.payment-select-group select {
+    padding: 8px; /* Espaçamento interno igual ao input */
+    border: 1px solid #ccc; /* Borda cinza */
+    border-radius: 4px; /* Bordas arredondadas */
+    font-size: 16px; /* Tamanho da fonte */
+    width: 100%; /* Largura completa */
+    max-width: 600px; /* Limite máximo de largura */
+    box-sizing: border-box; /* Inclui padding e borda na largura */
+    background-color: #fff; /* Fundo branco */
+    transition: border-color 0.2s; /* Transição suave na borda ao focar */
+    height: 40px; /* Altura do seletor */
+}
+
+/* Cor da borda ao focar no seletor */
+.payment-select-group select:focus {
+    border-color: #007bff; /* Azul ao focar */
+    outline: none; /* Remove contorno de foco padrão */
+}
+
+/* Estilo para opções do seletor */
+.payment-select-group select option {
+    padding: 10px; /* Espaçamento interno */
+}
+
+/* Modo escuro para o seletor de pagamento */
+body.dark-mode .payment-select-group select {
+    background-color: #333; /* Fundo escuro */
+    color: #e0e0e0; /* Texto claro */
+    border: 1px solid #444; /* Borda escura */
+}
+
+body.dark-mode .payment-select-group label {
+    color: #e0e0e0; /* Texto claro para rótulo */
+}
+
+body.dark-mode .payment-select-group select:focus {
+    border-color: #007bff; /* Borda azul ao focar */
+}
+
+/* Placeholder para seletor em modo escuro */
+body.dark-mode .payment-select-group select::placeholder {
+    color: #bbb; /* Cor clara para placeholder */
+}
+/* Estilos para telas pequenas */
+@media (max-width: 768px) {
+    nav {
+        height: 100px; /* Ajusta a altura da navbar */
+    }
+
+    .input-container input {
+        width: 320px; /* Largura dos inputs */
+    }
+
+    #suggestions {
+        width: 320px; /* Largura da lista de sugestões */
+    }
+
+    .nav-center .navbar-links {
+        flex-direction: row; /* Alinhamento horizontal */
+        justify-content: center; /* Centraliza os links */
+        padding-left: 0; /* Remove o padding esquerdo */
+        margin-top: 0; /* Remove a margem superior */
+    }
+
+    .nav-center {
+        flex-direction: column; /* Muda para coluna */
+        align-items: center; /* Centraliza verticalmente */
+        margin-bottom: -19px; /* Ajusta margem inferior */
+    }
+
+    .nav-center .navbar-links a {
+        margin: 5px; /* Ajusta a margem entre os links */
+        font-size: 0.9rem; /* Aumenta um pouco o tamanho dos links */
+        height: 30px; /* Altura ajustada */
+        width: 100px; /* Largura ajustada */
+    }
+
+    .nav-right {
+        position: absolute; /* Coloca o checkbox no canto direito */
+        right: 10px; /* Espaçamento à direita */
+        bottom: 24px;
+    }
+
+    .title {
+        font-size: 1.2rem; /* Tamanho do título */
+        margin-bottom: 5px; /* Espaçamento abaixo do título */
+        margin-left: -20px; /* Ajuste à esquerda */
+    }
+
+    .form-container {
+        margin-bottom: 20px; /* Espaçamento abaixo do formulário */
+    }
+
+    .registration-table-container {
+        flex-direction: column; /* Muda a direção para coluna */
+        align-items: stretch; /* Estica os filhos para ocupar toda a largura */
+        width: 100%; /* Ajuste para permitir que a tabela use a largura total */
+        max-width: 100%; /* Define a largura máxima para 100% */
+        margin: 0 auto; /* Centraliza o contêiner */
+    }
+
+    .registration-table {
+        margin-right: 0; /* Remove a margem à direita */
+        margin-bottom: 20px; /* Adiciona margem abaixo da tabela para espaçamento */
+        width: 100%; /* Garante que a tabela ocupe 100% da largura do contêiner */
+    }
+
+    .registration-table th, .registration-table td {
+        font-size: 0.9rem; /* Diminuir o tamanho da fonte das células um pouco */
+        padding: 15px; /* Diminuir o espaçamento interno levemente */
+    }
+
+    /* Ajustes específicos para as colunas "Masculino", "Feminino" e "Valor" */
+    .registration-table th:nth-child(2), /* Ajusta a coluna "Masculino" */
+    .registration-table td:nth-child(2),
+    .registration-table th:nth-child(3), /* Ajusta a coluna "Feminino" */
+    .registration-table td:nth-child(3) {
+        width: 20%; /* Define uma largura menor para as colunas "Masculino" e "Feminino" */
+    }
+
+    .registration-table th:nth-child(4), /* Ajusta a coluna "Valor" */
+    .registration-table td:nth-child(4) {
+        width: 40%; /* Define uma largura maior para a coluna "Valor" */
+    }
+
+    .totais {
+        width: 100% !important; /* Define a largura para 100% em telas pequenas */
+        margin: 0 !important; /* Remove a margem superior */
+    }
+
+    /* Aumentando o tamanho das letras nas células da tabela */
+    .age-group {
+        font-size: 1.2rem; /* Aumenta o tamanho da fonte para grupos etários */
+    }
+
+    .form-group {
+        flex-direction: column; /* Coluna para alinhamento em telas pequenas */
+    }
+
+    .payment-select-group {
+        margin-top: -30px;
+        margin-left: -5px;
+        width: 355px; /* Ajuste de largura */
+        transform: scale(0.9); /* Escala para melhor ajuste em telas menores */
+    }
+
+    /* Ajuste para alinhamento de botões */
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .button-container button {
+        width: 90%; /* Alinha o botão ao centro */
+        margin-top: 10px; /* Espaçamento superior */
+    }
+
+    /* Ajuste para caixas de seleção e opções */
+    .checkbox-group {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+        margin: 5px 0; /* Espaçamento entre caixas */
+    }
+
+    /* Ajuste para campos de texto */
+    textarea {
+        width: 90%;
+        margin: 0 auto;
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+
+/* TICKET */
+
+/* Estilo geral da tabela de refeições */
+.table-container {
+    margin: 150px 10px 0 20px;
+    width: 900px;
+    /* Remover o float para evitar problemas de layout com o histórico */
+}
+
+.meal-table {
+    width: 100%; /* A tabela ocupa 100% da largura do contêiner */
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    margin-left: 20px;
+}
+
+/* Estilo da tabela padrão */
+.meal-table thead th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    border: 1px solid #ddd;
+}
+
+/* Ajusta a largura das colunas no cabeçalho */
+.meal-table tbody td.day-meal {
+    text-align: center;
+    width: 10%; /* Coluna do Dia */
+}
+
+.meal-table tbody td.meal-item {
+    padding-left: 20px;
+    width: 40%; /* Coluna da Refeição */
+}
+
+.meal-table tbody td.qty {
+    text-align: center;
+    width: 20%; /* Coluna de Quantidade */
+}
+
+.meal-table tbody td.total {
+    text-align: center;
+    width: 20%; /* Coluna de Total */
+}
+
+/* Células do corpo da tabela */
+.meal-table tbody td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Corpo da tabela */
+.meal-table tbody td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+/* Linhas alternadas para o corpo da tabela */
+.meal-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.meal-table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Modo escuro para a tabela */
+body.dark-mode .meal-table thead th {
+    background-color: #4CAF50;
+    color: #ddd;
+}
+
+body.dark-mode .meal-table tbody td {
+    background-color: #444;
+    color: #ddd;
+    border: 1px solid #f2f2f2;
+}
+
+body.dark-mode .meal-table tbody tr:nth-child(even) {
+    background-color: #555;
+}
+
+body.dark-mode .meal-table tbody tr:nth-child(odd) {
+    background-color: #666;
+}
+
+/* Estilos adicionais para melhorar a visibilidade em modo escuro */
+body.dark-mode .meal-table td, 
+body.dark-mode .meal-table th {
+    border-color: #f2f2f2;
+}
+
+/* Botões */
+.registration-content button {
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    margin-left: 20px;
+    font-family: "Roboto", sans-serif;
+    font-weight: bolder;
+}
+
+.btn-config:hover, .btn-add:hover {
+    background-color: #45a049;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .btn-config, .btn-add {
+    color: #f2f2f2;
+}
+
+.close-btn-ticket {
+    color: red;
+    float: right;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    margin-top: -10px;
+}
+
+.popup-ticket {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content-ticket {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 500px;
+    height: 500px;
+    user-select: none;
+}
+
+body.dark-mode .popup-content-ticket {
+    background-color: #333;
+}
+
+.popup-container-input{
+    margin-top: 40px;
+}
+
+
+.input-grup-ticket {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    margin-bottom: 25px;
+    margin-left: 15px;
+}
+
+
+/* Label com largura fixa */
+.input-grup-ticket label {
+    min-width: 250px; 
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Input com largura definida */
+.input-grup-ticket input {
+    width: 150px;
+    padding: 8px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Sombra leve */
+    transition: box-shadow 0.3s ease; /* Suaviza a transição da sombra */
+}
+
+body.dark-mode .input-grup-ticket input{
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+body.dark-mode .input-grup-ticket input::placeholder{
+    color: #333;
+}
+
+/* Efeito ao focar no input */
+.input-grup-ticket input:focus {
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); /* Sombra ao focar */
+    border-color: #28a745; /* Cor da borda ao focar */
+}
+
+
+.register-button-container {
+    display: flex;
+    justify-content: flex-end; /* Alinha o botão à direita */
+    margin-top: 30px;
+    margin-right: 20px;
+}
+
+.register-ticket{
+    padding: 12px;
+    width: 100px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.register-ticket:hover{
+    background-color: #218838;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo principal para o popup */
+.popup-create-ticket {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+body.dark-mode .popup-create-ticket input {
+    background-color: #f2f2f2;
+}
+
+body.dark-mode .popup-create-ticket input::placeholder {
+    color: #333;
+}
+
+body.dark-mode .popup-create-ticket label {
+    color: #f2f2f2;
+}
+
+
+/* Conteúdo do popup */
+.popup-create-ticket .popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 700px;
+    height: 650px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Botão de fechar */
+.btn-close {
+    color: #333;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Título do popup */
+.popup-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Container para campos de entrada */
+.popup-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: start;
+    margin-left: 50px;
+    margin-top: 30px;
+}
+
+/* Grupo de entrada com duas colunas */
+.input-group {
+    width: calc(50% - 8px);
+    text-align: left;
+}
+
+.input-group input {
+    width: 200px;
+}
+
+
+/* Para alinhar o grupo da quantidade à esquerda */
+.input-group-quantity {
+    width: 100%;
+    text-align: left;
+}
+
+.input-group-payment {
+    width: 100%;
+    display: flex; /* Usamos flexbox para alinhar os campos na mesma linha */
+    gap: 15px; /* Espaçamento entre os campos */
+    align-items: center; /* Alinha verticalmente os itens no centro */
+    position: relative; /* Necessário para posicionar o botão de forma absoluta */
+    padding: 5px; /* Adiciona um padding para dar espaço interno */
+    margin-top: 20px;
+    border-radius: 4px; /* Arredonda as bordas */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para destacar o grupo de pagamento */
+}
+
+.payment-container {
+    max-height: 300px; /* Define a altura máxima do contêiner de pagamento */
+    overflow-y: auto; /* Adiciona uma barra de rolagem vertical quando necessário */
+    padding: 10px; /* Espaço interno para o contêiner */
+    margin-top: 20px;
+}
+
+/* Estiliza a barra de rolagem do contêiner */
+.payment-container::-webkit-scrollbar {
+    width: 6px; /* Diminui a largura da barra de rolagem */
+}
+
+/* Estilos para Firefox */
+.payment-container {
+    scrollbar-width: thin; /* Controla a largura da barra de rolagem */
+}
+
+
+/* Alinha o campo de forma de pagamento à esquerda */
+.input-group-payment-left {
+    margin-top: 23px;
+    margin-left: 50px;
+    flex: 1; /* Permite que o campo de pagamento ocupe o espaço restante */
+}
+
+/* Alinha o campo de valor à direita */
+.input-group-payment-right {
+    margin-top: 23px;
+    flex: 1; /* Permite que o campo de valor ocupe o espaço restante */
+}
+
+/* Rótulos */
+.input-group label, .input-group-payment label {
+    font-weight: bold;
+    color: #555;
+    display: block; /* Faz o label ocupar toda a linha, acima do input */
+    margin-bottom: 5px; /* Espaçamento entre o label e o input */
+}
+
+/* Campos de seleção e entrada */
+.select-day, .select-meal, .select-payment, .input-quantity, .input-amount {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+/* Container do botão */
+.button-container {
+    display: flex;
+    justify-content: end;
+    position: sticky; /* Faz com que o botão fique fixo */
+    bottom: 20px; /* Distância do fundo do popup */
+    margin-top: 20px;
+    z-index: 10; /* Garante que o botão fique acima de outros elementos */
+}
+
+/* Botão de salvar */
+.btn-save {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão de adicionar no canto superior direito */
+.icon-add {
+    position: absolute; /* Posiciona o botão de forma absoluta dentro do container */
+    top: 0;
+    right: 0;
+    margin: 2px 2px 0 0;
+    color: #28a745;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.bi-x-circle-fill{
+    color: red !important;
+}
+
+/* Efeito de hover no botão de salvar */
+.btn-save:hover {
+    background-color: #218838;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .popup-create-ticket .popup-content {
+        width: 95%;
+        max-width: 500px;
+        height: auto;
+    }
+
+    .popup-input-container {
+        gap: 10px;
+    }
+
+    .input-group {
+        width: 100%;
+        text-align: center;
+    }
+
+    .input-group-payment {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+/* Estilo para campos de entrada quando focados */
+.select-day:focus, .select-meal:focus, .select-payment:focus, .input-quantity:focus, .input-amount:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Estilos para o histórico de pagamentos */
+.ticket-history {
+    margin-top: 20px;
+    background-color: #919191;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 1000px; /* Tamanho máximo de largura */
+    height: 300px; /* Altura fixa */
+    overflow-y: auto; /* Permite rolagem se houver mais de um item */
+    margin-left: 40px; /* Para manter o alinhamento com a tabela */
+}
+
+body.dark-mode .ticket-history {
+    background-color: #404040;
+}
+
+/* Estilo para a mensagem "Nenhum Histórico registrado" */
+.history-none {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    color: #f2f2f2;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+#payment-history-list {
+    list-style-type: none;
+    padding: 0;
+    width: 100%; /* Largura total do container */
+    height: 100%; /* Altura total do container */
+    overflow-y: auto; /* Rolagem vertical caso o conteúdo ultrapasse a altura */
+    display: none; /* Inicialmente oculta */
+}
+
+/* Remove a borda do último item */
+#payment-history-list li:last-child {
+    border-bottom: none;
+}
+
+.history-meal-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Define o cabeçalho fixo no topo */
+.history-meal-table thead th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* Estilo das colunas e células de pagamento */
+.history-meal-table tbody td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    background-color: #f4f4f4;
+}
+
+/* Linhas alternadas para o corpo da tabela */
+.history-meal-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.history-meal-table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Estilo dos pagamentos */
+.history-payments {
+    padding-left: 10px;
+}
+
+.history-payment-item {
+    margin-bottom: 5px;
+    margin-right: -10px;
+    font-size: 14px;
+}
+
+.history-payment-item strong {
+    font-weight: bold;
+}
+
+/* Estilo para a coluna de pagamentos */
+.history-col-payments {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Cria duas colunas de igual largura */
+    padding: 5px;
+}
+
+/* Estilo para cada item de pagamento dentro da célula da tabela */
+.history-col-payments .payment-item {
+    font-size: 14px;
+    margin-bottom: 5px; /* Espaçamento entre os itens de pagamento */
+    margin-right: 5px;
+}
+
+/* Botões */
+.btn-config, .btn-add {
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    margin-left: 20px;
+    font-family: "Roboto", sans-serif;
+    font-weight: bolder;
+}
+
+.popUp-container-alert {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-alert {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;  /* Distribui o conteúdo, deixando o título no topo e a mensagem no centro */
+    align-items: center;
+    width: 350px;
+    height: 250px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    position: relative;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.close-btn-alert {
+    color: red;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+.title-alert h3 {
+    margin: 0;
+    font-size: 18px;
+    text-align: center;
+    padding-top: 10px;  /* Mantém o título mais para cima */
+}
+
+.mensage-alert {
+    display: flex;
+    justify-content: center;  /* Centraliza o conteúdo dentro da área da mensagem */
+    align-items: center;  /* Alinha a mensagem ao centro da caixa */
+    flex: 1;  /* Faz com que a área da mensagem ocupe o restante do espaço */
+    text-align: center;
+}
+
+.mensage-alert p {
+    margin-top: 0;
+    font-size: 14px;
+    padding: 0 20px;  /* Adiciona um pouco de padding lateral para a mensagem */
+    padding-bottom: 5px;
+}
+
+
+
+/* FIM DOS TICKET */
+
+/* DESPESAS */
+
+.expenses-content {
+    margin-top: 150px;
+}
+
+/* Estilo do botão adicionar */
+.button-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-add:hover {
+    background-color: #218838;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo do botão adicional */
+.button-add-two {
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px; /* Distância entre o botão e o texto */
+}
+
+.button-add-two:hover {
+    background-color: #218838;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Wrapper para a tabela de despesas com tamanho fixo e fundo */
+.expenses-table-wrapper {
+    max-width: 100%;
+    width: 1200px;
+    height: 400px;
+    overflow-y: auto;
+    margin: 20px 0 0 20px;
+    background-color: #919191;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    position: relative;
+}
+
+body.dark-mode .expenses-table-wrapper{
+    background-color: #404040 !important;
+}
+
+.table-none p{
+    color: #f2f2f2;
+    user-select: none;
+}
+
+body.dark-mode .table-none p{
+    color: #f2f2f2;
+}
+
+/* Oculta a tabela se estiver vazia */
+.table-expenses {
+    display: none;
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+/* Cabeçalho da tabela */
+.table-expenses thead {
+    background-color: #28a745;
+    color: white;
+}
+
+.table-expenses th,
+.table-expenses td {
+    padding: 12px;
+    text-align: left;
+    border-right: 1px solid #ddd;
+}
+
+/* Largura específica para cada coluna */
+.table-expenses th:nth-child(1),
+.table-expenses td:nth-child(1) {
+    width: 20%;
+}
+
+.table-expenses th:nth-child(2),
+.table-expenses td:nth-child(2) {
+    width: 60%;
+}
+
+.table-expenses th:nth-child(3),
+.table-expenses td:nth-child(3) {
+    width: 20%;
+}
+
+/* Linhas alternadas */
+.table-expenses tbody tr:nth-child(even) {
+    background-color: #b8b8b8;
+}
+
+/* Exibição padrão da mensagem "Nenhuma despesa adicionada" */
+.table-none {
+    padding: 20px;
+    text-align: center;
+    color: #555;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 650px;
+    height: 400px;
+    user-select: none;
+}
+
+.popup-title {
+    text-align: center; /* Centraliza o título */
+    font-size: 22px;
+    margin-top: 0;
+}
+
+.popup-expenses {
+    margin-top: 20px;
+    margin-left: 30px;
+}
+
+.input-grup-popup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinha os labels à esquerda */
+    margin-bottom: 15px;
+}
+
+.input-grup-popup label {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 5px; /* Espaço entre o label e o input */
+    text-align: left; /* Garante alinhamento à esquerda */
+}
+
+.popup-expenses input {
+    width: 100%;
+    max-width: 500px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Estilo dark mode */
+.dark-mode .popup-content {
+    background-color: #333;
+    color: #f2f2f2;
+}
+
+.dark-mode .popup-title {
+    color: #f2f2f2;
+}
+
+.dark-mode .input-grup-popup label {
+    color: #ddd;
+}
+
+.dark-mode .popup-expenses input {
+    background-color: #555;
+    color: #f2f2f2;
+    border: 1px solid #888;
+}
+
+.close-btn-expenses {
+    color: red;
+    float: right;
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    margin-top: -10px;
+}
+
+.register-expenses {
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 20px; /* Distância entre o botão e o texto */
+    margin-left: 30px;
+}
+
+.register-expenses:hover {
+    background-color: #218838;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.expense-value-cell {
+    position: relative;
+    padding-right: 25px; /* Espaço extra para o botão de exclusão */
+}
+.expense-close-btn {
+    position: absolute;
+    top: 50%;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-50%);
+    font-size: 30px;
+    color: red;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    background-color: transparent;
+    width: 43px;
+    height: 44px; /* Garantir altura consistente */
+}
+
