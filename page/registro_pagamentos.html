@@ -120,6 +120,10 @@
                     
                             <!-- Total Geral -->
                             <div class="total-item geral">
+                                <span>Total Quantidade:</span>
+                                <span class="total-qtd geral"> 0</span>
+                            </div>
+                            <div class="total-item geral">
                                 <span>Total Geral:</span>
                                 <span class="total-value geral">R$ 0,00</span>
                             </div>
@@ -141,7 +145,12 @@
                 <div class="payment-info-wrapper">
                     <!-- Coluna única com total geral -->
                     <div class="payment-info-left">
-                        <p><strong>Total Geral:</strong> <label id="total-quantity-modal">12</label></p>
+                        <p><strong>Total Geral:</strong> <label id="locality-modal"></label></p>
+                    </div>
+                    
+                    <!-- Coluna única com total geral -->
+                    <div class="payment-info-left">
+                        <p><strong>Total Geral:</strong> <label id="total-quantity-modal"></label></p>
                     </div>
 
                     <!-- Coluna central com valor final -->
@@ -149,25 +158,27 @@
                         <p><strong>Valor Final:</strong> <label id="total-value-modal"></label></p>
                     </div>
                 </div>
-
-                <div class="input-group-payment">
-                    <div class="icon-add">
-                        <i class="bi bi-plus-circle-fill"></i>
-                    </div>
-
-                    <div class="input-group-payment-left">
-                        <label for="payment-type">Forma de pagamento:</label>
-                        <select class="select-payment" id="payment-type">
-                            <option value="Dinheiro">Dinheiro</option>
-                            <option value="PIX">PIX</option>
-                            <option value="Debito">Débito</option>
-                            <option value="Credito">Crédito</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group-payment-right">
-                        <label for="amount">Valor:</label>
-                        <input type="number" class="input-amount" id="amount" placeholder="R$ 00,00">
+                
+                <div class="grup-payment-grup">
+                    <div class="input-group-payment">
+                        <div class="icon-add">
+                            <i class="bi bi-plus-circle-fill"></i>
+                        </div>
+    
+                        <div class="input-group-payment-left">
+                            <label for="payment-type">Forma de pagamento:</label>
+                            <select class="select-payment" id="payment-type">
+                                <option value="Dinheiro">Dinheiro</option>
+                                <option value="PIX">PIX</option>
+                                <option value="Debito">Débito</option>
+                                <option value="Credito">Crédito</option>
+                            </select>
+                        </div>
+    
+                        <div class="input-group-payment-right">
+                            <label for="amount">Valor:</label>
+                            <input type="number" class="input-amount" id="amount" placeholder="R$ 00,00">
+                        </div>
                     </div>
                 </div>
                 <div class="payment-button-container">
@@ -379,6 +390,7 @@
             <table class="table-expenses">
                 <thead>
                     <tr>
+                        <th>Tipo</th>
                         <th>Responsável</th>
                         <th>Descrição</th>
                         <th>Valor</th> <!-- Removida a coluna de ações -->
@@ -412,7 +424,7 @@
                     </div>
                     <div class="input-grup-popup">
                         <label for="">Valor:</label>
-                        <input type="text" name="" class="input-value">
+                        <input type="text" name="" class="input-value value-expenses">
                     </div>
                 </div>
                 <button class="register-expenses">REGISTRAR</button>
