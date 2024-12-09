@@ -141,6 +141,27 @@ import { getDashboardData } from './router.js';
             'Total de inscrições para participantes de taxa de participação'
         );
 
+        document.getElementById('inscricao_avulsa').innerHTML = createCard(
+            'Inscrições Avulsa',
+            calculateTotalInscricoes(data.inscricaoAvulsa.data),
+            data.inscricaoAvulsa.data,
+            'Total de inscrições para participantes de taxa de participação'
+        );
+
+        document.getElementById('venda_alimentacao').innerHTML = createCard(
+            'Venda Alimentacao',
+            calculateTotalMovimentacao(data.venda_alimentacao.data),
+            data.venda_alimentacao.data,
+            'Total de inscrições para participantes de taxa de participação'
+        );
+
+        document.getElementById('saida_financeiro').innerHTML = createCard(
+            'Saida Financeiro',
+            calculateTotalMovimentacao(data.saida_financeiro.data),
+            data.saida_financeiro.data,
+            'Total de inscrições para participantes de taxa de participação'
+        );
+
         document.getElementById('inscricaoGeral').innerHTML = createCard(
             'Inscrição Geral',
             calculateTotalInscricoes(data.inscricaoGeral.data),
