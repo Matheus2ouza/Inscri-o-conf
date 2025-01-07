@@ -126,6 +126,41 @@ import { getDashboardData } from './router.js';
             data.inscricoes10_acima.data,
             'Total de inscrições para participantes com 10 anos ou mais'
         );
+        
+        document.getElementById('inscricao_servico').innerHTML = createCard(
+            'Inscrições Serviço',
+            calculateTotalInscricoesFaixaEtaria(data.inscricao_servico.data),
+            data.inscricao_servico.data,
+            'Total de inscrições para participantes que servirão na conferencia'
+        );
+        
+        document.getElementById('inscricao_tx_participacao').innerHTML = createCard(
+            'Inscrições Taxa de Participação',
+            calculateTotalInscricoesFaixaEtaria(data.inscricao_tx_participacao.data),
+            data.inscricao_tx_participacao.data,
+            'Total de inscrições para participantes de taxa de participação'
+        );
+
+        document.getElementById('inscricao_avulsa').innerHTML = createCard(
+            'Inscrições Avulsa',
+            calculateTotalInscricoes(data.inscricaoAvulsa.data),
+            data.inscricaoAvulsa.data,
+            'Total de inscrições para participantes de taxa de participação'
+        );
+
+        document.getElementById('venda_alimentacao').innerHTML = createCard(
+            'Venda Alimentacao',
+            calculateTotalMovimentacao(data.venda_alimentacao.data),
+            data.venda_alimentacao.data,
+            'Total de inscrições para participantes de taxa de participação'
+        );
+
+        document.getElementById('saida_financeiro').innerHTML = createCard(
+            'Saida Financeiro',
+            calculateTotalMovimentacao(data.saida_financeiro.data),
+            data.saida_financeiro.data,
+            'Total de inscrições para participantes de taxa de participação'
+        );
 
         document.getElementById('inscricaoGeral').innerHTML = createCard(
             'Inscrição Geral',
@@ -150,7 +185,7 @@ import { getDashboardData } from './router.js';
 
         document.getElementById('saldoDevedor').innerHTML = createCard(
             'Saldo Devedor Localidades',
-            calculateTotalPagamento(data.localidades.data),
+            calculateTotalSaldo(data.localidades.data),
             data.localidades.data,
             'Resumo do saldo devedor por localidade'
         );
@@ -265,6 +300,10 @@ import { getDashboardData } from './router.js';
 
     function calculateTotalPagamento(items) {
         return items.reduce((sum, item) => sum + (parseFloat(item.valor_pago) || 0), 0);
+    }
+
+   function calculateTotalSaldo(items) {
+        return items.reduce((sum, item) => sum + (parseFloat(item.saldo_devedor) || 0), 0);
     }
 
     function calculateTotalTipoInscricao(items) {

@@ -245,3 +245,119 @@ export async function getComprovantes() {
         console.error('Erro ao carregar comprovantes:', error);
     }
 }
+
+//FUNCOES PARA A TELA DE REGISTROS DE PAGAMENTOS
+export async function registrarInscricaoAvulsa(tipoInscricaoId, vlTotal, data, detalhes) {
+    try {
+        console.log(tipoInscricaoId, vlTotal, data, detalhes);
+       
+        const response = await fetch(`${apiUrl}/inscricao-avulsa`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tipo_inscricao_id: tipoInscricaoId, 
+                qtd_masculino_06: detalhes.qtd_masculino_06 || 0,
+                qtd_feminino_06: detalhes.qtd_feminino_06 || 0,
+                qtd_masculino_7_10: detalhes.qtd_masculino_7_10 || 0,
+                qtd_feminino_7_10: detalhes.qtd_feminino_7_10 || 0,
+                qtd_masculino_normal: detalhes.qtd_masculino_normal || 0,
+                qtd_feminino_normal: detalhes.qtd_feminino_normal || 0,
+                qtd_masculino_visitante: detalhes.qtd_masculino_visitante || 0,
+                qtd_feminino_visitante: detalhes.qtd_feminino_visitante || 0,
+                vl_total: vlTotal,
+                data: data 
+            })
+        });
+
+        if (response.status === 201) {
+            const inscricaoData = await response.json();
+            
+            const responseDetalhe = await fetch(`${apiUrl}/inscricao-avulsa/detalhes/${inscricaoData.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    valor: vlTotal,
+                    formapagamento: detalhes.formapagamento
+                })
+            });
+
+            return responseDetalhe.status;
+        }
+
+        return response.status;
+    } catch (error) {
+        console.error('Erro ao registrar inscrição avulsa:', error);
+        return 500;
+    }
+}
+
+
+export async function registrarVendaAlimentacao(tipoRefeicao, quantidade, precoUnitario, dataVenda, formPagamento) {
+    try {
+        console.log(tipoRefeicao, quantidade, precoUnitario, dataVenda, formPagamento);
+
+        const responseVenda = await fetch(`${apiUrl}/venda-alimentacao`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                tipo_refeicao: tipoRefeicao, 
+                quantidade: quantidade,
+                valortotal: precoUnitario * quantidade 
+            })
+        });
+
+        if (responseVenda.status === 201) {
+            const vendaData = await responseVenda.json();
+
+            const responseDetalhe = await fetch(`${apiUrl}/venda-alimentacao/detalhes/${vendaData.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    valor: precoUnitario * quantidade, 
+                    formapagamento: formPagamento 
+                })
+            });
+
+            return responseDetalhe.status;
+        }
+
+        return responseVenda.status;
+    } catch (error) {
+        console.error('Erro ao registrar venda de alimentação:', error);
+        return 500;
+    }
+}
+
+
+export async function registrarEntradaCaixa(tipoTransacao, valor, dataTransacao, descricao, responsavel) {
+    try {
+        console.log(tipoTransacao, valor, dataTransacao, descricao, responsavel);
+        const response = await fetch(`${apiUrl}/caixa`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                descricao: descricao, 
+                responsavel: responsavel, 
+                valor: valor, 
+                tipomovimento: tipoTransacao, 
+                data: dataTransacao 
+            })
+        });
+
+        return response.status; 
+    } catch (error) {
+        console.error('Erro ao registrar entrada no caixa:', error);
+        return 500;
+    }
+}
+
