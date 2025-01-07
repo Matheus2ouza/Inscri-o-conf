@@ -593,7 +593,7 @@ body.dark-mode .popup-inscricao-geral label {
 
 /* Estilo do Modal de Pagamento */
 .payment-modal {
-    display: flex;
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 0;
