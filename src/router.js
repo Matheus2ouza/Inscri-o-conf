@@ -59,6 +59,28 @@ export async function registrarInscricao(registrationData) {
     }
 }
 
+export async function registrarInscricaoServ(registrationData) {
+    try {
+        const response = await fetch(`${apiUrl}/registroServ`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(registrationData),
+        });
+
+        const responseData = await response.json(); // Converte a resposta JSON
+
+        console.log('Resposta da inscrição:', responseData, 'Status:', response.status);
+        return { data: responseData, status: response.status }; // Retorna tanto os dados quanto o status da resposta
+
+    } catch (error) {
+        console.error('Erro ao fazer a requisição:', error); // Log do erro de requisição
+        return { data: null, status: 500 }; // Retorna status de erro genérico
+    }
+}
+
+
 
 export async function registrarHospedagem(idInscricao, listaNomesHospedagem) {
     try {
@@ -75,12 +97,14 @@ export async function registrarHospedagem(idInscricao, listaNomesHospedagem) {
             })
         });
 
-        return response.status; // Retorna o status da requisição
+        console.log('Status da Hospedagem:', response.status);
+        return response.status; // Retorna apenas o status da requisição
     } catch (error) {
         console.error('Erro ao registrar hospedagem:', error);
         return 500; // Retorna erro genérico se falhar
     }
 }
+
 
 export async function getDashboardData() {
     try {

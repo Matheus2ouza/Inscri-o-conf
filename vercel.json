@@ -29,8 +29,12 @@
       "dest": "/page/home.html"
     },
     {
-      "src": "/inscricao",
-      "dest": "/page/inscription.html"
+      "src": "/inscricaoServi",
+      "dest": "/page/inscriptionServ.html"
+    },
+    {
+      "src": "/inscricaoJonv",
+      "dest": "/page/inscriptionError.html"
     },
     {
       "src": "/pagamento",

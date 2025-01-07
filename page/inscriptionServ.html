@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conferencia R2</title>
-    <link rel="stylesheet" href="../style/inscription.css">
+    <link rel="stylesheet" href="../style/inscriptionServ.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
@@ -27,43 +27,17 @@
                         <span>Verifique a Localidade está correta</span>
                     </div>
                     <div class="form-group">
-                        <label for="input2">Nome do Irmão Responsável / WhatsApp</label>
+                        <label for="input2">Nome do irmão Responsável pela inscrição  / WhatsApp</label>
                         <input type="text" class="responsible" placeholder="Coloque o Nome e WhatsApp do irmão Responsável">
                         <span>Ex: João Silva/99999999999</span>
                     </div>
                     <div class="form-group">
-                        <label for="input8">Idade 0-6 Masculino -<span class="valor">Isento</span></label>
-                        <input type="number" class="age-06-masc" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
-                    </div>
-                    <div class="form-group">
-                        <label for="input8">Idade 0-6 Feminino -<span class="valor">Isento</span></label>
-                        <input type="number" class="age-06-fem" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
-                    </div>
-                    <div class="form-group">
-                        <label for="input8">Idade 7-10 Masculino -<span class="valor">R$ 120.00</span></label>
-                        <input type="number" class="age-710-masc" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
-                    </div>
-                    <div class="form-group">
-                        <label for="input8">Idade 7-10 Feminino -<span class="valor">R$ 120.00</span></label>
-                        <input type="number" class="age-710-fem" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
-                    </div>
-                    <div class="form-group">
-                        <label for="input8">Idade 10+ Masculino (Inscrição individual) -<span class="valor">R$ 200.00</span></label>
+                        <label for="input8">Masculino (Inscrição individual) -<span class="valor">R$ 100.00</span></label>
                         <input type="number" class="age-10-masc" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
                     </div>
                     <div class="form-group">
-                        <label for="input8">Idade 10+ Feminino (Inscrição individual) -<span class="valor">R$ 200.00</span></label>
+                        <label for="input8">Feminino (Inscrição individual) -<span class="valor">R$ 100.00</span></label>
                         <input type="number" class="age-10-fem" placeholder="Inclua a quantidade de inscritos nessa faixa etária, se não houver coloque 0">
-                    </div>
-                    <div class="group-service">
-                        <label for="input8">Algum irmão participará de algum serviço referente à Conferência?</label>
-                        <button class="btnServiço-yes">SIM</button>
-                        <button class="btnServiço-no">NÃO</button>
-                    </div>
-                    <div class="group-participacao">
-                        <label for="input8">Algum irmão irá participar somente das reuniões?</label>
-                        <button class="btnParti-yes">SIM</button>
-                        <button class="btnParti-no">NÃO</button>
                     </div>
                     
                 </div>
@@ -99,7 +73,7 @@
     
     <div id="popup" class="popup">
         <div class="popup-content">
-            <span class="close-btn">&times;</span>
+            <span class="close-btn"><i class="bi bi-x"></i></span>
             <h2>Inscrição realizada com sucesso!</h2>
             <p></p>
             <button id="btn-payment">Realizar pagamento</button>
@@ -108,11 +82,18 @@
     </div>
     <div id="popupError" class="popupError">
         <div class="popup-contentError">
-            <span class="close-btnError">&times;</span>
+            <span class="close-btnError"><i class="bi bi-x"></i></span>
             <h2>Falha ao Realizar Inscrição</h2>
             <p></p>
         </div>
     </div>
-    <script type="module" src="../src/inscription.js"></script>
+    <div id="popupError-list" class="popupError-list">
+        <div class="popup-contentError-list">
+            <span class="close-btnError-list"><i class="bi bi-x"></i></span>
+            <h2>Error da lista</h2>
+            <p></p>
+        </div>
+    </div>
+    <script type="module" src="../src/inscriptionServ.js"></script>
 </body>
 </html>
