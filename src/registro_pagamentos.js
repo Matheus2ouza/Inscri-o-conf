@@ -163,15 +163,15 @@ function clearPopupFields() {
 }
 
 function initRegistrationTable() {
-    // Seleciona todos os campos necessários
+    // Seleciona todas as linhas da tabela de registro
     const rows = document.querySelectorAll(".registration-table tbody tr");
-    const totalItems = document.querySelectorAll(".totais .total-item");
 
     // Atualiza os totais sempre que algo muda nos campos de entrada
     const updateTotals = () => {
-        let totalGeral = 0;
+        let totalGeral = 0; // Armazena o total em valor monetário
+        let quantidadeGeral = 0; // Armazena o total de quantidades
 
-        rows.forEach((row, index) => {
+        rows.forEach(row => {
             const masculinoInput = row.querySelector(".masculino");
             const femininoInput = row.querySelector(".feminino");
             const valorInput = row.querySelector(".valor");
@@ -193,12 +193,22 @@ function initRegistrationTable() {
                 totalItem.querySelector(".total-value").textContent = `R$ ${totalValor.toFixed(2)}`;
             }
 
-            // Adiciona ao total geral
+            // Adiciona ao total geral e à quantidade geral
             totalGeral += totalValor;
+            quantidadeGeral += totalQuantidade;
         });
 
-        // Atualiza o total geral
-        document.querySelector(".totais .total-value.geral").textContent = `R$ ${totalGeral.toFixed(2)}`;
+        // Atualiza o total geral em valor
+        const totalGeralElement = document.querySelector(".totais .total-value.geral");
+        if (totalGeralElement) {
+            totalGeralElement.textContent = `R$ ${totalGeral.toFixed(2)}`;
+        }
+
+        // Atualiza o total geral em quantidade
+        const quantidadeGeralElement = document.querySelector(".totais .total-qtd.geral");
+        if (quantidadeGeralElement) {
+            quantidadeGeralElement.textContent = quantidadeGeral;
+        }
     };
 
     // Adiciona o evento de entrada para todos os campos relevantes
@@ -209,6 +219,7 @@ function initRegistrationTable() {
     // Atualiza os totais ao carregar a página
     updateTotals();
 }
+
 
 function updatePaymentInfo() {
     // Definindo as faixas etárias e valores padrão
@@ -251,57 +262,141 @@ function updatePaymentInfo() {
 }
 
 
-// Função para abrir o modal de pagamento
 function openPaymentModal() {
-    // Localizando o elemento que contém o total geral
-    const totalValueElement = document.querySelector('.total-value.geral'); // Busca pelo total geral no painel
-    const totalQuantityElement = document.querySelector('.totais .total-quantity[data-faixa="geral"]'); // Ajuste se necessário
+    // Obtendo o valor total geral do painel de totais
+    const totalValueElement = document.querySelector(".totais .total-value.geral");
+    const totalQuantityElement = document.querySelector(".totais .total-qtd.geral");
+    const locality = document.querySelector('#input1').value.trim(); // Captura o valor da localidade e remove espaços extras
 
-    if (!totalValueElement) {
-        console.error("Elemento de total geral não encontrado!");
-        return;
+    if (!totalValueElement || !totalQuantityElement) {
+        console.error("Elementos total-value ou total-qtd geral não encontrados!");
+        return; // Caso os elementos não existam, não faça nada
     }
 
-    // Obtendo os valores necessários
-    const totalGeral = totalValueElement.textContent.replace('R$', '').trim();
-    
+    // Verificar se a localidade foi preenchida
+    if (!locality) {
+        alert("Por favor, preencha o campo da localidade antes de continuar.");
+        return; // Interrompe a execução se o campo estiver vazio
+    }
+
+    // Extrai o valor do total geral, removendo o prefixo 'R$'
+    const totalGeral = parseFloat(totalValueElement.textContent.replace('R$', '').trim());
+    const totalQuantidadeGeral = parseInt(totalQuantityElement.textContent.trim()) || 0;
+
     // Exibir o modal
     document.getElementById('payment-modal').style.display = 'flex';
 
     // Atualizar as informações no modal de pagamento
-    document.querySelector('#total-quantity-modal').textContent = "N/A"; // Atualize para refletir a quantidade geral (se necessário)
-    document.querySelector('#total-value-modal').textContent = `R$ ${totalGeral}`;
+    const totalValueModal = document.querySelector('#total-value-modal');
+    const totalQuantityModal = document.querySelector('#total-quantity-modal');
+    const localityModal = document.querySelector('#locality-modal');
+
+    if (totalValueModal) {
+        totalValueModal.textContent = `R$ ${totalGeral.toFixed(2)}`;
+    }
+
+    if (totalQuantityModal) {
+        totalQuantityModal.textContent = totalQuantidadeGeral;
+    }
+
+    if (localityModal) {
+        localityModal.textContent = locality;
+    }
 }
 
-function calculateTotalQuantity() {
-    let totalQuantity = 0;
+function newPaymentMethod() {
+    // Encontra o container principal onde os campos de pagamento serão inseridos
+    const container = document.querySelector('.grup-payment-grup');
 
-    document.querySelectorAll('.totais .total-quantity').forEach(element => {
-        totalQuantity += parseInt(element.textContent) || 0;
+    // Verifica se o container existe antes de adicionar os eventos
+    if (!container) {
+        console.error("Container 'grup-payment-grup' não encontrado!");
+        return;
+    }
+
+    // Template HTML do novo campo de pagamento
+    const paymentFieldTemplate = `
+        <div class="input-group-payment">
+            <div class="icon-add">
+                <i class="bi bi-plus-circle-fill"></i> <!-- Botão de adicionar -->
+                <i class="bi bi-x-circle-fill"></i> <!-- Botão de remover -->
+            </div>
+            <div class="input-group-payment-left">
+                <label for="payment-type">Forma de pagamento:</label>
+                <select class="select-payment" name="payment-type">
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="PIX">PIX</option>
+                    <option value="Debito">Débito</option>
+                    <option value="Credito">Crédito</option>
+                </select>
+            </div>
+            <div class="input-group-payment-right">
+                <label for="amount">Valor:</label>
+                <input type="number" class="input-amount" name="amount" placeholder="R$ 00,00">
+            </div>
+        </div>
+    `;
+
+    // Delegação de evento para o botão de adicionar (bi-plus-circle-fill) e o botão de excluir (bi-x-circle-fill)
+    container.addEventListener('click', function(event) {
+        // Adiciona um novo campo de pagamento quando clica no ícone de +
+        if (event.target.classList.contains('bi-plus-circle-fill')) {
+            container.insertAdjacentHTML('beforeend', paymentFieldTemplate);
+        }
+        
+        // Remove o campo de pagamento quando clica no ícone de x
+        if (event.target.classList.contains('bi-x-circle-fill')) {
+            const paymentField = event.target.closest('.input-group-payment');
+            if (paymentField) {
+                paymentField.remove();
+            }
+        }
     });
-
-    return totalQuantity;
 }
 
-const totalQuantity = calculateTotalQuantity();
-document.querySelector('#total-quantity-modal').textContent = totalQuantity;
-
+// Delegação de evento para o ícone de remoção
+document.addEventListener("click", function(event) {
+    if (event.target && event.target.classList.contains("remove-payment-field")) {
+        removePaymentField(event.target);
+    }
+});
 
 // Função para finalizar o pagamento
 function finalizePayment() {
-    const paymentType = document.querySelector('#payment-type').value;
-    const paymentAmount = parseFloat(document.querySelector('#amount').value) || 0;
-    const totalGeral = parseFloat(document.querySelector('#total-value-geral').textContent.replace('R$', '').trim());
+    // Obtém o valor total geral
+    const totalValueElement = document.querySelector('#total-value-modal');
+    const totalGeral = parseFloat(totalValueElement.textContent.replace('R$', '').trim()) || 0;
 
-    if (paymentAmount >= totalGeral) {
-        alert(`Pagamento de R$ ${paymentAmount.toFixed(2)} realizado com sucesso! Forma de pagamento: ${paymentType}`);
+    // Seleciona todos os grupos de pagamento
+    const paymentGroups = document.querySelectorAll('.input-group-payment');
+
+    let totalPago = 0;
+
+    // Itera por todos os grupos de pagamento para somar os valores
+    paymentGroups.forEach(group => {
+        const paymentAmountInput = group.querySelector('.input-amount'); // Agora usando a classe .input-amount
+        const paymentAmount = parseFloat(paymentAmountInput?.value) || 0;
+        totalPago += paymentAmount;
+    });
+
+    // Verificação e cálculo do pagamento
+    if (!isNaN(totalPago) && !isNaN(totalGeral)) {
+        const totalPagoNumber = Number(totalPago);
+        const totalGeralNumber = Number(totalGeral);
+
+        if (totalPagoNumber >= totalGeralNumber) {
+            alert(`Pagamento de R$ ${totalPagoNumber.toFixed(2)} realizado com sucesso!`);
+            closePaymentModal();
+        } else {
+            const diferenca = (totalGeralNumber - totalPagoNumber).toFixed(2);
+            alert(`Valor insuficiente! Ainda faltam R$ ${diferenca} para concluir o pagamento.`);
+        }
     } else {
-        alert('Valor insuficiente para pagamento!');
+        alert("Erro: Os valores de pagamento ou total geral não são numéricos.");
     }
-
-    // Fechar o modal após o pagamento
-    closePaymentModal();
 }
+
+
 
 // Atribuir os eventos aos botões e inputs
 document.querySelector('.btn-submit-payment').addEventListener('click', finalizePayment);
@@ -584,62 +679,77 @@ function configureSaveMealEntryButton() {
 }
 
 function registerExpense() {
-    const registerExpense = document.querySelector('.register-expenses');
+    // Seleciona o botão de registrar despesa
+    const registerExpenseButton = document.querySelector('.register-expenses');
 
-    registerExpense.addEventListener('click', (event) => {
-        event.preventDefault();
+    // Seleciona a tabela de despesas, wrapper e popup
+    const expensesTable = document.querySelector('.table-expenses tbody'); // Presumo que você tenha uma <tbody> dentro da tabela
+    const expensesTableWrapper = document.querySelector('.expenses-table-wrapper');
+    const popup = document.querySelector('#popup'); // Certifique-se de ter a ID do popup
 
-        const responsible = document.querySelector('.input-responsible').value,
-            description = document.querySelector('.input-description').value,
-            value = document.querySelector('.input-value').value;
+    registerExpenseButton.addEventListener('click', (event) => {
+        event.preventDefault(); // Impede a ação padrão (caso esteja em um formulário)
 
-        if (responsible && description && value) {
+        const type = document.querySelector('#Tipo-saida').value.trim(), // Correção aqui, agora é '#Tipo-saida'
+          responsible = document.querySelector('.input-responsible').value.trim(),
+          description = document.querySelector('.input-description').value.trim(),
+          value = parseFloat(document.querySelector('.value-expenses').value.replace('R$', '').trim());
+
+
+        // Verifica se todos os campos estão preenchidos e o valor é numérico
+        if (responsible && description && !isNaN(value) && value > 0) {
             const expenseData = {
+                type,
                 responsible,
                 description,
-                value
+                value: value.toFixed(2) // Formata o valor como 2 casas decimais
             };
 
+            // Cria uma nova linha na tabela
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
+                <td>${expenseData.type}</td>
                 <td>${expenseData.responsible}</td>
                 <td>${expenseData.description}</td>
-                <td class="expense-value-cell">${expenseData.value} <span class="expense-close-btn">&times;</span></td>
+                <td class="expense-value-cell">R$ ${expenseData.value} <span class="expense-close-btn">&times;</span></td>
             `;
             expensesTable.appendChild(newRow);
 
-            // Clear input fields
+            // Limpa os campos de entrada
             document.querySelector('.input-responsible').value = '';
             document.querySelector('.input-description').value = '';
-            document.querySelector('.input-value').value = '';
+            document.querySelector('.value-expenses').value = '';
 
-            console.log(expenseData);
-
-            // Show table and hide "no expenses" message
+            // Exibe a tabela e oculta a mensagem "Sem Despesas"
             document.querySelector('.table-none').style.display = 'none';
             document.querySelector('.table-expenses').style.display = 'table';
 
-            // Set background color of expensesTableWrapper
+            // Ajusta o fundo do wrapper da tabela
             expensesTableWrapper.style.backgroundColor = '#f2f2f2';
 
-            // Hide the popup
+            // Fecha o popup
             popup.style.display = 'none';
 
-            // Add delete event to new row
+            // Adiciona o evento de exclusão na nova linha
             const deleteIcon = newRow.querySelector('.expense-close-btn');
             deleteIcon.addEventListener('click', () => {
                 newRow.remove();
-                checkTableContent(); // Check if table is empty
+                checkTableContent(); // Verifica se a tabela está vazia após remoção
             });
+        } else {
+            alert("Por favor, preencha todos os campos corretamente.");
         }
     });
 }
 
+// Função para verificar se a tabela está vazia e mostrar a mensagem apropriada
 function checkTableContent() {
+    const expensesTable = document.querySelector('.table-expenses tbody'); // A tabela de despesas
+
     if (expensesTable.children.length === 0) {
         document.querySelector('.table-none').style.display = 'block';
         document.querySelector('.table-expenses').style.display = 'none';
-        expensesTableWrapper.style.backgroundColor = '#919191'
+        document.querySelector('.expenses-table-wrapper').style.backgroundColor = '#919191';
     }
 }
 
@@ -658,6 +768,7 @@ async function init() {
     showCreateTicket();
     configureSaveMealEntryButton();
     updatePaymentInfo();
+    newPaymentMethod();
 
     // Evento de atualização para inputs da tabela de refeições
     document.querySelectorAll('.meal-table input[type="text"]').forEach(input => {

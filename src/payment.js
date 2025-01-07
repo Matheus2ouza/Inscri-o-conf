@@ -16,6 +16,7 @@ async function fetchCityNames() {
     showLoader(); // Mostra o loader antes de fazer a requisição
     try {
         const cities = await getLocations(); // Chama a função para obter os locais
+        console.log(cities)
         return extractCityNames(cities); // Retorna apenas os nomes das cidades
     } catch (error) {
         console.error(`Erro ao buscar nomes das cidades: ${error.message}`);

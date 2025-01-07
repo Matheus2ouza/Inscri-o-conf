@@ -392,7 +392,7 @@ body.dark-mode .suggestion-item {
 }
 
 /* Último item de totalização */
-.total-item:last-child {
+.geral {
     border-bottom: none; /* Remove a linha de separação */
     font-weight: bold; /* Negrito */
     font-size: 1.2rem; /* Tamanho da fonte maior */
@@ -593,7 +593,7 @@ body.dark-mode .popup-inscricao-geral label {
 
 /* Estilo do Modal de Pagamento */
 .payment-modal {
-    display: flex;
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -1393,6 +1393,24 @@ body.dark-mode .popup-create-ticket label {
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
 
+.grup-payment-grup {
+    /* Define um tamanho fixo para o container */
+    width: 100%;
+    max-width: 700px;
+    height: 200px; /* Altura fixa */
+    margin: 0 auto;
+    
+    /* Exibe bordas para visualização clara */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #f9f9f9;
+
+    /* Controla o comportamento de overflow */
+    overflow-y: auto; /* Ativa a barra de rolagem vertical */
+    overflow-x: hidden; /* Esconde a rolagem horizontal */
+}
+
 /* Responsividade para telas menores */
 @media (max-width: 768px) {
     .popup-create-ticket .popup-content {
@@ -1713,7 +1731,12 @@ body.dark-mode .table-none p{
 
 .table-expenses th:nth-child(2),
 .table-expenses td:nth-child(2) {
-    width: 60%;
+    width: 40%;
+}
+
+.table-expenses th:nth-child(3),
+.table-expenses td:nth-child(3) {
+    width: 20%;
 }
 
 .table-expenses th:nth-child(3),
