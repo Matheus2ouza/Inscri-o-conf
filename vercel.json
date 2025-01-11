@@ -58,7 +58,7 @@
     },
     {
       "src": "/movimentacao",
-      "dest": "/page/hostingPage.html"
+      "dest": "/page/movement.html"
     },
     {
       "src": "/comprovante",
