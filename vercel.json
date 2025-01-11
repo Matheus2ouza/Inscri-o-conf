@@ -57,16 +57,16 @@
       "dest": "/page/hostingPage.html"
     },
     {
+      "src": "/movimentacao",
+      "dest": "/page/hostingPage.html"
+    },
+    {
       "src": "/comprovante",
       "dest": "/page/proofPayment.html"
     },
     {
       "src": "/vendas",
       "dest": "/page/registro_pagamentos.html"
-    },
-    {
-      "src": "/movement",
-      "dest": "/page/movement.html"
     },
     {
       "src": "/style/(.*)",
