@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movimentação Financeira</title>
+    <link rel="stylesheet" href="../style/movement.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="">Login</a>
+        </div>
+        <div class="nav-right">
+            <input type="checkbox" class="checkbox" id="chk">
+            <label for="chk" class="label">
+                <i class="bi bi-brightness-high-fill"></i>
+                <i class="bi bi-moon-fill"></i>
+                <div class="ball"></div>
+            </label>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Movimentações Financeiras</h1>
+
+        <!-- Caixa de valor total -->
+        <div id="totalValueBox" class="total-value-box">
+            <span>Total Atual: </span><span id="totalValue">R$ 0,00</span>
+        </div>
+
+        <table id="movementsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                    <th>Valor</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- As linhas de dados serão inseridas aqui dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Botão de download -->
+    <div class="download-btn-container">
+        <button id="downloadBtn" class="download-btn">Baixar PDF</button>
+    </div>
+    
+    <script type="module" src="../src/movement.js"></script>
+</body>
+</html>

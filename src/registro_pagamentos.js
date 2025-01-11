@@ -1,4 +1,4 @@
-import { getLocations } from './router.js';
+import { getLocations, registrarInscricaoAvulsa } from './router.js';
 
 const checkbox = document.querySelector('#chk'),
     inscricaoLink = document.querySelector('.inscricao-link'),
@@ -7,51 +7,33 @@ const checkbox = document.querySelector('#chk'),
     expensesContent = document.querySelector('.expenses-content'),
     registrationContent = document.querySelector('.registration-content'),
     ticketContent = document.querySelector('.ticket-content'),
-    expensesTableWrapper = document.querySelector('.expenses-table-wrapper'),
-    button = document.querySelector('.button-add'),
-    buttonTwo = document.querySelector('.button-add-two'),
-    expensesTable = document.querySelector('.table-expenses tbody'),
-    popup = document.querySelector('.popup'),
-    popupTicket = document.querySelector('.popup-ticket'),
-    buttonConfigTicket = document.querySelector('.btn-config'),
-    closePopupExpenses = document.querySelector('.close-btn-expenses'),
-    closePopupTicket = document.querySelector('#close-btn-ticket'),
-    valueCafeSabado = document.querySelector('.value-cafe-sabado'),
-    valueAlmoçoSabado = document.querySelector('.value-almoço--sabado'),
-    valuejantaSabado = document.querySelector('.value-janta-sabado'),
-    valueCafeDomingo = document.querySelector('.value-cafe-domingo'),
-    valueAlmoçoDomingo = document.querySelector('.value-almoço-domingo'),
-    registerConfig = document.querySelector('.register-ticket'),
-    closePopUpCreate = document.querySelector('.close-btn-ticket'),
-    popupTicketCreate = document.querySelector('.popup-create-ticket'),
-    popUpAlert = document.querySelector('.popUp-container-alert'),
-    closePopUpAlert = document.querySelector('.close-btn-alert');
+    popUp = document.querySelector('.popup-container');
 
 
-    const paymentFieldTemplate = `
-            <div class="input-group-payment">
-                <div class="icon-add">
-                    <i class="bi bi-plus-circle-fill"></i>
-                    <i class="bi bi-x-circle-fill"></i>
-                </div>
-                
-                <div id="payment-container"></div>
-                <div class="input-group-payment-left">
-                    <label for="payment-type">Forma de pagamento:</label>
-                    <select class="select-payment" id="payment-type">
-                        <option value="Dinheiro">Dinheiro</option>
-                        <option value="PIX">PIX</option>
-                        <option value="Debito">Débito</option>
-                        <option value="Credito">Crédito</option>
-                    </select>
-                </div>
-            
-                <div class="input-group-payment-right">
-                    <label for="amount">Valor:</label>
-                    <input type="number" class="input-amount" id="amount" placeholder="R$ 00,00">
-                </div>
+const paymentFieldTemplate = `
+        <div class="input-group-payment">
+            <div class="icon-add">
+                <i class="bi bi-plus-circle-fill"></i>
+                <i class="bi bi-x-circle-fill"></i>
             </div>
-    `;
+            
+            <div id="payment-container"></div>
+            <div class="input-group-payment-left">
+                <label for="payment-type">Forma de pagamento:</label>
+                <select class="select-payment" id="payment-type">
+                    <option value="Dinheiro">Dinheiro</option>
+                    <option value="PIX">PIX</option>
+                    <option value="Debito">Débito</option>
+                    <option value="Credito">Crédito</option>
+                </select>
+            </div>
+        
+            <div class="input-group-payment-right">
+                <label for="amount">Valor:</label>
+                <input type="number" class="input-amount" id="amount" placeholder="R$ 00,00">
+            </div>
+        </div>
+`;
 
 function darkmode() {
     checkbox.addEventListener('change', () => {
@@ -63,13 +45,6 @@ function setActive(activelink) {
     const links = document.querySelectorAll('.navbar-links a');
     links.forEach(link => link.classList.remove('active'));
     activelink.classList.add('active');
-}
-
-function alertPopUp (mensage) {
-    const mensageField = document.querySelector('.mensage-alert p')
-    popUpAlert.style.display = 'flex';
-
-    mensageField.textContent = mensage
 }
 
 inscricaoLink.addEventListener('click', (event) => {
@@ -96,26 +71,36 @@ expensesLink.addEventListener('click', (event) => {
     setActive(expensesLink);
 });
 
-function newpaymentMothod() {
-    // Encontra o container principal onde os campos de pagamento serão inseridos
-    const container = document.querySelector('.payment-container');
-    
-    // Delegação de evento para o botão de adicionar (bi-plus-circle-fill) e o botão de excluir (bi-x-circle-fill)
-    container.addEventListener('click', function(event) {
-        // Adiciona um novo campo de pagamento quando clica no ícone de +
-        if (event.target.classList.contains('bi-plus-circle-fill')) {
-            container.insertAdjacentHTML('beforeend', paymentFieldTemplate);
-        }
-        
-        // Remove o campo de pagamento quando clica no ícone de x
-        if (event.target.classList.contains('bi-x-circle-fill')) {
-            // Remove o div pai do ícone (campo de pagamento) do contêiner
-            const paymentField = event.target.closest('.input-group-payment');
-            if (paymentField) {
-                paymentField.remove();
-            }
-        }
-    });
+const closePopUp = document.querySelector('.close-popup').addEventListener('click', () =>{
+    popUp.classList.remove('active')
+});
+
+function alert(typeAlert, titleAlert, bodyAlert) {
+    const iconAlert = document.querySelector('.alert-icon'),
+        titlePopup = document.querySelector('.popup-title'),
+        bodyPopup = document.querySelector('.popup-body p'),
+        popUp = document.querySelector('.popup-container');
+
+    // Remove todas as classes anteriores
+    iconAlert.className = 'alert-icon'; // Reseta o ícone para sua classe base
+
+    if (typeAlert === "warning") {
+        iconAlert.style.color = '#f00';
+        iconAlert.classList.add('bi', 'bi-exclamation-triangle-fill');
+    } else if (typeAlert === "alert") {
+        iconAlert.style.color = '#f39c12';
+        iconAlert.classList.add('bi', 'bi-exclamation-triangle-fill');
+    } else {
+        iconAlert.style.color = '#2ecc71';
+        iconAlert.classList.add('bi', 'bi-check-circle-fill');
+    }
+
+    // Atualiza o título e o corpo do popup
+    titlePopup.textContent = titleAlert;
+    bodyPopup.textContent = bodyAlert;
+
+    // Exibe o popup
+    popUp.classList.add('active');
 }
 
 function toggleLoader(show) {
@@ -123,50 +108,62 @@ function toggleLoader(show) {
     loaderBackground.classList.toggle('hiddenLoader', !show)
 }
 
-function showPopup() {
-    [button, buttonTwo].forEach(btn => {
-        btn.addEventListener('click', (event) => {
-            event.preventDefault();
-            popup.style.display = 'flex';
+function extractCityNames(cities) {
+    return Object.values(cities).map(city => city.nome);
+}
+
+async function initCitySuggestions() {
+    const cityNames = await fetchCityNames();
+    const input = document.getElementById('input1');
+    const suggestions = document.getElementById('suggestions');
+
+    input.addEventListener('input', () => filterCities(cityNames, input, suggestions));
+}
+
+function filterCities(cityNames, input, suggestions) {
+    const inputValue = input.value.toLowerCase();
+    suggestions.innerHTML = '';
+
+    const filteredCities = cityNames.filter(city => city.toLowerCase().includes(inputValue));
+
+    if (filteredCities.length > 0 && inputValue) {
+        suggestions.style.display = 'block';
+        filteredCities.forEach(city => {
+            const item = document.createElement('div');
+            item.classList.add('suggestion-item');
+            item.textContent = city;
+
+            item.addEventListener('click', () => {
+                input.value = city;
+                suggestions.innerHTML = '';
+                suggestions.style.display = 'none';
+            });
+
+            suggestions.appendChild(item);
         });
-    });
+    } else {
+        suggestions.style.display = 'none';
+    }
 }
 
-function showCreateTicket() {
-    const buttonAdd = document.querySelector('.btn-add')
-    
-    buttonAdd.addEventListener('click', (event) =>{
-        event.preventDefault();
-        popupTicketCreate.style.display = 'flex'
-    })
-}
-
-function clearPopupFields() {
-    // Limpar os campos de entrada de número (inputs) nas refeições
-    document.querySelectorAll('.popup-input-container input[type="number"]').forEach(input => {
-        input.value = ''; // Limpa os campos de quantidade e valor
-    });
-
-    // Seleciona todos os campos de pagamento dinâmicos
-    const paymentFields = document.querySelectorAll('.input-group-payment');
-
-    // Se houver mais de um campo de pagamento, remove os adicionais, exceto o primeiro
-    paymentFields.forEach((field, index) => {
-        if (index === 0) {
-            // Limpa o valor do input do primeiro campo de pagamento
-            field.querySelector('.input-amount').value = '';
-        } else {
-            // Remove os campos adicionais
-            field.remove();
-        }
-    });
+async function fetchCityNames() {
+    try {
+        toggleLoader(true)
+        const cities = await getLocations();
+        return extractCityNames(cities);
+    } catch (error) {
+        console.error(`Erro ao buscar nomes das cidades: ${error.message}`);
+        return [];
+    } finally {
+        toggleLoader(false)
+    }
 }
 
 function initRegistrationTable() {
     // Seleciona todas as linhas da tabela de registro
     const rows = document.querySelectorAll(".registration-table tbody tr");
 
-    // Atualiza os totais sempre que algo muda nos campos de entrada
+    // Função para atualizar os totais
     const updateTotals = () => {
         let totalGeral = 0; // Armazena o total em valor monetário
         let quantidadeGeral = 0; // Armazena o total de quantidades
@@ -185,15 +182,18 @@ function initRegistrationTable() {
             const totalQuantidade = masculino + feminino;
             const totalValor = totalQuantidade * valor;
 
+            // Identifica a faixa etária com base no conteúdo da primeira célula
+            let faixa = row.children[0].textContent.trim();
+            faixa = faixa.replace("+", "plus").replace("-", "-").toLowerCase(); // Formata "10+" para "10-plus"
+
             // Atualiza os totais na seção Totais com base no data-faixa
-            const faixa = row.dataset.faixa;
             const totalItem = document.querySelector(`.totais .total-item[data-faixa="${faixa}"]`);
             if (totalItem) {
                 totalItem.querySelector(".total-quantity").textContent = totalQuantidade;
                 totalItem.querySelector(".total-value").textContent = `R$ ${totalValor.toFixed(2)}`;
             }
 
-            // Adiciona ao total geral e à quantidade geral
+            // Soma os valores ao total geral
             totalGeral += totalValor;
             quantidadeGeral += totalQuantidade;
         });
@@ -220,14 +220,13 @@ function initRegistrationTable() {
     updateTotals();
 }
 
-
 function updatePaymentInfo() {
     // Definindo as faixas etárias e valores padrão
     const faixas = [
         { faixa: '0-6', valor: 0 },
         { faixa: '7-10', valor: 120 },
-        { faixa: '10+', valor: 200 },
-        { faixa: 'Visitante', valor: 100 }
+        { faixa: '10-plus', valor: 200 },
+        { faixa: 'visitante', valor: 100 }
     ];
 
     let totalGeral = 0;
@@ -260,7 +259,6 @@ function updatePaymentInfo() {
     // Atualizando o total geral no painel de pagamento
     document.querySelector(".totais .total-value.geral").textContent = `R$ ${totalGeral.toFixed(2)}`;
 }
-
 
 function openPaymentModal() {
     // Obtendo o valor total geral do painel de totais
@@ -361,42 +359,93 @@ document.addEventListener("click", function(event) {
     }
 });
 
-// Função para finalizar o pagamento
-function finalizePayment() {
-    // Obtém o valor total geral
+async function finalizePayment() {
     const totalValueElement = document.querySelector('#total-value-modal');
     const totalGeral = parseFloat(totalValueElement.textContent.replace('R$', '').trim()) || 0;
+    const locality = document.querySelector('#locality-modal').innerText;
 
-    // Seleciona todos os grupos de pagamento
     const paymentGroups = document.querySelectorAll('.input-group-payment');
 
     let totalPago = 0;
+    const formasDePagamento = [];
 
-    // Itera por todos os grupos de pagamento para somar os valores
-    paymentGroups.forEach(group => {
-        const paymentAmountInput = group.querySelector('.input-amount'); // Agora usando a classe .input-amount
-        const paymentAmount = parseFloat(paymentAmountInput?.value) || 0;
-        totalPago += paymentAmount;
+    // Inicializa as faixas etárias e as quantidades com base nos valores da seção "Totais"
+    const faixas = [
+        { faixa: '0-6', quantidade: 0 },
+        { faixa: '7-10', quantidade: 0 },
+        { faixa: '10plus', quantidade: 0 },
+        { faixa: 'visitante', quantidade: 0 }
+    ];
+
+    // Obtém as quantidades das faixas diretamente da seção de totais
+    faixas.forEach((faixa) => {
+        const totalQuantityElement = document.querySelector(`.totais .total-item[data-faixa="${faixa.faixa}"] .total-quantity`);
+        
+        if (totalQuantityElement) {
+            faixa.quantidade = parseInt(totalQuantityElement.textContent) || 0;
+        }
     });
 
-    // Verificação e cálculo do pagamento
-    if (!isNaN(totalPago) && !isNaN(totalGeral)) {
-        const totalPagoNumber = Number(totalPago);
-        const totalGeralNumber = Number(totalGeral);
+    // Calcula os pagamentos
+    paymentGroups.forEach(group => {
+        const paymentTypeSelect = group.querySelector('.select-payment');
+        const paymentType = paymentTypeSelect?.value || 'N/A';
 
-        if (totalPagoNumber >= totalGeralNumber) {
-            alert(`Pagamento de R$ ${totalPagoNumber.toFixed(2)} realizado com sucesso!`);
-            closePaymentModal();
+        const paymentAmountInput = group.querySelector('.input-amount');
+        const paymentAmount = parseFloat(paymentAmountInput?.value) || 0;
+
+        totalPago += paymentAmount;
+        if (paymentAmount !== 0) {
+            formasDePagamento.push({
+                tipo: paymentType,
+                valor: paymentAmount
+            });
+        }
+    });
+
+    // Verifica se os valores são válidos
+    if (!isNaN(totalPago) && !isNaN(totalGeral)) {
+        if (totalPago === totalGeral) {
+            const paymenteData = {
+                localidade: locality,
+                qtdDetalhes: faixas.map(faixa => ({
+                    faixa: faixa.faixa,
+                    quantidade: faixa.quantidade,
+                })),
+                quantidadeTotal: faixas.reduce((total, faixa) => total + faixa.quantidade, 0),
+                valorTotal: totalPago,
+                formasDePagamento: formasDePagamento,
+            };
+
+            try {
+                const statusInscricaoAvulsa = await registrarInscricaoAvulsa(paymenteData);
+
+                if (statusInscricaoAvulsa === 201) {
+                    console.log(paymenteData);
+                    alert("success","Pagamento Realizado",`Pagamento de R$ ${totalPago.toFixed(2)} realizado com sucesso!`);
+                    closePaymentModal();
+                } else if (statusInscricaoAvulsa === 401) {
+                    alert("alert","Erro na localidade","Localidade inválida! Verifique as informações e tente novamente.");
+                } else if (statusInscricaoAvulsa === 500) {
+                    alert("warning","Erro interno","Erro interno no servidor! Não foi possível registrar a inscrição.");
+                } else {
+                    alert("warning","Erro desconhecido","Erro desconhecido ao tentar registrar a inscrição. Verifique os dados e tente novamente.");
+                }
+            } catch (error) {
+                console.error("Erro ao processar a inscrição avulsa:", error);
+                alert("warning","Erro Inesperado","Erro inesperado! Verifique a conexão e tente novamente.");
+            }
+        } else if (totalPago > totalGeral) {
+            const diferenca = (totalPago - totalGeral).toFixed(2);
+            alert("alert","Erro no Pagamento",`Valor excedente! O valor pago é R$ ${diferenca} a mais do que o necessário. Verifique se os valores estão corretos`);
         } else {
-            const diferenca = (totalGeralNumber - totalPagoNumber).toFixed(2);
-            alert(`Valor insuficiente! Ainda faltam R$ ${diferenca} para concluir o pagamento.`);
+            const diferenca = (totalGeral - totalPago).toFixed(2);
+            alert("alert","Erro no pagamento",`Valor insuficiente! Ainda faltam R$ ${diferenca} para concluir o pagamento.`);
         }
     } else {
-        alert("Erro: Os valores de pagamento ou total geral não são numéricos.");
+        alert("alert","Erro no pagamento","Erro: Os valores de pagamento ou total geral não são numéricos.");
     }
 }
-
-
 
 // Atribuir os eventos aos botões e inputs
 document.querySelector('.btn-submit-payment').addEventListener('click', finalizePayment);
@@ -407,6 +456,7 @@ document.querySelector('button').addEventListener('click', openPaymentModal);
 function closePaymentModal() {
     // Fecha o modal de pagamento, alterando o estilo de display para 'none'
     document.getElementById('payment-modal').style.display = 'none';
+    window.location.reload();
 }
 
 // Atualizar os totais assim que os valores de quantidade ou faixa forem modificados
@@ -415,360 +465,324 @@ allInputs.forEach(input => {
     input.addEventListener('input', updatePaymentInfo);
 });
 
-// Atualizando os totais na primeira execução
-updatePaymentInfo();
+//Scripts do Ticket
 
-// Função para exibir o popup de ticket
-buttonConfigTicket.addEventListener('click', (event) => {
-    event.preventDefault();
-    popupTicket.style.display = 'flex';
+// Variáveis globais para armazenar as configurações e as vendas
+let ticketConfigs = {};
+let ticketSales = [];
+
+// Popup de configuração
+const configTicketPopup = document.querySelector('.ticket-popup-container');
+const btnConfigTicket = document.querySelector('.btn-config-ticket');
+const closePopupTicket = document.getElementById('close-popup-ticket');
+
+// Popup de venda
+const saleTicketPopup = document.querySelector('.ticket-sale-popup-container');
+const btnTicketSale = document.querySelector('.btn-ticket-sale');
+const closePopupSale = document.getElementById('close-popup-sale');
+const mealSaleSelect = document.querySelector('.meal-sale-select');
+const ticketQuantity = document.querySelector('#ticket-quantity');
+const btnSaveSale = document.querySelector('.btn-save-sale');
+
+// Abrir o popup de configuração
+btnConfigTicket.addEventListener('click', () => {
+    configTicketPopup.classList.add('active');
 });
 
-// Função para fechar o popup de despesas
-closePopupExpenses.addEventListener('click', (event) => {
-    event.preventDefault();
-    popup.style.display = 'none';
+// Fechar o popup de configuração
+closePopupTicket.addEventListener('click', () => {
+    configTicketPopup.classList.remove('active');
 });
 
-// Função para fechar o popup de ticket
-closePopupTicket.addEventListener('click', (event) => {
-    event.preventDefault();
-    popupTicket.style.display = 'none';
-});
+// Salvar a configuração do ticket
+function saveTicketConfig() {
+    const day = document.querySelector('#day-select').value;
+    const meal = document.querySelector('#meal-select').value;
+    const valueMeal = document.querySelector('#ticket-value');
+    const value = valueMeal.value;
 
-// Função para fechar o popup de criação
-closePopUpCreate.addEventListener('click', (event) => {
-    event.preventDefault();
-    popupTicketCreate.style.display = 'none';
-    clearPopupFields();
-});
+    // Criar um identificador único baseado no dia e refeição
+    const ticketKey = `${day}-${meal}`;
 
-// Função para fechar o popup de alerta
-closePopUpAlert.addEventListener('click', (event) => {
-    event.preventDefault();
-    popUpAlert.style.display = 'none';
-});
+    // Salvar ou atualizar a configuração no objeto ticketConfigs
+    ticketConfigs[ticketKey] = { day, meal, value };
 
+    // Limpar o valor do input
+    valueMeal.value = '';
 
-function extractCityNames(cities) {
-    return Object.values(cities).map(city => city.nome);
+    // Atualizar a tabela e o select com a configuração mais recente
+    updateMealSaleSelect();
+    updateTableInfo();
+
+    // Salvar ticketConfigs no localStorage para persistência
+    saveTicketConfigsToLocalStorage();
 }
 
-async function initCitySuggestions() {
-    const cityNames = await fetchCityNames();
-    const input = document.getElementById('input1');
-    const suggestions = document.getElementById('suggestions');
+document.querySelector('.btn-save-ticket').addEventListener('click', saveTicketConfig)
 
-    input.addEventListener('input', () => filterCities(cityNames, input, suggestions));
-}
+// Atualizar as opções de refeição no popup de venda
+function updateMealSaleSelect() {
+    mealSaleSelect.innerHTML = ''; // Limpar as opções atuais para evitar duplicação
 
-function filterCities(cityNames, input, suggestions) {
-    const inputValue = input.value.toLowerCase();
-    suggestions.innerHTML = '';
+    // Verificar se existem refeições configuradas
+    if (Object.keys(ticketConfigs).length === 0) {
+        const noMealOption = document.createElement('option');
+        noMealOption.value = '';
+        noMealOption.textContent = 'Nenhuma Refeição criada';
+        mealSaleSelect.appendChild(noMealOption);
+    } else {
+        // Adiciona a opção "Selecione uma refeição" no começo
+        const selectMealOption = document.createElement('option');
+        selectMealOption.value = '';
+        selectMealOption.textContent = 'Selecione uma refeição';
+        mealSaleSelect.appendChild(selectMealOption);
 
-    const filteredCities = cityNames.filter(city => city.toLowerCase().includes(inputValue));
-
-    if (filteredCities.length > 0 && inputValue) {
-        suggestions.style.display = 'block';
-        filteredCities.forEach(city => {
-            const item = document.createElement('div');
-            item.classList.add('suggestion-item');
-            item.textContent = city;
-
-            item.addEventListener('click', () => {
-                input.value = city;
-                suggestions.innerHTML = '';
-                suggestions.style.display = 'none';
-            });
-
-            suggestions.appendChild(item);
+        // Iterar sobre os itens armazenados no objeto e adicionar como opções
+        Object.values(ticketConfigs).forEach(config => {
+            const option = document.createElement('option');
+            option.value = `${config.day} - ${config.meal}`;
+            option.textContent = `${config.day} - ${config.meal}`;
+            mealSaleSelect.appendChild(option);
         });
-    } else {
-        suggestions.style.display = 'none';
     }
 }
 
-async function fetchCityNames() {
-    try {
-        toggleLoader(true)
-        const cities = await getLocations();
-        return extractCityNames(cities);
-    } catch (error) {
-        console.error(`Erro ao buscar nomes das cidades: ${error.message}`);
-        return [];
-    } finally {
-        toggleLoader(false)
-    }
-}
 
-let mealPrices = {};
+// Atualizar a tabela de informações
+function updateTableInfo() {
+    const mealTableBody = document.querySelector('#meal-table tbody');
+    mealTableBody.innerHTML = ''; // Limpar as linhas da tabela antes de adicionar as novas
 
-// Função para carregar valores salvos do Local Storage
-function loadMealPrices() {
-    const savedMealPrices = JSON.parse(localStorage.getItem('mealPrices'));
-    if (savedMealPrices) {
-        mealPrices = savedMealPrices;
-        valueCafeSabado.value = savedMealPrices.caféSábado || '';
-        valueAlmoçoSabado.value = savedMealPrices.almocoSábado || '';
-        valuejantaSabado.value = savedMealPrices.jantarSábado || '';
-        valueCafeDomingo.value = savedMealPrices.caféDomingo || '';
-        valueAlmoçoDomingo.value = savedMealPrices.almocoDomingo || '';
-    } else {
-        // Inicializa com valores padrão caso ainda não tenha nada salvo
-        mealPrices = {
-            caféSábado: 0,
-            almocoSábado: 0,
-            jantarSábado: 0,
-            caféDomingo: 0,
-            almocoDomingo: 0
-        };
-    }
-}
+    // Iterar sobre os itens armazenados no objeto
+    Object.entries(ticketConfigs).forEach(([ticketKey, config]) => {
+        const row = document.createElement('tr');
 
-function configFood() {
-    // Função para salvar as configurações no Local Storage
-    function saveMealPrices() {
-        mealPrices = {
-            caféSábado: parseFloat(valueCafeSabado.value) || 0,
-            almocoSábado: parseFloat(valueAlmoçoSabado.value) || 0,
-            jantarSábado: parseFloat(valuejantaSabado.value) || 0,
-            caféDomingo: parseFloat(valueCafeDomingo.value) || 0,
-            almocoDomingo: parseFloat(valueAlmoçoDomingo.value) || 0
-        };
+        // Coluna Refeição
+        const mealCell = document.createElement('td');
+        mealCell.textContent = `${config.meal} - ${config.day}`;
+        row.appendChild(mealCell);
 
-        console.log(mealPrices)
-        localStorage.setItem('mealPrices', JSON.stringify(mealPrices));
-    }
-
-    // Carrega os valores das refeições ao abrir a página
-    loadMealPrices();
-
-    // Evento para salvar os valores das refeições ao clicar em "Registrar Configuração"
-    registerConfig.addEventListener('click', (event) => {
-        event.preventDefault();
-        saveMealPrices();
-        popupTicket.style.display = 'none';
-    });
-}
-
-// Função para calcular o valor total da refeição com base na quantidade e no valor unitário
-function calculateTotalValue() {
-    const day = document.querySelector('.select-day').value; 
-    const meal = document.querySelector('.select-meal').value; 
-    const quantity = parseFloat(document.querySelector('.input-Qtd').value) || 0; 
-    const mealKey = meal + day;
-    const unitPrice = mealPrices[mealKey] || 0;  // Obtém o valor da refeição com base no dia e no tipo de refeição
-    const totalValue = quantity * unitPrice;  // Calcula o valor total
-
-    // Atualiza o campo 'input-value' com o valor total
-    document.querySelector('.input-value').value = totalValue.toFixed(2);  
-}
-
-let mealEntryData = {};
-
-// Função para salvar os dados da refeição e pagamentos
-function saveMealEntry() {
-    // Coleta os dados dos campos de refeição
-    const day = document.querySelector('.select-day').value;
-    const meal = document.querySelector('.select-meal').value;
-    const quantity = document.querySelector('.input-Qtd').value;
-    const value = parseFloat(document.querySelector('.input-value').value) || 0;  // Valor total já calculado
-
-    // Coleta os dados dos métodos de pagamento
-    const paymentFields = document.querySelectorAll('.input-group-payment');
-    const payments = Array.from(paymentFields).map(field => {
-        const paymentType = field.querySelector('.select-payment').value;
-        const amount = parseFloat(field.querySelector('.input-amount').value) || 0;
-        return { paymentType, amount };
-    });
-
-    // Calcula o valor total dos pagamentos
-    const totalPayment = payments.reduce((acc, payment) => acc + payment.amount, 0);
-    
-    // Verifica se o valor total dos pagamentos corresponde ao valor da refeição
-    if (totalPayment !== value) {
-        const missingAmount = (value - totalPayment).toFixed(2);
-        alertPopUp(`O total dos pagamentos não corresponde ao valor da refeição. Faltam R$ ${missingAmount}. Por favor, verifique os valores.`);
-        return false;  // Indica falha na verificação
-    } else {
-
-        // Salva os dados no objeto global
-        mealEntryData = {
-            day,
-            meal,
-            quantity,
-            value,
-            payments
-        };
-
-        updateMealTable();
-        updatePaymentHistory(mealEntryData);
-        return true;  // Indica sucesso na verificação
-    }
-}
-
-// Eventos para calcular o valor total da refeição em tempo real
-document.querySelector('.input-Qtd').addEventListener('input', calculateTotalValue);
-document.querySelector('.select-day').addEventListener('change', calculateTotalValue);
-document.querySelector('.select-meal').addEventListener('change', calculateTotalValue);
-
-// Função para atualizar a tabela com base nos dados do mealEntryData
-function updateMealTable() {
-    const rows = document.querySelectorAll('.meal-table tbody tr');
-
-    rows.forEach(row => {
-        const dayCell = row.querySelector('.day-meal').textContent.trim();
-        const mealCell = row.querySelector('.meal-item').textContent.trim().toLowerCase();
-
-        console.log(`Comparando ${dayCell} com ${mealEntryData.day} e ${mealCell} com ${mealEntryData.meal}`);
+        // Coluna Valor com X de exclusão
+        const valueCell = document.createElement('td');
+        valueCell.textContent = `R$: ${config.value}`;
         
-        if (dayCell === mealEntryData.day && mealCell === mealEntryData.meal.toLowerCase()) {
-            // Atualiza a quantidade e o valor total na linha correspondente
-            row.querySelector('.qty label').textContent = mealEntryData.quantity;
-            row.querySelector('.total label').textContent = `R$ ${mealEntryData.value.toFixed(2)}`;
+        // Criar o X de exclusão com &times;
+        const deleteIcon = document.createElement('span');
+        deleteIcon.classList.add('close-ticket');
+        deleteIcon.innerHTML = '&times;'; // O X como texto HTML
 
-            console.log("Linha da tabela atualizada:", dayCell, mealCell);
-        }
+        // Adicionar o X ao lado do valor
+        valueCell.appendChild(deleteIcon);
+        
+        // Adicionar a célula de valor à linha
+        row.appendChild(valueCell);
+
+        // Adicionar a linha à tabela
+        mealTableBody.appendChild(row);
+
+        // Lógica para excluir a refeição quando o X for clicado
+        deleteIcon.addEventListener('click', () => {
+            // Remover a refeição do objeto ticketConfigs
+            delete ticketConfigs[ticketKey];
+
+            // Atualizar a tabela e o select
+            updateMealSaleSelect();
+            updateTableInfo();
+
+            // Salvar novamente no localStorage
+            saveTicketConfigsToLocalStorage();
+        });
     });
 }
 
-// Função para atualizar o histórico de pagamentos
-function updatePaymentHistory(data) {
-    const historyList = document.querySelector('#payment-history-list');
-    const historyNone = document.querySelector('.history-none');
-    const ticketHistory = document.querySelector('.ticket-history');
 
-    // Cria uma nova linha para o corpo da tabela de histórico
-    const newHistoryRow = document.createElement('tr');
-    newHistoryRow.innerHTML = `
-        <td class="day-meal">${data.day}</td>
-        <td class="meal-item">${data.meal}</td>
-        <td class="history-col-qty">${data.quantity}</td>
-        <td class="history-col-total">R$ ${data.value.toFixed(2)}</td>
-        <td class="history-col-payments">
-            ${data.payments.map(payment => `
-                <div class="history-payment-item">
-                    <strong>${payment.paymentType}:</strong> R$ ${payment.amount.toFixed(2)}
+
+// Salvar a configuração no localStorage
+function saveTicketConfigsToLocalStorage() {
+    localStorage.setItem('ticketConfigs', JSON.stringify(ticketConfigs));
+}
+
+// Carregar a configuração do localStorage
+function loadTicketConfigsFromLocalStorage() {
+    const savedConfigs = localStorage.getItem('ticketConfigs');
+    if (savedConfigs) {
+        ticketConfigs = JSON.parse(savedConfigs);
+        updateMealSaleSelect();
+        updateTableInfo();
+    }
+}
+
+// Lógica do botão Limpar Configurações
+document.querySelector('.btn-clear-ticket').addEventListener('click', () => {
+    // Limpar o objeto ticketConfigs
+    ticketConfigs = {};
+
+    // Atualizar o select e a tabela para refletir a ausência de configurações
+    updateMealSaleSelect();
+    updateTableInfo();
+
+    // Remover as configurações salvas no localStorage
+    localStorage.removeItem('ticketConfigs');
+});
+
+const toggleSalePopup = ()=>{
+    saleTicketPopup.classList.contains('active')
+    ? saleTicketPopup.classList.remove('active')
+    : saleTicketPopup.classList.add('active');
+};
+
+btnTicketSale.addEventListener('click', toggleSalePopup);
+closePopupSale.addEventListener('click', toggleSalePopup);
+
+// Registrar a venda de ticket
+btnSaveSale.addEventListener('click', () => {
+    const selectedMeal = mealSaleSelect.value;
+    const quantity = ticketQuantity.value;
+
+    if (selectedMeal && quantity > 0) {
+        // Salvar a venda
+        ticketSales.push({ meal: selectedMeal, quantity });
+
+        // Exibir uma mensagem de sucesso
+        alert(`Venda registrada: ${quantity} tickets vendidos para ${selectedMeal}`);
+
+        // Fechar o popup
+        saleTicketPopup.classList.remove('active');
+    } else {
+        alert('Selecione uma refeição e informe a quantidade!');
+    }
+});
+
+// Seleciona os elementos do DOM
+const mealHistoryContainer = document.querySelector('.meal-history-container');
+const noHistoryElement = document.querySelector('.no-history');
+const historyElement = document.querySelector('.history');
+const mealHistoryTableBody = document.querySelector('#meal-history-table tbody');
+const refreshButton = document.querySelector('.refresh-history');
+
+// Função para buscar dados da API
+async function fetchMealHistory() {
+    try {
+        // const response = await fetch('https://suaapi.com/historico'); // Substitua pela URL da sua API
+        const data = await response.json();
+
+        if (data.length === 0) {
+            // Caso não haja histórico, exibe a tela "sem histórico"
+            noHistoryElement.style.display = 'flex';
+            historyElement.style.display = 'none';
+        } else {
+            // Caso haja histórico, preenche a tabela
+            noHistoryElement.style.display = 'none';
+            historyElement.style.display = 'block';
+            mealHistoryTableBody.innerHTML = ''; // Limpa a tabela antes de adicionar as novas linhas
+
+            data.forEach(entry => {
+                const row = document.createElement('tr');
+                const dateCell = document.createElement('td');
+                dateCell.textContent = entry.date; // A data da venda
+                row.appendChild(dateCell);
+
+                const mealCell = document.createElement('td');
+                mealCell.textContent = entry.meal; // O tipo de refeição
+                row.appendChild(mealCell);
+
+                const quantityCell = document.createElement('td');
+                quantityCell.textContent = entry.quantity; // Quantidade vendida
+                row.appendChild(quantityCell);
+
+                const totalValueCell = document.createElement('td');
+                totalValueCell.textContent = `R$ ${entry.totalValue.toFixed(2)}`; // Valor total da venda
+                row.appendChild(totalValueCell);
+
+                mealHistoryTableBody.appendChild(row);
+            });
+        }
+    } catch (error) {
+        console.error('Erro ao buscar o histórico:', error);
+    }
+}
+
+// Função para lidar com o clique no botão de atualização
+refreshButton.addEventListener('click', () => {
+    fetchMealHistory(); // Atualiza o histórico quando o botão é clicado
+});
+
+// Função para criar o campo de pagamento
+function createPaymentField() {
+    // Encontra o container onde os campos de pagamento serão inseridos
+    const paymentGroup = document.querySelector('.payment-group-ticket');
+
+    // Verifica se o container existe antes de adicionar o campo
+    if (!paymentGroup) {
+        console.error("Container 'payment-group-ticket' não encontrado!");
+        return;
+    }
+
+    // Template HTML do novo campo de pagamento
+    const ticketPaymentTemplate = `
+        <div class="ticket-payment">
+            <div class="payment-header">
+                <i class="bi bi-plus-circle-fill add-payment" style="font-size: 20px; color: #28a745; cursor: pointer;"></i>
+                <i class="bi bi-x-circle-fill remove-payment" style="color: #dc3545; cursor: pointer;"></i>
+            </div>
+            <div class="payment-field">
+                <div class="payment-info-left">
+                    <label for="payment-method">Método de pagamento:</label>
+                    <select class="payment-method-select" name="payment-method">
+                        <option value="Dinheiro">Dinheiro</option>
+                        <option value="PIX">PIX</option>
+                        <option value="Débito">Débito</option>
+                        <option value="Crédito">Crédito</option>
+                    </select>
                 </div>
-            `).join('')}
-        </td>
+                <div class="payment-info-right">
+                    <label for="payment-amount">Valor:</label>
+                    <input type="number" class="payment-amount-input" name="payment-amount" placeholder="R$ 00,00">
+                </div>
+            </div>
+        </div>
     `;
 
-    // Adiciona a nova linha ao corpo da tabela dentro do primeiro item da lista
-    const tableBody = historyList.querySelector('tbody');
-    tableBody.appendChild(newHistoryRow);
+    // Adiciona o novo campo de pagamento ao container
+    paymentGroup.insertAdjacentHTML('beforeend', ticketPaymentTemplate);
 
-    // Verifica se há itens no histórico e alterna a exibição
-    if (tableBody.children.length > 0) {
-        historyNone.style.display = 'none';  // Esconde a mensagem "Nenhum Histórico registrado"
-        historyList.style.display = 'block';  // Mostra a lista de histórico
-        ticketHistory.style.backgroundColor = '#fff';  // Altera o fundo para branco
-    }
-}
+    // Adiciona evento ao ícone de adicionar para criar novos campos
+    const newAddPaymentButton = paymentGroup.querySelector('.ticket-payment:last-child .add-payment');
+    newAddPaymentButton.addEventListener('click', createPaymentField);
 
-// Função para configurar o botão de salvar
-function configureSaveMealEntryButton() {
-    document.querySelector('.btn-save').addEventListener('click', (event) => {
-        event.preventDefault();
-        const isSaved = saveMealEntry();  // Executa a função e verifica o sucesso
-        if (isSaved) {
-            popupTicketCreate.style.display = 'none';
-            clearPopupFields();
-        }
+    // Adiciona evento ao ícone de remover para remover o campo de pagamento
+    const newRemovePaymentButton = paymentGroup.querySelector('.ticket-payment:last-child .remove-payment');
+    newRemovePaymentButton.addEventListener('click', function () {
+        const paymentBlock = newRemovePaymentButton.closest('.ticket-payment');
+        paymentBlock.remove();
     });
 }
 
-function registerExpense() {
-    // Seleciona o botão de registrar despesa
-    const registerExpenseButton = document.querySelector('.register-expenses');
-
-    // Seleciona a tabela de despesas, wrapper e popup
-    const expensesTable = document.querySelector('.table-expenses tbody'); // Presumo que você tenha uma <tbody> dentro da tabela
-    const expensesTableWrapper = document.querySelector('.expenses-table-wrapper');
-    const popup = document.querySelector('#popup'); // Certifique-se de ter a ID do popup
-
-    registerExpenseButton.addEventListener('click', (event) => {
-        event.preventDefault(); // Impede a ação padrão (caso esteja em um formulário)
-
-        const type = document.querySelector('#Tipo-saida').value.trim(), // Correção aqui, agora é '#Tipo-saida'
-          responsible = document.querySelector('.input-responsible').value.trim(),
-          description = document.querySelector('.input-description').value.trim(),
-          value = parseFloat(document.querySelector('.value-expenses').value.replace('R$', '').trim());
-
-
-        // Verifica se todos os campos estão preenchidos e o valor é numérico
-        if (responsible && description && !isNaN(value) && value > 0) {
-            const expenseData = {
-                type,
-                responsible,
-                description,
-                value: value.toFixed(2) // Formata o valor como 2 casas decimais
-            };
-
-            // Cria uma nova linha na tabela
-            const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td>${expenseData.type}</td>
-                <td>${expenseData.responsible}</td>
-                <td>${expenseData.description}</td>
-                <td class="expense-value-cell">R$ ${expenseData.value} <span class="expense-close-btn">&times;</span></td>
-            `;
-            expensesTable.appendChild(newRow);
-
-            // Limpa os campos de entrada
-            document.querySelector('.input-responsible').value = '';
-            document.querySelector('.input-description').value = '';
-            document.querySelector('.value-expenses').value = '';
-
-            // Exibe a tabela e oculta a mensagem "Sem Despesas"
-            document.querySelector('.table-none').style.display = 'none';
-            document.querySelector('.table-expenses').style.display = 'table';
-
-            // Ajusta o fundo do wrapper da tabela
-            expensesTableWrapper.style.backgroundColor = '#f2f2f2';
-
-            // Fecha o popup
-            popup.style.display = 'none';
-
-            // Adiciona o evento de exclusão na nova linha
-            const deleteIcon = newRow.querySelector('.expense-close-btn');
-            deleteIcon.addEventListener('click', () => {
-                newRow.remove();
-                checkTableContent(); // Verifica se a tabela está vazia após remoção
-            });
-        } else {
-            alert("Por favor, preencha todos os campos corretamente.");
-        }
-    });
-}
-
-// Função para verificar se a tabela está vazia e mostrar a mensagem apropriada
-function checkTableContent() {
-    const expensesTable = document.querySelector('.table-expenses tbody'); // A tabela de despesas
-
-    if (expensesTable.children.length === 0) {
-        document.querySelector('.table-none').style.display = 'block';
-        document.querySelector('.table-expenses').style.display = 'none';
-        document.querySelector('.expenses-table-wrapper').style.backgroundColor = '#919191';
-    }
-}
-
-// Função init para inicializar a página
+// Função de inicialização
 async function init() {
+    // Inicializa a lógica para criação de novos campos de pagamento
+    const addPaymentButton = document.querySelector('.add-payment');
+    if (addPaymentButton) {
+        addPaymentButton.addEventListener('click', createPaymentField);
+    }
+
+    // Outras funções do seu fluxo de inicialização (como darkmode, etc.)
     darkmode();
     expensesContent.classList.add('hidden');
     registrationContent.classList.add('hidden');
-    setActive(ticketLink);
-    registerExpense();
+    setActive(ticketLink);  
     initRegistrationTable();
-    showPopup();
     await initCitySuggestions();
-    configFood();
-    newpaymentMothod();
-    showCreateTicket();
-    configureSaveMealEntryButton();
     updatePaymentInfo();
     newPaymentMethod();
+    loadTicketConfigsFromLocalStorage();
+    fetchMealHistory();
+
+    // Cria o primeiro campo de pagamento ao carregar a página
+    const paymentGroup = document.querySelector('.payment-group-ticket');
+    if (paymentGroup && !paymentGroup.querySelector('.ticket-payment')) {
+        createPaymentField();
+    }
 
     // Evento de atualização para inputs da tabela de refeições
     document.querySelectorAll('.meal-table input[type="text"]').forEach(input => {
@@ -776,4 +790,5 @@ async function init() {
     });
 }
 
-init();
+// Chama a função init quando o DOM estiver completamente carregado
+document.addEventListener('DOMContentLoaded', init);

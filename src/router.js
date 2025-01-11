@@ -22,6 +22,26 @@ export async function getLocations() {
     return cities;
 }
 
+export async function getfinancialMovement() {
+    let moviments = {};
+    try{
+        const response = await fetch(`${apiUrl}/RegistroPagamento/movimentacao`);
+
+        if(!response.ok) {
+            throw new Error(`Erro ao buscar as movimentações: ${response.status} ${response.statusText}` )
+        }
+
+        const data = await response.json();
+        data.forEach(moviment => {
+            moviments[moviment.id] = {id: moviment.id, tipo: moviment.tipo, descricao: moviment.descricao, valor: moviment.valor, data: moviment.data}
+        })
+    } catch(error) {
+        console.error(`Error: ${error.message}`)
+    }
+
+    return moviments;
+}
+
 export async function getDataLocations() {
     try {
         const response = await fetch (`${apiUrl}/localidades`)
@@ -233,6 +253,47 @@ export async function generatePdf(localidade = null) {
     }
 }
 
+export async function createPdfMovement(groupedMovements) {
+    try {
+        // Envia os dados agrupados para o backend para gerar o PDF
+        const response = await fetch(`${apiUrl}/movementPdf/gerar-pdf`, {  
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ movements: groupedMovements })  // Envia os dados no corpo da requisição
+        });
+
+        // Verifica se a requisição foi bem-sucedida
+        if (!response.ok) {
+            throw new Error(`Erro ao gerar o PDF: ${response.status} ${response.statusText}`);
+        }
+
+        // Converte a resposta em blob para download
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        // Define o nome do arquivo para o download
+        const pdfFilename = 'movimentacoes_financeiras.pdf';
+
+        // Cria um link para download
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = pdfFilename;  // Nome do arquivo para o download
+        document.body.appendChild(link);
+        link.click();
+
+        // Remove o link após o download
+        link.remove();
+        window.URL.revokeObjectURL(url);
+
+        console.log('PDF gerado e baixado com sucesso.');
+    } catch (error) {
+        console.error('Erro ao fazer a requisição:', error);
+    }
+}
+
+
 export async function getpaymentReceipts() {
     try {
         const response = await fetch(`${apiUrl}/comprovantes`);
@@ -251,6 +312,7 @@ export async function getpaymentReceipts() {
         return null; // Retorna null ou outro valor em caso de erro
     }
 }
+
 
 // Função para buscar os comprovantes
 export async function getComprovantes() {
@@ -271,54 +333,31 @@ export async function getComprovantes() {
 }
 
 //FUNCOES PARA A TELA DE REGISTROS DE PAGAMENTOS
-export async function registrarInscricaoAvulsa(tipoInscricaoId, vlTotal, data, detalhes) {
+export async function registrarInscricaoAvulsa(paymenteData) {
     try {
-        console.log(tipoInscricaoId, vlTotal, data, detalhes);
-       
-        const response = await fetch(`${apiUrl}/inscricao-avulsa`, {
+        // Faz a requisição para registrar a inscrição avulsa
+        const response = await fetch(`${apiUrl}/RegistroPagamento/inscricao-avulsa`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                tipo_inscricao_id: tipoInscricaoId, 
-                qtd_masculino_06: detalhes.qtd_masculino_06 || 0,
-                qtd_feminino_06: detalhes.qtd_feminino_06 || 0,
-                qtd_masculino_7_10: detalhes.qtd_masculino_7_10 || 0,
-                qtd_feminino_7_10: detalhes.qtd_feminino_7_10 || 0,
-                qtd_masculino_normal: detalhes.qtd_masculino_normal || 0,
-                qtd_feminino_normal: detalhes.qtd_feminino_normal || 0,
-                qtd_masculino_visitante: detalhes.qtd_masculino_visitante || 0,
-                qtd_feminino_visitante: detalhes.qtd_feminino_visitante || 0,
-                vl_total: vlTotal,
-                data: data 
-            })
+            body: JSON.stringify(paymenteData), // Envia todos os dados de uma vez
         });
 
+        // Verifica o status da resposta
         if (response.status === 201) {
             const inscricaoData = await response.json();
-            
-            const responseDetalhe = await fetch(`${apiUrl}/inscricao-avulsa/detalhes/${inscricaoData.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    valor: vlTotal,
-                    formapagamento: detalhes.formapagamento
-                })
-            });
-
-            return responseDetalhe.status;
+            console.log("Inscrição registrada com sucesso:", inscricaoData);
+            return response.status; // Retorna 201 em caso de sucesso
+        } else {
+            console.error("Erro ao registrar inscrição avulsa:", response.status);
+            return response.status; // Retorna o status do erro
         }
-
-        return response.status;
     } catch (error) {
-        console.error('Erro ao registrar inscrição avulsa:', error);
-        return 500;
+        console.error("Erro ao registrar inscrição avulsa:", error);
+        return 500; // Retorna erro genérico para problemas no processo
     }
 }
-
 
 export async function registrarVendaAlimentacao(tipoRefeicao, quantidade, precoUnitario, dataVenda, formPagamento) {
     try {

@@ -19,7 +19,7 @@
             <div class="navbar-links">
                 <a href="#" class="inscricao-link">Inscrição</a>
                 <a href="#" class="ticket-link">Ticket</a>
-                <a href="#" class="expenses-link">Despesas</a>
+                <a href="#" class="expenses-link">Movimentação</a>
             </div>
         </div>
 
@@ -69,24 +69,24 @@
                                     <td>7-10</td>
                                     <td><input type="number" placeholder="0" class="masculino"></td>
                                     <td><input type="number" placeholder="0" class="feminino"></td>
-                                    <td><input type="number" placeholder="Valor" class="valor" value="120"></td>
+                                    <td><input type="number" placeholder="Valor" class="valor" value="0"></td>
                                 </tr>
                                 <tr>
                                     <td>10+</td>
                                     <td><input type="number" placeholder="0" class="masculino"></td>
                                     <td><input type="number" placeholder="0" class="feminino"></td>
-                                    <td><input type="number" placeholder="Valor" class="valor" value="200"></td>
+                                    <td><input type="number" placeholder="Valor" class="valor" value="100"></td>
                                 </tr>
                                 <tr>
                                     <td>Visitante</td>
                                     <td><input type="number" placeholder="0" class="masculino"></td>
                                     <td><input type="number" placeholder="0" class="feminino"></td>
-                                    <td><input type="number" placeholder="Valor" class="valor" value="100"></td>
+                                    <td><input type="number" placeholder="Valor" class="valor" value="0"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-    
+                    
                     <div class="totais">
                         <h2>Totais</h2>
                         <div class="total-row">
@@ -105,7 +105,7 @@
                             </div>
                     
                             <!-- Total para faixa 10+ -->
-                            <div class="total-item" data-faixa="10-plus">
+                            <div class="total-item" data-faixa="10plus">
                                 <span class="age-group">10+:</span>
                                 <span class="total-quantity">0</span>
                                 <span class="total-value">R$ 0,00</span>
@@ -121,15 +121,14 @@
                             <!-- Total Geral -->
                             <div class="total-item geral">
                                 <span>Total Quantidade:</span>
-                                <span class="total-qtd geral"> 0</span>
+                                <span class="total-qtd geral">0</span>
                             </div>
                             <div class="total-item geral">
                                 <span>Total Geral:</span>
                                 <span id="total-value-geral" class="total-value geral">R$ 0,00</span>
                             </div>
                         </div>                        
-                    </div>
-                    
+                    </div>                    
                 </div>
             </div>
         </form>
@@ -145,12 +144,12 @@
                 <div class="payment-info-wrapper">
                     <!-- Coluna única com total geral -->
                     <div class="payment-info-left">
-                        <p><strong>Total Geral:</strong> <label id="locality-modal"></label></p>
+                        <p><strong>Localidade:</strong> <label id="locality-modal"></label></p>
                     </div>
                     
                     <!-- Coluna única com total geral -->
                     <div class="payment-info-left">
-                        <p><strong>Total Geral:</strong> <label id="total-quantity-modal"></label></p>
+                        <p><strong>Quantidade Total:</strong> <label id="total-quantity-modal"></label></p>
                     </div>
 
                     <!-- Coluna central com valor final -->
@@ -187,272 +186,209 @@
             </div>
         </div>
     </div>
-    
 
     <div class="ticket-content">
-        <div class="table-container">
-            <button class="btn-config">CONFIGURAÇÃO</button>
-            <button class="btn-add">ADICIONAR</button>
-            <table class="meal-table">
-                <thead>
-                    <tr>
-                        <th>Dia</th>
-                        <th>Refeição</th>
-                        <th class="col-qty">Quantidade</th>
-                        <th class="col-total">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="day-meal">Sábado</td>
-                        <td class="meal-item">Café</td>
-                        <td class="qty"><label for=""></label></td>
-                        <td class="total"><label for=""></label></td>
-                    </tr>
-                    <tr>
-                        <td class="day-meal">Sábado</td>
-                        <td class="meal-item">Almoço</td>
-                        <td class="qty"><label for=""></label></td>
-                        <td class="total"><label for=""></label></td>
-                    </tr>
-                    <tr>
-                        <td class="day-meal">Sábado</td>
-                        <td class="meal-item">Jantar</td>
-                        <td class="qty"><label for=""></label></td>
-                        <td class="total"><label for=""></label></td>
-                    </tr>
-                    <tr>
-                        <td class="day-meal">Domingo</td>
-                        <td class="meal-item">Café</td>
-                        <td class="qty"><label for=""></label></td>
-                        <td class="total"><label for=""></label></td>
-                    </tr>
-                    <tr>
-                        <td class="day-meal">Domingo</td>
-                        <td class="meal-item">Almoço</td>
-                        <td class="qty"><label for=""></label></td>
-                        <td class="total"><label for=""></label></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <!-- Botões -->
+        <button class="btn-config-ticket">Configurar Ticket</button>
+        <button class="btn-ticket-sale">Adicionar Venda</button>
+    
+        <!-- Popup de configuração de ticket -->
+        <div class="ticket-popup-container">
+            <div class="ticket-popup">
+                <span class="close-popup" id="close-popup-ticket">&times;</span>
+                <h1>Configuração de Ticket</h1>
 
-        <div class="ticket-history">
-            <!-- Mensagem de nenhum histórico -->
-            <div class="history-none">
-                <i class="bi bi-emoji-dizzy"></i>
-                <p>Nenhum Histórico registrado</p>
-                <i class="bi bi-emoji-dizzy"></i>
+                <form id="ticket-config-form">
+                    <div class="form-group">
+                        <label for="day-select">Dia da Semana:</label>
+                        <select id="day-select" class="select-day">
+                            <option value="segunda">Segunda-feira</option>
+                            <option value="terça">Terça-feira</option>
+                            <option value="quarta">Quarta-feira</option>
+                            <option value="quinta">Quinta-feira</option>
+                            <option value="sexta">Sexta-feira</option>
+                            <option value="sexta">Sabado</option>
+                            <option value="sexta">Domingo</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="meal-select">Tipo de Refeição:</label>
+                        <select id="meal-select" class="select-meal">
+                            <option value="Café">Café</option>
+                            <option value="Almoço">Almoço</option>
+                            <option value="Janta">Janta</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="ticket-value">Valor do Ticket (R$):</label>
+                        <input type="number" id="ticket-value" placeholder="R$ 00,00" class="ticket-value">
+                    </div>
+    
+                    <button type="button" class="btn-save-ticket">Salvar Configuração</button>
+                </form>
             </div>
-        
-            <!-- Lista de histórico de pagamento -->
-            <ul id="payment-history-list">
-                <li>
-                    <table class="history-meal-table">
-                        <thead>
-                            <tr>
-                                <th>Dia</th>
-                                <th>Refeição</th>
-                                <th class="history-col-qty">Quantidade</th>
-                                <th class="history-col-total">Total</th>
-                                <th class="history-col-payments">Pagamentos</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Histórico de pagamento será inserido aqui -->
-                        </tbody>
-                    </table>
-                </li>
-            </ul>
         </div>
-        
-    </div>
-
-    <div id="popup" class="popup-create-ticket">
-        <div class="popup-content">
-            <span class="close-btn-ticket">&times;</span>
-            <h2 class="popup-title">Entrada de Refeição</h2>
-            
-            <div class="popup-input-container">
-                <div class="input-group">
-                    <label for="day-select">Dia:</label>
-                    <select class="select-day" id="day-select">
-                        <option value="Sábado">Sábado</option>
-                        <option value="Domingo">Domingo</option>
-                    </select>
-                </div>
+    
+        <!-- Popup de venda de ticket -->
+        <div class="ticket-sale-popup-container">
+            <div class="ticket-sale-popup">
+                <span class="close-popup" id="close-popup-sale">&times;</span>
+                <h1>Venda de Ticket</h1>
                 
-                <div class="input-group">
-                    <label for="meal-select">Refeição:</label>
-                    <select class="select-meal" id="meal-select">
-                        <option value="café">Café</option>
-                        <option value="almoco">Almoço</option>
-                        <option value="jantar">Jantar</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label for="meal-select">Quantidade:</label>
-                    <input type="number" name="" class="input-Qtd">
-                </div>
-                <div class="input-group">
-                    <label for="meal-select">Valor:</label>
-                    <input type="number" name="" class="input-value" readonly>
-                </div>
-            </div>
-
-            <!-- Modal de Pagamento -->
-            <div id="payment-modal" class="payment-modal">
-                <div class="payment-modal-content">
-                    <span class="close-btn" id="close-payment-modal">&times;</span>
-                    <h2>Selecione a Forma de Pagamento</h2>
-
-                    <div class="payment-container">
-                        <div class="input-group-payment">
-                            <div class="icon-add">
-                                <i class="bi bi-plus-circle-fill"></i>
+                <form id="ticket-sale-form">
+                    <div class="form-group">
+                        <label for="meal-sale-select">Escolha a Refeição:</label>
+                        <select id="meal-sale-select" class="meal-sale-select">
+                            <option value="">Nenhuma Refeição criada</option>
+                            <!-- As opções de refeições configuradas serão inseridas aqui -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <h3 class="details-subtitle">Detalhes da Refeição</h3>
+                        <div id="meal-details" class="meal-details">
+                            <div class="detail-item">
+                                <p><strong>Dia:</strong></p>
+                                <p id="meal-day"></p>
                             </div>
-
-                            <div class="input-group-payment-left">
-                                <label for="payment-type">Forma de pagamento:</label>
-                                <select class="select-payment" id="payment-type">
-                                    <option value="Dinheiro">Dinheiro</option>
-                                    <option value="PIX">PIX</option>
-                                    <option value="Debito">Débito</option>
-                                    <option value="Credito">Crédito</option>
-                                </select>
+                            <div class="detail-item">
+                                <p><strong>Refeição:</strong></p>
+                                <p id="meal-type"></p>
                             </div>
-
-                            <div class="input-group-payment-right">
-                                <label for="amount">Valor:</label>
-                                <input type="number" class="input-amount" id="amount" placeholder="R$ 00,00">
+                            <div class="detail-item">
+                                <p><strong>Valor:</strong></p>
+                                <p>R$ <span id="meal-value"></span></p>
+                            </div>
+                            <div class="detail-item">
+                                <p><strong>Valor Total:</strong></p>
+                                <p>R$ <span id="meal-value"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Formulário para a quantidade e formas de pagamento -->
+                    <div class="form-group">
+                        <label for="ticket-quantity">Quantidade Vendida:</label>
+                        <input type="number" id="ticket-quantity" placeholder="Quantidade" class="ticket-quantity">
+                    </div>
+        
+                    <!-- Grupo de pagamento -->
+                    <div class="payment-group-ticket">
+                        <div class="ticket-payment">
+                            <div class="payment-header">
+                                <i class="bi bi-plus-circle-fill add-payment"></i>
+                            </div>
+                            <div class="payment-field">
+                                <div class="payment-info-left">
+                                    <label for="payment-method">Método de pagamento:</label>
+                                    <select class="payment-method-select" name="payment-method">
+                                        <option value="Dinheiro">Dinheiro</option>
+                                        <option value="PIX">PIX</option>
+                                        <option value="Débito">Débito</option>
+                                        <option value="Crédito">Crédito</option>
+                                    </select>
+                                </div>
+                                <div class="payment-info-right">
+                                    <label for="payment-amount">Valor:</label>
+                                    <input type="number" class="payment-amount-input" name="payment-amount" placeholder="R$ 00,00">
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="payment-button-container">
-                        <button type="button" class="btn-submit-payment">Finalizar Pagamento</button>
-                    </div>
-                </div>
-            </div>
-            <div class="button-container">            
-                <button class="btn-save">SALVAR</button>
-            </div>
+                    
+                    <!-- Botão de registrar venda -->
+                    <button type="button" class="btn-save-sale" onclick="saveTicketSale()">Registrar Venda</button>
+                </form>
+            </div>            
         </div>
-    </div>
-    
-
-        <div id="popup" class="popup-ticket">
-            <div class="popup-content-ticket">
-                <span id="close-btn-ticket" class="close-btn-ticket">&times;</span>
-                <h2 class="popup-title">Configuração</h2>
-                <div class="popup-container-ticket">
-                    <div class="input-grup-ticket">
-                        <label for="">Valor do Café (Sábado):</label>
-                        <input type="number" class="value-cafe-sabado" placeholder="R$ 0,00">
-                    </div>
-                    <div class="input-grup-ticket">
-                        <label for="">Valor do Almoço (Sábado):</label>
-                        <input type="number" class="value-almoço--sabado" placeholder="R$ 0,00">
-                    </div>
-                    <div class="input-grup-ticket">
-                        <label for="">Valor da Jantar (Sábado):</label>
-                        <input type="number" class="value-janta-sabado" placeholder="R$ 0,00">
-                    </div>
-                    <div class="input-grup-ticket">
-                        <label for="">Valor do Café (Domingo):</label>
-                        <input type="number" class="value-cafe-domingo" placeholder="R$ 0,00">
-                    </div>
-                    <div class="input-grup-ticket">
-                        <label for="">Valor do Almoço (Domingo):</label>
-                        <input type="number" class="value-almoço-domingo" placeholder="R$ 0,00">
-                    </div>
-                </div>
-                <div class="register-button-container">
-                    <button class="register-ticket">SALVAR</button>
-                </div>
-            </div>
-        </div>
-
         
-    </div>
+        
+        <!-- Painel de informações -->
+        <div class="info-panel">
+            <h2>Definições de Refeição</h2>
+
+            <!-- Tabela de Refeições -->
+            <div class="table-container">
+                <table id="meal-table">
+                    <thead>
+                        <tr>
+                            <th>Refeição</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- As refeições serão inseridas aqui -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Botão para limpar as configurações -->
+            <button type="button" class="btn-clear-ticket">Limpar Configurações</button>
+        </div>
+
+        <div class="meal-history">
+            <div class="meal-history-container">
+                <button class="refresh-history">
+                    <i class="bi bi-arrow-clockwise"></i>
+                </button>
+                
+                <!-- Tela quando não há histórico -->
+                <div class="no-history">
+                    <h3>Nenhum histórico de vendas</h3>
+                </div>
+        
+                <!-- Tela com histórico -->
+                <div class="history">
+                    <h3>Histórico de Vendas</h3>
+                    <table id="sales-history-table">
+                        <thead>
+                            <tr>
+                                <th>Refeição</th>
+                                <th>Data</th>
+                                <th>Quantidade</th>
+                                <th>Total (R$)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- O histórico será inserido aqui -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>        
+
     </div>
     
-    
+        
     <div class="expenses-content">
-        <div class="input-grup-expenses">
-            <button class="button-add">NOVA RETIRADA</button>
-        </div>
-        <div class="expenses-table-wrapper">
-            <div class="table-none">
-                <p>Nenhuma despesa adicionada</p>
-                <button name="button-add-two" id="button-add-two" class="button-add-two">ADICIONAR</button>
-            </div>
-            <table class="table-expenses">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Responsável</th>
-                        <th>Descrição</th>
-                        <th>Valor</th> <!-- Removida a coluna de ações -->
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Conteúdo da tabela -->
-                </tbody>
-            </table>
-        </div>
-    
-        <div id="popup" class="popup">
-            <div class="popup-content">
-                <span class="close-btn-expenses">&times;</span>
-                <h2 class="popup-title">Registrar Despesa</h2>
-                <div class="popup-expenses">
-                    <div class="input-grup-popup">
-                        <label class="Tipo-saida">Tipo:</label>
-                        <select class="select-payment" id="Tipo-saida">
-                            <option value="Entrada">Entrada</option>
-                            <option value="Saida">Saida</option>
-                        </select>
-                    </div>
-                    <div class="input-grup-popup">
-                        <label for="">Responsável:</label>
-                        <input type="text" name="" class="input-responsible">
-                    </div>
-                    <div class="input-grup-popup">
-                        <label for="">Descrição:</label>
-                        <input type="text" name="" class="input-description">
-                    </div>
-                    <div class="input-grup-popup">
-                        <label for="">Valor:</label>
-                        <input type="text" name="" class="input-value value-expenses">
-                    </div>
-                </div>
-                <button class="register-expenses">REGISTRAR</button>
-            </div>
-        </div>
     </div>
-    
-        
     
 
     <div class="loader-background">
         <div class="simple-loader"></div>
     </div>
 
-    <div class="payment"></div>
-
-    <div class="popUp-container-alert">
-        <div class="popup-alert">
-            <span id="close-btn-alert" class="close-btn-alert">&times;</span>
-            <div class="title-alert">
-                <h3>ERRO NO PAGAMENTO</h6>
-            </div>
-            <div class="mensage-alert">
+    <div class="popup-container">
+        <div class="pop-up">
+            <!-- Botão de fechar -->
+            <span class="close-popup">&times;</span>
+    
+            <!-- Ícone de alerta -->
+            <i class="alert-icon"></i>
+    
+            <!-- Título do popup -->
+            <h1 class="popup-title"></h1>
+    
+            <!-- Corpo do popup com detalhes -->
+            <div class="popup-body">
                 <p></p>
             </div>
         </div>
     </div>
-
+    
+    
     <script type="module" src="../src/registro_pagamentos.js"></script>
 </body>
 </html>
