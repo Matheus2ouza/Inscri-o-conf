@@ -24,7 +24,8 @@ body.dark-mode {
     color: #e0e0e0; /* Cor do texto clara */
 }
 
-/* Navbar */
+/* INICIO NAV */
+
 nav {
     display: flex;
     align-items: center; /* Alinha itens verticalmente */
@@ -35,7 +36,7 @@ nav {
     padding: 0 20px; /* Espaçamento horizontal interno */
     position: fixed; /* Navbar fixa no topo */
     top: 0; /* Posicionada no topo */
-    z-index: 1000; /* Mantém a navbar acima de outros elementos */
+    z-index: 20; /* Mantém a navbar acima de outros elementos */
     flex-wrap: wrap; /* Permite que itens quebrem para nova linha se necessário */
 }
 
@@ -84,12 +85,12 @@ nav {
 /* Links adicionais na seção central da navbar */
 .nav-center .navbar-links {
     display: flex;
-    justify-content: flex-start; /* Alinha ao início horizontalmente */
+    justify-content: center; /* Alinha ao início horizontalmente */
     align-items: center; /* Alinha itens verticalmente */
     width: 100%;
     margin-top: 55px; /* Espaço acima dos links */
     gap: 10px; /* Espaçamento entre links */
-    padding-left: 250px; /* Espaço à esquerda */
+    padding-right: 190px;
 }
 
 /* Estilo dos links na seção central da navbar */
@@ -98,8 +99,9 @@ nav {
     color: #fff; /* Cor do texto branco */
     font-size: 1.1rem; /* Tamanho da fonte reduzido */
     margin: 5px 0; /* Margem vertical */
+    gap: 30px;
     height: 30px; /* Altura do link */
-    width: 115px; /* Largura do link */
+    width: 170px; /* Largura do link */
     display: flex;
     align-items: center; /* Centraliza texto verticalmente */
     justify-content: center; /* Centraliza texto horizontalmente */
@@ -166,6 +168,8 @@ nav .label {
 .bi-moon-fill {
     color: #fff; /* Cor branca para o ícone de lua */
 }
+
+/* FIM NAV */
 
 /* Configuração da tabela de inscrição */
 .registration-table {
@@ -301,7 +305,7 @@ input::placeholder {
     max-height: 150px; /* Altura máxima para rolagem */
     overflow-y: auto; /* Rolagem vertical, se necessário */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para efeito de profundidade */
-    z-index: 1000; /* Acima de outros elementos */
+    z-index: 10; /* Acima de outros elementos */
 }
 
 /* Item individual da lista de sugestões */
@@ -407,188 +411,6 @@ body.dark-mode .suggestion-item {
 /* Destaque para o total geral */
 .geral {
     color: #007bff; /* Azul para o total geral */
-}
-
-/* Estilo principal para o popup de inscrição geral */
-.popup-inscricao-geral {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
-}
-
-body.dark-mode .popup-inscricao-geral input {
-    background-color: #f2f2f2;
-}
-
-body.dark-mode .popup-inscricao-geral input::placeholder {
-    color: #333;
-}
-
-body.dark-mode .popup-inscricao-geral label {
-    color: #f2f2f2;
-}
-
-/* Conteúdo do popup */
-.popup-inscricao-geral .popup-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 700px;
-    height: 650px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Botão de fechar */
-.popup-inscricao-geral .close-btn-inscricao-geral {
-    color: #333;
-    float: right;
-    font-size: 30px;
-    font-weight: bold;
-    cursor: pointer;
-    user-select: none;
-}
-
-/* Título do popup */
-.popup-inscricao-geral .popup-title {
-    font-size: 20px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-/* Container para campos de entrada */
-.popup-inscricao-geral .popup-input-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: start;
-    margin-left: 50px;
-    margin-top: 30px;
-}
-
-/* Grupo de entrada com duas colunas */
-.popup-inscricao-geral .input-group {
-    width: calc(50% - 8px);
-    text-align: left;
-}
-
-.popup-inscricao-geral .input-group input {
-    width: 200px;
-}
-
-/* Para alinhar o grupo da quantidade à esquerda */
-.popup-inscricao-geral .input-group-quantity {
-    width: 100%;
-    text-align: left;
-}
-
-.popup-inscricao-geral .payment-container {
-    max-height: 300px; /* Define a altura máxima do contêiner de pagamento */
-    overflow-y: auto; /* Adiciona uma barra de rolagem vertical quando necessário */
-    padding: 10px; /* Espaço interno para o contêiner */
-    margin-top: 20px;
-}
-
-/* Estiliza a barra de rolagem do contêiner */
-.popup-inscricao-geral .payment-container::-webkit-scrollbar {
-    width: 6px; /* Diminui a largura da barra de rolagem */
-}
-
-/* Estilos para Firefox */
-.popup-inscricao-geral .payment-container {
-    scrollbar-width: thin; /* Controla a largura da barra de rolagem */
-}
-
-/* Grupo de pagamento */
-.popup-inscricao-geral .input-group-payment {
-    width: 100%;
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    position: relative;
-    padding: 5px;
-    margin-top: 20px;
-    border-radius: 4px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Alinha o campo de forma de pagamento à esquerda */
-.popup-inscricao-geral .input-group-payment-left {
-    margin-top: 23px;
-    margin-left: 50px;
-    flex: 1;
-}
-
-/* Alinha o campo de valor à direita */
-.popup-inscricao-geral .input-group-payment-right {
-    margin-top: 23px;
-    flex: 1;
-}
-
-/* Rótulos */
-.popup-inscricao-geral .input-group label, .popup-inscricao-geral .input-group-payment label {
-    font-weight: bold;
-    color: #555;
-    display: block;
-    margin-bottom: 5px;
-}
-
-/* Campos de seleção e entrada */
-.popup-inscricao-geral .select-day, .popup-inscricao-geral .select-meal, .popup-inscricao-geral .select-payment,
-.popup-inscricao-geral .input-quantity, .popup-inscricao-geral .input-amount {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 200px;
-    margin-bottom: 20px;
-}
-
-/* Container do botão */
-.popup-inscricao-geral .button-container {
-    display: flex;
-    justify-content: end;
-    position: sticky;
-    bottom: 20px;
-    margin-top: 20px;
-    z-index: 10;
-}
-
-/* Botão de salvar */
-.popup-inscricao-geral .btn-save {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-/* Ícone de adicionar no canto superior direito */
-.popup-inscricao-geral .icon-add {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 2px 2px 0 0;
-    color: #28a745;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-/* Efeito de hover no botão de salvar */
-.popup-inscricao-geral .btn-save:hover {
-    background-color: #218838;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Estilo do Modal de Pagamento */
@@ -977,102 +799,6 @@ body.dark-mode .payment-select-group select::placeholder {
 }
 
 
-/* TICKET */
-
-/* Estilo geral da tabela de refeições */
-.table-container {
-    margin: 150px 10px 0 20px;
-    width: 900px;
-    /* Remover o float para evitar problemas de layout com o histórico */
-}
-
-.meal-table {
-    width: 100%; /* A tabela ocupa 100% da largura do contêiner */
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-    margin-left: 20px;
-}
-
-/* Estilo da tabela padrão */
-.meal-table thead th {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    text-align: left;
-    font-weight: bold;
-    border: 1px solid #ddd;
-}
-
-/* Ajusta a largura das colunas no cabeçalho */
-.meal-table tbody td.day-meal {
-    text-align: center;
-    width: 10%; /* Coluna do Dia */
-}
-
-.meal-table tbody td.meal-item {
-    padding-left: 20px;
-    width: 40%; /* Coluna da Refeição */
-}
-
-.meal-table tbody td.qty {
-    text-align: center;
-    width: 20%; /* Coluna de Quantidade */
-}
-
-.meal-table tbody td.total {
-    text-align: center;
-    width: 20%; /* Coluna de Total */
-}
-
-/* Células do corpo da tabela */
-.meal-table tbody td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-/* Corpo da tabela */
-.meal-table tbody td {
-    padding: 8px;
-    text-align: left;
-    border: 1px solid #ddd;
-}
-
-/* Linhas alternadas para o corpo da tabela */
-.meal-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.meal-table tbody tr:nth-child(odd) {
-    background-color: #ffffff;
-}
-
-/* Modo escuro para a tabela */
-body.dark-mode .meal-table thead th {
-    background-color: #4CAF50;
-    color: #ddd;
-}
-
-body.dark-mode .meal-table tbody td {
-    background-color: #444;
-    color: #ddd;
-    border: 1px solid #f2f2f2;
-}
-
-body.dark-mode .meal-table tbody tr:nth-child(even) {
-    background-color: #555;
-}
-
-body.dark-mode .meal-table tbody tr:nth-child(odd) {
-    background-color: #666;
-}
-
-/* Estilos adicionais para melhorar a visibilidade em modo escuro */
-body.dark-mode .meal-table td, 
-body.dark-mode .meal-table th {
-    border-color: #f2f2f2;
-}
-
 /* Botões */
 .registration-content button {
     padding: 12px;
@@ -1094,199 +820,6 @@ body.dark-mode .meal-table th {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-body.dark-mode .btn-config, .btn-add {
-    color: #f2f2f2;
-}
-
-.close-btn-ticket {
-    color: red;
-    float: right;
-    font-size: 35px;
-    font-weight: bold;
-    cursor: pointer;
-    user-select: none;
-    margin-top: -10px;
-}
-
-.popup-ticket {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
-}
-
-.popup-content-ticket {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 500px;
-    height: 500px;
-    user-select: none;
-}
-
-body.dark-mode .popup-content-ticket {
-    background-color: #333;
-}
-
-.popup-container-input{
-    margin-top: 40px;
-}
-
-
-.input-grup-ticket {
-    display: flex;
-    align-items: center; /* Centraliza verticalmente */
-    margin-bottom: 25px;
-    margin-left: 15px;
-}
-
-
-/* Label com largura fixa */
-.input-grup-ticket label {
-    min-width: 250px; 
-    font-size: 16px;
-    font-weight: bold;
-}
-
-/* Input com largura definida */
-.input-grup-ticket input {
-    width: 150px;
-    padding: 8px;
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Sombra leve */
-    transition: box-shadow 0.3s ease; /* Suaviza a transição da sombra */
-}
-
-body.dark-mode .input-grup-ticket input{
-    background-color: #f2f2f2;
-    color: #333;
-}
-
-body.dark-mode .input-grup-ticket input::placeholder{
-    color: #333;
-}
-
-/* Efeito ao focar no input */
-.input-grup-ticket input:focus {
-    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5); /* Sombra ao focar */
-    border-color: #28a745; /* Cor da borda ao focar */
-}
-
-
-.register-button-container {
-    display: flex;
-    justify-content: flex-end; /* Alinha o botão à direita */
-    margin-top: 30px;
-    margin-right: 20px;
-}
-
-.register-ticket{
-    padding: 12px;
-    width: 100px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.register-ticket:hover{
-    background-color: #218838;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Estilo principal para o popup */
-.popup-create-ticket {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
-}
-
-body.dark-mode .popup-create-ticket input {
-    background-color: #f2f2f2;
-}
-
-body.dark-mode .popup-create-ticket input::placeholder {
-    color: #333;
-}
-
-body.dark-mode .popup-create-ticket label {
-    color: #f2f2f2;
-}
-
-
-/* Conteúdo do popup */
-.popup-create-ticket .popup-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 90%;
-    max-width: 700px;
-    height: 650px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Botão de fechar */
-.btn-close {
-    color: #333;
-    float: right;
-    font-size: 30px;
-    font-weight: bold;
-    cursor: pointer;
-    user-select: none;
-}
-
-/* Título do popup */
-.popup-title {
-    font-size: 20px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-/* Container para campos de entrada */
-.popup-input-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: start;
-    margin-left: 50px;
-    margin-top: 30px;
-}
-
-/* Grupo de entrada com duas colunas */
-.input-group {
-    width: calc(50% - 8px);
-    text-align: left;
-}
-
-.input-group input {
-    width: 200px;
-}
-
-
-/* Para alinhar o grupo da quantidade à esquerda */
-.input-group-quantity {
-    width: 100%;
-    text-align: left;
-}
 
 .input-group-payment {
     width: 100%;
@@ -1316,7 +849,6 @@ body.dark-mode .popup-create-ticket label {
 .payment-container {
     scrollbar-width: thin; /* Controla a largura da barra de rolagem */
 }
-
 
 /* Alinha o campo de forma de pagamento à esquerda */
 .input-group-payment-left {
@@ -1349,28 +881,6 @@ body.dark-mode .popup-create-ticket label {
     margin-bottom: 20px;
 }
 
-/* Container do botão */
-.button-container {
-    display: flex;
-    justify-content: end;
-    position: sticky; /* Faz com que o botão fique fixo */
-    bottom: 20px; /* Distância do fundo do popup */
-    margin-top: 20px;
-    z-index: 10; /* Garante que o botão fique acima de outros elementos */
-}
-
-/* Botão de salvar */
-.btn-save {
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
 
 /* Botão de adicionar no canto superior direito */
 .icon-add {
@@ -1411,215 +921,401 @@ body.dark-mode .popup-create-ticket label {
     overflow-x: hidden; /* Esconde a rolagem horizontal */
 }
 
-/* Responsividade para telas menores */
-@media (max-width: 768px) {
-    .popup-create-ticket .popup-content {
-        width: 95%;
-        max-width: 500px;
-        height: auto;
-    }
+/* TICKET */
 
-    .popup-input-container {
-        gap: 10px;
-    }
-
-    .input-group {
-        width: 100%;
-        text-align: center;
-    }
-
-    .input-group-payment {
-        width: 100%;
-        text-align: left;
-    }
+/* Estilo geral da tabela de refeições */
+.ticket-content {
+    margin-top: 130px;
+    margin-left: 10px;
 }
 
-/* Estilo para campos de entrada quando focados */
-.select-day:focus, .select-meal:focus, .select-payment:focus, .input-quantity:focus, .input-amount:focus {
-    border-color: #28a745;
-    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
-    outline: none;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-/* Estilos para o histórico de pagamentos */
-.ticket-history {
-    margin-top: 20px;
-    background-color: #919191;
+/* Painel de informações à direita */
+.info-panel {
+    position: fixed;
+    top: 130px;
+    right: 20px;
+    width: 350px;
+    height: 400px;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 1000px; /* Tamanho máximo de largura */
-    height: 300px; /* Altura fixa */
-    overflow-y: auto; /* Permite rolagem se houver mais de um item */
-    margin-left: 40px; /* Para manter o alinhamento com a tabela */
-}
-
-body.dark-mode .ticket-history {
-    background-color: #404040;
-}
-
-/* Estilo para a mensagem "Nenhum Histórico registrado" */
-.history-none {
     display: flex;
-    justify-content: center;
-    gap: 10px;
-    color: #f2f2f2;
-    font-size: 18px;
-    margin-top: 20px;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden; /* Impede que o conteúdo da info-panel ultrapasse */
 }
 
-#payment-history-list {
-    list-style-type: none;
-    padding: 0;
-    width: 100%; /* Largura total do container */
-    height: 100%; /* Altura total do container */
-    overflow-y: auto; /* Rolagem vertical caso o conteúdo ultrapasse a altura */
-    display: none; /* Inicialmente oculta */
+/* Contêiner da Tabela de refeições */
+.table-container {
+    flex-grow: 1;
+    overflow-y: auto;  /* Adiciona a rolagem apenas na tabela */
+    margin-bottom: 20px;  /* Espaçamento entre a tabela e o botão */
 }
 
-/* Remove a borda do último item */
-#payment-history-list li:last-child {
-    border-bottom: none;
-}
-
-.history-meal-table {
+/* Tabela de refeições */
+#meal-table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
-/* Define o cabeçalho fixo no topo */
-.history-meal-table thead th {
-    background-color: #4CAF50;
-    color: white;
+#meal-table th, #meal-table td {
     padding: 10px;
     text-align: left;
+    border-bottom: 1px solid #ddd;
+    word-wrap: break-word;  /* Quebra palavras longas */
+    white-space: nowrap;  /* Evita que o texto quebre em múltiplas linhas */
+}
+
+#meal-table th {
+    background-color: #f2f2f2;
     font-weight: bold;
     position: sticky;
     top: 0;
     z-index: 1;
 }
 
-/* Estilo das colunas e células de pagamento */
-.history-meal-table tbody td {
-    padding: 8px;
-    border: 1px solid #ddd;
-    background-color: #f4f4f4;
+/* Tamanho das colunas */
+#meal-table th:nth-child(1), #meal-table td:nth-child(1) {
+    width: 70%; /* Defina o tamanho da primeira coluna */
 }
 
-/* Linhas alternadas para o corpo da tabela */
-.history-meal-table tbody tr:nth-child(even) {
+#meal-table th:nth-child(2), #meal-table td:nth-child(2) {
+    width: 30%; /* Defina o tamanho da segunda coluna */
+}
+
+#meal-table tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-.history-meal-table tbody tr:nth-child(odd) {
-    background-color: #ffffff;
+/* Botão de limpar configurações fixo na parte inferior do painel */
+.btn-clear-ticket {
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    align-self: center;
 }
 
-/* Estilo dos pagamentos */
-.history-payments {
-    padding-left: 10px;
+.btn-clear-ticket:hover {
+    background-color: #e53935;
 }
 
-.history-payment-item {
-    margin-bottom: 5px;
-    margin-right: -10px;
-    font-size: 14px;
+/* Estilo para o ícone de exclusão (usando &times;) */
+.close-ticket {
+    cursor: pointer;
+    margin-left: 10px;  /* Espaçamento entre o valor e o X */
+    color: #f44336;  /* Cor do X (vermelho) */
+    font-size: 25px;  /* Define o tamanho do X */
 }
 
-.history-payment-item strong {
+.close-ticket:hover {
+    color: #e53935;  /* Cor do X ao passar o mouse */
+}
+
+/* Estilo do container do histórico */
+.meal-history-container {
+    position: fixed;
+    left: 20px;
+    width: 100%;
+    max-width: 900px;
+    margin-top: 20px;
+    height: 400px;
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão de atualização */
+.refresh-history {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #28a745;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Estilos para a tela sem histórico */
+.no-history {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #555;
+    text-align: center;
+}
+
+.no-history h3 {
+    font-size: 18px;
+}
+
+/* Estilos para a tela com histórico */
+.history {
+    display: none;  /* Escondido por padrão */
+    padding: 10px;
+}
+
+.history table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.history th, .history td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.history th {
+    background-color: #f2f2f2;
     font-weight: bold;
 }
 
-/* Estilo para a coluna de pagamentos */
-.history-col-payments {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Cria duas colunas de igual largura */
-    padding: 5px;
+.history tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
-/* Estilo para cada item de pagamento dentro da célula da tabela */
-.history-col-payments .payment-item {
+
+/* Estilos do popup de configuração de ticket */
+.ticket-popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s;
+}
+
+.ticket-popup-container.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.ticket-popup {
+    position: relative;
+    background: white;
+    width: 500px;
+    height: 350px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Estilos do popup de venda de ticket */
+.ticket-sale-popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s;
+}
+
+.ticket-sale-popup-container.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.ticket-sale-popup {
+    position: relative;
+    background: white;
+    width: 500px;
+    height: 580px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Estilos gerais para ambos os popups */
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #f00;
+    cursor: pointer;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Subtítulo centralizado */
+.details-subtitle {
+    text-align: center !important;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 20px; /* Espaçamento superior adicional */
+}
+
+/* Container dos detalhes */
+.meal-details {
+    display: flex;
+    justify-content: space-around; /* Espaçamento igual entre os itens */
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
     font-size: 14px;
-    margin-bottom: 5px; /* Espaçamento entre os itens de pagamento */
-    margin-right: 5px;
+    margin-top: 10px; /* Espaçamento entre subtítulo e detalhes */
 }
 
-/* Botões */
-.btn-config, .btn-add {
+/* Cada item de detalhe */
+.detail-item {
+    text-align: center; /* Centralizar texto no item */
+    flex: 1; /* Garante que todos os itens tenham o mesmo tamanho */
+}
+
+/* Parágrafos internos */
+.detail-item p {
+    margin: 5px 0;
+    font-size: 14px; /* Ajuste de tamanho para clareza */
+}
+
+/* Evitar que o display: flex no form-group interfira */
+.ticket-sale-popup .form-group:nth-of-type(2) {
+    display: block; /* Garante o alinhamento vertical nesse grupo */
+    text-align: center; /* Centraliza o conteúdo do grupo */
+    margin-bottom: 15px;
+}
+
+/* Ajustes gerais para label e inputs */
+label {
+    flex: 1;
+    text-align: left;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+}
+
+select, input {
+    flex: 2;
+    max-width: 100%; /* Garante que os inputs ocupem toda a largura disponível */
+    text-align: left;
+    padding: 8px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
     padding: 12px;
+    margin-left: 30px;
     background-color: #28a745;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
-    margin-left: 20px;
-    font-family: "Roboto", sans-serif;
-    font-weight: bolder;
+    transition: background-color 0.3s;
 }
 
-.popUp-container-alert {
-    display: none;
-    position: fixed;
-    z-index: 1001;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
+button:hover {
+    background-color: #218838;
 }
 
-.popup-alert {
+.btn-save-sale {
+    margin-top: 20px;
+}
+
+/* Estilo para o grupo de pagamento */
+.payment-group-ticket {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;  /* Distribui o conteúdo, deixando o título no topo e a mensagem no centro */
-    align-items: center;
-    width: 350px;
-    height: 250px;
-    background-color: #f2f2f2;
-    border-radius: 10px;
+    margin-top: 20px;
     position: relative;
-    padding: 5px;
-    box-sizing: border-box;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
-.close-btn-alert {
-    color: red;
-    position: absolute;
-    top: 0;
-    right: 10px;
-    font-size: 35px;
-    font-weight: bold;
-    cursor: pointer;
-    user-select: none;
+.ticket-payment {
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 10px;
 }
 
-.title-alert h3 {
-    margin: 0;
-    font-size: 18px;
-    text-align: center;
-    padding-top: 10px;  /* Mantém o título mais para cima */
-}
-
-.mensage-alert {
+/* Cabeçalho do grupo de pagamento */
+.payment-header {
     display: flex;
-    justify-content: center;  /* Centraliza o conteúdo dentro da área da mensagem */
-    align-items: center;  /* Alinha a mensagem ao centro da caixa */
-    flex: 1;  /* Faz com que a área da mensagem ocupe o restante do espaço */
-    text-align: center;
+    justify-content: flex-end; /* Alinha o conteúdo à direita */
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 5px;
 }
 
-.mensage-alert p {
-    margin-top: 0;
+/* Ícone de adicionar */
+.payment-header .add-payment {
+    font-size: 20px;
+    color: #28a745;
+    cursor: pointer;
+}
+
+/* Ícone de remover */
+.remove-payment {
+    font-size: 20px;
+    color: #dc3545;
+    cursor: pointer;
+}
+
+/* Estilo dos campos de pagamento */
+.payment-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+/* Estilo dos campos de input */
+.payment-info-left select,
+.payment-info-right input {
+    width: 100%;
+    padding: 8px;
     font-size: 14px;
-    padding: 0 20px;  /* Adiciona um pouco de padding lateral para a mensagem */
-    padding-bottom: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background: white; 
 }
 
 
@@ -1628,257 +1324,82 @@ body.dark-mode .ticket-history {
 
 /* DESPESAS */
 
-.expenses-content {
-    margin-top: 150px;
-}
+/* FIM DESPESAS */
 
-/* Estilo do botão adicionar */
-.button-add {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 150px;
-    padding: 12px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    margin-left: 20px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.button-add:hover {
-    background-color: #218838;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Estilo do botão adicional */
-.button-add-two {
-    padding: 12px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-top: 20px; /* Distância entre o botão e o texto */
-}
-
-.button-add-two:hover {
-    background-color: #218838;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Wrapper para a tabela de despesas com tamanho fixo e fundo */
-.expenses-table-wrapper {
-    max-width: 100%;
-    width: 1200px;
-    height: 400px;
-    overflow-y: auto;
-    margin: 20px 0 0 20px;
-    background-color: #919191;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 8px;
-    position: relative;
-}
-
-body.dark-mode .expenses-table-wrapper{
-    background-color: #404040 !important;
-}
-
-.table-none p{
-    color: #f2f2f2;
-    user-select: none;
-}
-
-body.dark-mode .table-none p{
-    color: #f2f2f2;
-}
-
-/* Oculta a tabela se estiver vazia */
-.table-expenses {
-    display: none;
-    width: 100%;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-}
-
-/* Cabeçalho da tabela */
-.table-expenses thead {
-    background-color: #28a745;
-    color: white;
-}
-
-.table-expenses th,
-.table-expenses td {
-    padding: 12px;
-    text-align: left;
-    border-right: 1px solid #ddd;
-}
-
-/* Largura específica para cada coluna */
-.table-expenses th:nth-child(1),
-.table-expenses td:nth-child(1) {
-    width: 20%;
-}
-
-.table-expenses th:nth-child(2),
-.table-expenses td:nth-child(2) {
-    width: 40%;
-}
-
-.table-expenses th:nth-child(3),
-.table-expenses td:nth-child(3) {
-    width: 20%;
-}
-
-.table-expenses th:nth-child(3),
-.table-expenses td:nth-child(3) {
-    width: 20%;
-}
-
-/* Linhas alternadas */
-.table-expenses tbody tr:nth-child(even) {
-    background-color: #b8b8b8;
-}
-
-/* Exibição padrão da mensagem "Nenhuma despesa adicionada" */
-.table-none {
-    padding: 20px;
-    text-align: center;
-    color: #555;
-}
-
-.popup {
-    display: none;
+/* POP-UP PARA ALERTAS */
+.popup-container {
     position: fixed;
-    z-index: 1000;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+    display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
+    visibility: hidden; /* Inicialmente oculto */
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s;
 }
 
-.popup-content {
-    background-color: white;
+.popup-container.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.pop-up {
+    position: relative;
+    background: white;
+    border-radius: 8px;
     padding: 20px;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 650px;
-    height: 500px;
-    user-select: none;
+    width: 400px; /* Largura fixa */
+    height: 300px; /* Altura fixa */
+    overflow: auto; /* Adiciona rolagem caso o conteúdo ultrapasse o limite */
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: popup-show 0.3s ease-out;
+}
+
+.close-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #f00;
+    cursor: pointer;
+}
+
+.alert-icon {
+    font-size: 60px; /* Aumenta o tamanho do ícone */
+    margin-bottom: 10px;
 }
 
 .popup-title {
-    text-align: center; /* Centraliza o título */
-    font-size: 22px;
-    margin-top: 0;
-}
-
-.popup-expenses {
-    margin-top: 20px;
-    margin-left: 30px;
-}
-
-.input-grup-popup {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Alinha os labels à esquerda */
-    margin-bottom: 15px;
-}
-
-.input-grup-popup label {
-    font-size: 17px;
+    font-size: 24px;
     font-weight: bold;
-    margin-bottom: 5px; /* Espaço entre o label e o input */
-    text-align: left; /* Garante alinhamento à esquerda */
+    margin: 10px 0;
+    color: #333;
 }
 
-.popup-expenses input {
-    width: 100%;
-    max-width: 500px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-/* Estilo dark mode */
-.dark-mode .popup-content {
-    background-color: #333;
-    color: #f2f2f2;
-}
-
-.dark-mode .popup-title {
-    color: #f2f2f2;
-}
-
-.dark-mode .input-grup-popup label {
-    color: #ddd;
-}
-
-.dark-mode .popup-expenses input {
-    background-color: #555;
-    color: #f2f2f2;
-    border: 1px solid #888;
-}
-
-.close-btn-expenses {
-    color: red;
-    float: right;
-    font-size: 35px;
-    font-weight: bold;
-    cursor: pointer;
-    user-select: none;
-    margin-top: -10px;
-}
-
-.register-expenses {
-    padding: 12px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.popup-body {
     font-size: 16px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-top: 20px; /* Distância entre o botão e o texto */
-    margin-left: 30px;
+    color: #555;
+    margin-top: 35px;
+    overflow-y: auto; /* Permite rolagem vertical para conteúdo extra */
+    max-height: calc(100% - 80px); /* Limita a altura do corpo ao restante disponível */
 }
 
-.register-expenses:hover {
-    background-color: #218838;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+@keyframes popup-show {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
-.expense-value-cell {
-    position: relative;
-    padding-right: 25px; /* Espaço extra para o botão de exclusão */
-}
-.expense-close-btn {
-    position: absolute;
-    top: 50%;
-    right: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: translateY(-50%);
-    font-size: 30px;
-    color: red;
-    cursor: pointer;
-    transition: color 0.3s ease;
-    background-color: transparent;
-    width: 43px;
-    height: 44px; /* Garantir altura consistente */
-}
-
+/* FIM POP-UP PARA ALERTAS */
