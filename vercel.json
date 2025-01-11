@@ -61,6 +61,10 @@
       "dest": "/page/proofPayment.html"
     },
     {
+      "src": "/vendas",
+      "dest": "/page/registro_pagamentos.html"
+    },
+    {
       "src": "/style/(.*)",
       "dest": "/style/$1"
     },
