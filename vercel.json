@@ -65,7 +65,7 @@
       "dest": "/page/registro_pagamentos.html"
     },
     {
-      "src": "/movimentacao",
+      "src": "/movement",
       "dest": "/page/movement.html"
     },
     {
