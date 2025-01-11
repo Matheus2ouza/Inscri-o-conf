@@ -66,7 +66,7 @@
     },
     {
       "src": "/movimentação",
-      "dest": "/page/MovMovement.html"
+      "dest": "/page/Movement.html"
     },
     {
       "src": "/style/(.*)",
