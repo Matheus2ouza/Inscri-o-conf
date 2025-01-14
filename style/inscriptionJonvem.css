@@ -1,0 +1,503 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Adiciona isso para ocultar a rolagem horizontal */
+    font-family: "Roboto", sans-serif;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    height: 70px;
+    box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    background-color: #3c5672;
+    width: 100%;
+    padding: 0 20px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    color: #fff;
+    letter-spacing: 0.1em;
+}
+
+.data-event {
+    display: flex;
+    flex-direction: row; /* Alinha imagem e texto lado a lado */
+    align-items: center; /* Alinha verticalmente */
+    justify-content: center; /* Centraliza na página */
+    gap: 20px; /* Espaço entre imagem e texto */
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.img-capa {
+    max-width: 200px;
+    flex-shrink: 0;
+}
+
+.img-capa img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.texto-evento {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinha texto à esquerda */
+    max-width: 600px;
+}
+
+.texto-evento .titulo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #3c5672;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.texto-evento .subtitulo {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .data-event {
+        flex-direction: column; /* Empilha elementos */
+    }
+
+    .texto-evento {
+        align-items: center;
+    }
+
+    .texto-evento .titulo {
+        font-size: 1.5rem;
+    }
+
+    .texto-evento .subtitulo {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .data-event {
+        padding: 10px;
+    }
+
+    .img-capa {
+        max-width: 100%;
+    }
+
+    .texto-evento .titulo {
+        font-size: 1.2rem;
+    }
+
+    .texto-evento .subtitulo {
+        font-size: 0.8rem;
+    }
+}
+
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.second-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1100px;
+    margin: 20px 0;
+    padding: 20px;
+}
+
+.form-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%; 
+}
+
+@media (min-width: 768px) {
+    .form-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.form-group {
+    display: relative;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input::placeholder {
+    color: #949494;
+    font-size: 0.75rem;
+}
+
+.verification {
+    left: 510px;
+    bottom: 30px;
+    position: relative;
+    font-size: 1.2rem;
+}
+
+.bi-check2-circle{
+    color: #67c453;
+}
+
+.bi-exclamation-triangle{
+    color: #fa1d0b;
+}
+
+button {
+    width: 100%;
+    max-width: 240px;
+    height: 48px;
+    background-color: #28a745;
+    color: #fff;
+    border-radius: 8px;
+    border: none; /* Removido o border, pode ser desnecessário */
+    font-size: 16px;
+    font-weight: 500;
+    margin: 10px 0;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Adiciona transição para a sombra */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
+}
+
+button:hover {
+    background-color: #218838; /* Cor de destaque ao passar o mouse */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Sombra mais intensa ao passar o mouse */
+}
+
+.btn-register:disabled {
+    background-color: #c6c8ca; /* Cor de fundo quando desabilitado */
+    color: #6c757d; /* Cor do texto quando desabilitado */
+    cursor: not-allowed; /* Cursor muda para indicar que não pode ser clicado */
+    opacity: 0.65; /* Opacidade reduzida para dar a impressão de estar desabilitado */
+    box-shadow: none; /* Remove a sombra para um visual mais "plano" */
+}
+
+.group-service,
+.group-participacao {
+    display: flex; /* Muda para flex para que os botões fiquem lado a lado */
+    justify-content: flex-start; /* Alinha os botões à esquerda */
+    margin-top: 10px; /* Espaço entre o grupo e os elementos acima */
+}
+
+.group-service button,
+.group-participacao button {
+    width: 100%; /* Mantenha o botão com largura total */
+    max-width: 100px; /* Limita a largura máxima */
+    height: 30px;
+    margin-right: 10px; /* Espaço entre os botões */
+    color: #fff;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.group-service button:last-child,
+.group-participacao button:last-child {
+    margin-right: 0; /* Remove a margem direita do último botão */
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .group-service,
+    .group-participacao {
+        flex-wrap: wrap; /* Permite que os botões quebrem para a próxima linha se necessário */
+        justify-content: center; /* Centraliza os botões */
+    }
+
+    .group-service button,
+    .group-participacao button {
+        width: 48%; /* Define a largura dos botões para ocupar 48% do contêiner */
+        margin: 1%; /* Espaço entre os botões */
+    }
+
+    .form-service,
+    .form-hospedagem,
+    .second-container {
+        padding: 10px;
+        max-width: 100%;
+    }
+
+    .form-hospedagem {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .popup-content {
+        width: 90%;
+    }
+
+    .container {
+        flex-direction: column; /* Muda a direção para coluna em dispositivos menores */
+        align-items: center; /* Centraliza os itens */
+        text-align: center; /* Centraliza o texto do h1 */
+    }
+
+    .container img {
+        margin-right: 0; /* Remove margem à direita da imagem */
+        margin-bottom: 10px; /* Adiciona espaço abaixo da imagem */
+        width: 80%; /* Ajusta a imagem para 80% da largura do contêiner */
+        height: auto; /* Mantém a proporção da imagem */
+    }
+
+    .container h1 {
+        font-size: 1.5rem; /* Ajusta o tamanho da fonte para dispositivos móveis */
+    }
+}
+
+@media (max-width: 480px) {
+    .container img {
+        height: auto; /* Mantém a proporção da imagem */
+        width: 100%; /* Ajusta a imagem para 100% da largura */
+    }
+
+    .container h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-container {
+        gap: 10px;
+    }
+
+    input, button {
+        font-size: 14px;
+    }
+
+    button {
+        height: 40px;
+    }
+
+    .form-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+#suggestions {
+    display: none;
+    width: 100%;
+    max-width: 540px;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+.form-service {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1100px;
+    margin-top: -15px;
+}
+
+.form-participacao {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1100px;
+    margin-top: 20px;
+}
+
+.popup, .popupError, .popupError-list {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content, .popup-contentError, .popup-contentError-list {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    width: 90%; /* Largura responsiva */
+    max-width: 400px; /* Limite máximo */
+    user-select: none;
+}
+
+.close-btn, .close-btnError, .close-btnError-list {
+    color: red;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+.form-hospedagem {
+    margin-top: 30px;
+    width: 100%; /* Ajusta para 100% da largura */
+}
+
+.lista-nomes-container {
+    height: 150px;
+    overflow-y: auto;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+#lista-nomes-hospedagem {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#lista-nomes-hospedagem li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+#lista-nomes-hospedagem li:last-child {
+    border-bottom: none;
+}
+
+#lista-nomes-hospedagem li .remove-nome {
+    cursor: pointer;
+    color: red;
+    font-size: 18px;
+    margin-left: 10px;
+}
+
+#lista-nomes-hospedagem li:hover .remove-nome {
+    color: darkred;
+}
+
+.simple-loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border: 6px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 6px solid #3498db;
+    animation: spin 1s linear infinite;
+    z-index: 1001; /* Certifique-se que o loader esteja acima do fundo escuro */
+}
+
+/* Fundo escuro */
+.loader-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Cor preta com 50% de opacidade */
+    z-index: 1000; /* Abaixo do loader, mas acima de tudo */
+}
+
+/* Animação de rotação */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Para esconder o loader */
+.hiddenLoader {
+    display: none;
+}
+
+/* Adicionando regras para o loader e fundo em telas menores */
+@media (max-width: 480px) {
+    .simple-loader {
+        width: 40px; /* Diminuindo o tamanho do loader */
+        height: 40px;
+    }
+}
+.valor {
+    font-style: italic; /* Define o texto em itálico */
+    font-weight: 300; /* Torna o texto mais fino */
+    color: #555; /* Cor mais suave para dar destaque sutil */
+}
+span {
+    margin-left: 10px;
+    font-style: italic;
+    font-size: 0.8rem;
+    color:#555;
+}
+.form-hospedagem {
+    margin-top: 30px;
+    width: 100%;
+    max-width:1100px;
+}
+
+/* Para browsers WebKit (Chrome, Safari) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Para Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
