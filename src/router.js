@@ -4,7 +4,7 @@ export async function getLocations() {
 
     let cities = {};
     try{
-        const response = await fetch(`${apiUrl}/localidades`);
+        const response = await fetch(`${apiUrl}/dados/localidades`);
 
         if(!response.ok) {
             throw new Error(`Erro ao buscar localidades: ${response.status} ${response.statusText}`)
@@ -23,28 +23,37 @@ export async function getLocations() {
 }
 
 export async function getfinancialMovement() {
-    let moviments = {};
-    try{
+    let moviments = [];
+    try {
         const response = await fetch(`${apiUrl}/RegistroPagamento/movimentacao`);
 
-        if(!response.ok) {
-            throw new Error(`Erro ao buscar as movimentações: ${response.status} ${response.statusText}` )
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar as movimentações: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
         data.forEach(moviment => {
-            moviments[moviment.id] = {id: moviment.id, tipo: moviment.tipo, descricao: moviment.descricao, valor: moviment.valor, data: moviment.data}
-        })
-    } catch(error) {
-        console.error(`Error: ${error.message}`)
+            // Converte cada movimentação financeira em um objeto com pagamentos
+            moviments.push({
+                id: moviment.id,
+                tipo: moviment.tipo,
+                descricao: moviment.descricao,
+                valor: moviment.valor,
+                data: moviment.data,
+                pagamentos: moviment.pagamentos || [] // Inclui os pagamentos, caso existam
+            });
+        });
+    } catch (error) {
+        console.error(`Erro: ${error.message}`);
     }
 
     return moviments;
 }
 
+
 export async function getDataLocations() {
     try {
-        const response = await fetch (`${apiUrl}/localidades`)
+        const response = await fetch (`${apiUrl}/dados/localidades`)
 
         if(!response.ok) {
             throw new console.log(`Erro ao buscar os dados: ${response.status}: ${response.statusText}`)
@@ -82,6 +91,27 @@ export async function registrarInscricao(registrationData) {
 export async function registrarInscricaoServ(registrationData) {
     try {
         const response = await fetch(`${apiUrl}/registroServ`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(registrationData),
+        });
+
+        const responseData = await response.json(); // Converte a resposta JSON
+
+        console.log('Resposta da inscrição:', responseData, 'Status:', response.status);
+        return { data: responseData, status: response.status }; // Retorna tanto os dados quanto o status da resposta
+
+    } catch (error) {
+        console.error('Erro ao fazer a requisição:', error); // Log do erro de requisição
+        return { data: null, status: 500 }; // Retorna status de erro genérico
+    }
+}
+
+export async function registrarInscricaoJovem(registrationData) {
+    try {
+        const response = await fetch(`${apiUrl}/registroJovem`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -255,6 +285,9 @@ export async function generatePdf(localidade = null) {
 
 export async function createPdfMovement(groupedMovements) {
     try {
+        // Log para verificar os dados que estão sendo enviados
+        console.log("Dados para gerar o PDF:", groupedMovements);
+
         // Envia os dados agrupados para o backend para gerar o PDF
         const response = await fetch(`${apiUrl}/movementPdf/gerar-pdf`, {  
             method: 'POST',
@@ -292,6 +325,7 @@ export async function createPdfMovement(groupedMovements) {
         console.error('Erro ao fazer a requisição:', error);
     }
 }
+
 
 
 export async function getpaymentReceipts() {
