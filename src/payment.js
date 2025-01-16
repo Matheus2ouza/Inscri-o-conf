@@ -16,7 +16,6 @@ async function fetchCityNames() {
     showLoader(); // Mostra o loader antes de fazer a requisição
     try {
         const cities = await getLocations(); // Chama a função para obter os locais
-        console.log(cities)
         return extractCityNames(cities); // Retorna apenas os nomes das cidades
     } catch (error) {
         console.error(`Erro ao buscar nomes das cidades: ${error.message}`);
@@ -100,7 +99,6 @@ async function buscarSaldoDevedor(cidade, saldoDevedorInput) {
         }
 
         const data = await response.json();
-        console.log(data);
 
         // Procurando a cidade correspondente no array (caso haja mais de uma)
         const cidadeEncontrada = data.find(item => item.nome.toUpperCase() === cidade);
@@ -248,8 +246,6 @@ async function init() {
             // Adiciona os outros campos ao FormData
             formData.append('valor_pago', valor_pago);
             formData.append('cidade', cidadeInput.value.trim().toUpperCase()); // Usa a referência única
-
-            console.log(...formData); // Exibe o conteúdo do FormData para debug
 
             showLoader(); // Mostra o loader antes de fazer a requisição
             try {
