@@ -94,7 +94,7 @@ async function buscarSaldoDevedor(cidade, saldoDevedorInput) {
 
     showLoader(); // Mostra o loader antes de fazer a requisição
     try {
-        const response = await fetch(`https://api-inscri-o.vercel.app/localidades?nome=${cidade}`);
+        const response = await fetch(`https://api-inscri-o.vercel.app/dados/localidades?nome=${cidade}`);
         if (!response.ok) {
             throw new Error('Cidade não encontrada ou erro na consulta.');
         }
