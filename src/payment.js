@@ -187,13 +187,29 @@ function hideLoader() {
 // Função para atualizar o nome do arquivo selecionado
 function initFileUpload() {
     const fileInput = document.getElementById("comprovante_pagamento");
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
     if (fileInput) {
         fileInput.addEventListener("change", function() {
-            const fileName = this.files[0]?.name || "Nenhum arquivo selecionado";
-            document.getElementById("file-name").textContent = fileName;
+            const file = this.files[0];
+
+            if (file) {
+                // Verifica se o tipo do arquivo é permitido
+                if (!allowedTypes.includes(file.type)) {
+                    showPopupError("Apenas arquivos JPEG, PNG ou WEBP são permitidos. Selecione outro arquivo ou entre em contato com o suporte");
+                    fileInput.value = ""; // Limpa o campo
+                    document.getElementById("file-name").textContent = "Nenhum arquivo selecionado";
+                    return;
+                }
+                // Atualiza o nome do arquivo selecionado
+                document.getElementById("file-name").textContent = file.name;
+            } else {
+                document.getElementById("file-name").textContent = "Nenhum arquivo selecionado";
+            }
         });
     }
 }
+
 
 // Função para coletar a localidade da URL e preencher o input
 async function populateLocalidadeFromURL(saldoDevedorInput) {
@@ -236,6 +252,21 @@ async function init() {
 
             // Corrige o ID do campo de upload para pegar o arquivo correto
             const fileInput = document.getElementById('comprovante_pagamento');
+            const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+        
+            if (fileInput.files.length === 0) {
+                showPopupError("Por favor, selecione um comprovante de pagamento.");
+                event.preventDefault();
+                return;
+            }
+        
+            const file = fileInput.files[0];
+            if (!allowedTypes.includes(file.type)) {
+                showPopupError("Apenas arquivos JPEG, PNG ou WEBP são permitidos.");
+                event.preventDefault();
+                return;
+            }
+
             if (fileInput.files.length > 0) {
                 formData.append('comprovante_pagamento', fileInput.files[0]); // Adiciona o comprovante
             } else {
