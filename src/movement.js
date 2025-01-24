@@ -176,7 +176,6 @@ async function downloadPDF() {
     }
 }
 
-
 // Evento do botão de download do PDF
 document.getElementById('downloadBtn').addEventListener('click', downloadPDF);
 
