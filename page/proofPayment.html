@@ -11,7 +11,6 @@
     <nav>
         <div class="nav-left">
             <a href="">Comprovantes</a>
-            <span id="connection-status" class="connection-status online">Online</span>
         </div>
         <div class="nav-right">
             <input type="checkbox" class="checkbox" id="chk">
@@ -31,7 +30,11 @@
                     <input type="text" id="input1" autocomplete="off" placeholder="Selecione o nome da cidade">
                     <div id="suggestions" class="suggestions"></div>
                 </div>
-                <div class="search"><button class="search-locality">BUSCAR</button></div>
+                <div class="search">
+                    <button class="search-locality">BUSCAR</button>
+                    <button class="download-report">GERAR LISTA</button>
+                </div>
+                <div class="search"></div>
             </div>
 
             <div class="data-locality">
@@ -73,6 +76,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="table-locality">
                 <div class="first-table">
                     <!-- Título para a primeira tabela -->
@@ -128,21 +132,21 @@
     <div class="container-bottom">
         <div class="proof-payment" id="gallery">
             
-        </div>    
+        </div>
     </div>
     
-    <div id="imageModal" class="modal hidden">
-        <div class="modal-controls">
-            <button id="zoomIn">+</button>
-            <button id="zoomOut">-</button>
-            <button id="resetZoom">⟳</button>
-            <span class="close">&times;</span>
+    <!-- Modal para exibir a imagem em tela cheia -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <div class="zoom-controls">
+            <button id="zoomIn" class="zoom-button">+</button>
+            <button id="zoomOut" class="zoom-button">-</button>
+            <button id="resetZoom" class="zoom-button">⟳</button>
         </div>
-        <img class="modal-content" id="modalImage" />
-        <object class="modal-content" id="modalPDF" type="application/pdf"></object>
+        <img class="modal-content" id="modalImage">
         <div id="caption"></div>
     </div>
-    
+
     
     
     <div class="loader-background">

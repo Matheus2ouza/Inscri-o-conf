@@ -143,7 +143,7 @@ th, td {
 
 /* Estilo do cabeçalho */
 th {
-    background-color: #4CAF50; /* Cor de fundo verde */
+    background-color: #4CAF50;
     color: white;
     font-weight: bold;
     text-transform: uppercase;
@@ -151,11 +151,11 @@ th {
 
 /* Estilo para as linhas de dados */
 tr:nth-child(even) {
-    background-color: #f9f9f9; /* Cor de fundo para linhas pares */
+    background-color: #f9f9f9;
 }
 
 tr:nth-child(odd) {
-    background-color: #ffffff; /* Cor de fundo para linhas ímpares */
+    background-color: #ffffff;
 }
 
 /* Efeito de hover nas linhas */
@@ -169,18 +169,33 @@ td {
 }
 
 td:first-child {
-    border-left: none; /* Remove a borda à esquerda da primeira célula */
+    border-left: none;
 }
 
-/* Adicionando um estilo de borda arredondada na tabela */
-table {
-    border-radius: 8px;
-    overflow: hidden;
+/* Estilo para detalhes dos pagamentos */
+.payment-row {
+    background-color: #eef9ff;
+    font-size: 0.9em;
+    display: none; /* Inicialmente oculto */
 }
 
-/* Sombras para a tabela */
-table, th, td {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.payment-row td {
+    padding: 10px;
+    border: none;
+}
+
+/* Botão de detalhes */
+.details-button {
+    color: #4CAF50;
+    cursor: pointer;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    font-size: 1em;
+}
+
+.details-button:hover {
+    color: #2e7d32;
 }
 
 /* Classes específicas para tipo Entrada e Saída (cor da letra) */
