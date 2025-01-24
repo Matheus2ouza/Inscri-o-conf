@@ -12,7 +12,7 @@ export async function getLocations() {
         
         const data = await response.json();
         data.forEach(city => {
-            cities[city.id] = {id: city.id, nome: city.nome};
+            cities[city.id] = {id: city.id, nome: city.nome, saldoDevedor: city.saldo_devedor};
         });
         
     }catch(error){
@@ -20,6 +20,50 @@ export async function getLocations() {
     }
 
     return cities;
+}
+
+export async function getDatalocations() {
+    let registrations = {};
+
+    try {
+        const response = await fetch(`${apiUrl}/dados/inscricaoData`);
+
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar as inscrições: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        data.forEach(inscription => {
+            const localidade = inscription.localidade_nome;
+
+            // Se a localidade já existe no objeto, soma os valores
+            if (registrations[localidade]) {
+                registrations[localidade].qtd_0_6 += inscription.qtd_0_6;
+                registrations[localidade].qtd_7_10 += inscription.qtd_7_10;
+                registrations[localidade].qtd_10_acima += inscription.qtd_10_acima;
+                registrations[localidade].qtd_tx_participacao += inscription.qtd_tx_participacao;
+                registrations[localidade].qtd_servico += inscription.qtd_servico;
+
+                // Mantém o nome_responsavel existente ou atualiza com o último encontrado
+                registrations[localidade].nome_responsavel = inscription.nome_responsavel;
+            } else {
+                // Cria uma nova entrada para a localidade
+                registrations[localidade] = {
+                    nome_responsavel: inscription.nome_responsavel,
+                    qtd_0_6: inscription.qtd_0_6,
+                    qtd_7_10: inscription.qtd_7_10,
+                    qtd_10_acima: inscription.qtd_10_acima,
+                    qtd_tx_participacao: inscription.qtd_tx_participacao,
+                    qtd_servico: inscription.qtd_servico
+                };
+            }
+        });
+    } catch (error) {
+        console.error(`Error: ${error.message}`);
+    }
+
+    return registrations;
 }
 
 export async function getfinancialMovement() {
@@ -50,6 +94,20 @@ export async function getfinancialMovement() {
     return moviments;
 }
 
+export async function getProofPayment() {
+    try {
+        const response = await fetch(`${apiUrl}/buscarComporvante`);
+    
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar as movimentações: ${response.status} ${response.statusText}`);
+        };
+
+        const data = await response.json();
+        return data;
+    } catch {
+        console.error(`Erro: ${error.message}`);
+    };
+};
 
 export async function getDataLocations() {
     try {
@@ -64,7 +122,7 @@ export async function getDataLocations() {
     } catch(error) {
         console.log(`Error: ${error.message}`)
     }
-}
+};
 
 export async function registrarInscricao(registrationData) {
     try {
@@ -86,7 +144,7 @@ export async function registrarInscricao(registrationData) {
         console.error('Erro ao fazer a requisição:', error); // Log do erro de requisição
         return { data: null, status: 500 }; // Retorna status de erro
     }
-}
+};
 
 export async function registrarInscricaoServ(registrationData) {
     try {
@@ -107,7 +165,7 @@ export async function registrarInscricaoServ(registrationData) {
         console.error('Erro ao fazer a requisição:', error); // Log do erro de requisição
         return { data: null, status: 500 }; // Retorna status de erro genérico
     }
-}
+};
 
 export async function registrarInscricaoJovem(registrationData) {
     try {
@@ -154,7 +212,6 @@ export async function registrarHospedagem(idInscricao, listaNomesHospedagem) {
         return 500; // Retorna erro genérico se falhar
     }
 }
-
 
 export async function getDashboardData() {
     try {
@@ -326,46 +383,6 @@ export async function createPdfMovement(groupedMovements) {
     }
 }
 
-
-
-export async function getpaymentReceipts() {
-    try {
-        const response = await fetch(`${apiUrl}/comprovantes`);
-        
-        // Verificando se a resposta foi bem-sucedida (status 200-299)
-        if (!response.ok) {
-            console.error(`Erro ao buscar a lista: ${response.status} ${response.statusText}`);
-            return null; // Retorna null ou um valor adequado em caso de erro
-        }
-
-        const data = await response.json();
-        return data;
-
-    } catch (error) {
-        console.error(`Erro inesperado: ${error.message}`);
-        return null; // Retorna null ou outro valor em caso de erro
-    }
-}
-
-
-// Função para buscar os comprovantes
-export async function getComprovantes() {
-    try {
-        // Fazendo requisição para a rota GET /comprovantes
-        const response = await fetch(`${apiUrl}/buscarComporvante`);
-        
-        if (!response.ok) {
-            throw new Error(`Erro ao buscar comprovantes: ${response.status} ${response.statusText}`);
-        }
-        
-        const data = await response.json();
-        return data.comprovantes; // Retorna a lista de comprovantes
-
-    } catch (error) {
-        console.error('Erro ao carregar comprovantes:', error);
-    }
-}
-
 //FUNCOES PARA A TELA DE REGISTROS DE PAGAMENTOS
 export async function registrarInscricaoAvulsa(paymenteData) {
     try {
@@ -432,7 +449,6 @@ export async function registrarVendaAlimentacao(tipoRefeicao, quantidade, precoU
         return 500;
     }
 }
-
 
 export async function registrarEntradaCaixa(tipoTransacao, valor, dataTransacao, descricao, responsavel) {
     try {
