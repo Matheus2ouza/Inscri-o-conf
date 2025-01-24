@@ -387,4 +387,5 @@ async function init() {
     await fetchAndRenderLocalities(); // Renderiza a tabela de localidades
 }
 
+
 init();
