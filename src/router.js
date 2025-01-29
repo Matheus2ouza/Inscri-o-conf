@@ -213,9 +213,32 @@ export async function registrarHospedagem(idInscricao, listaNomesHospedagem) {
     }
 }
 
-export async function getDashboardData() {
+export async function getDashboardData(eventoId) {
     try {
-        const response = await fetch(`${apiUrl}/dashboard`);
+        const response = await fetch(`${apiUrl}/dashboard/datageneralData`, {
+            method: 'POST',  // Método POST para enviar dados
+            headers: {
+                'Content-Type': 'application/json'  // Define o tipo de conteúdo JSON
+            },
+            body: JSON.stringify({ eventoId })  // Envia o eventoId no corpo da requisição
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar dados do dashboard: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data; // Retorna os dados do dashboard
+    } catch (error) {
+        console.error(`Erro: ${error.message}`);
+        return null; // Retorna null em caso de erro
+    }
+}
+
+
+export async function getEventData() {
+    try {
+        const response = await fetch(`${apiUrl}/dashboard/event`);
         if (!response.ok) {
             throw new Error(`Erro ao buscar dados do dashboard: ${response.status} ${response.statusText}`);
         }
