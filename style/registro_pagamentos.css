@@ -207,9 +207,10 @@ nav .label {
 }
 
 /* Grupo de campos do formulário */
-.form-group {
+.form-group-register {
     display: flex;
-    align-items: center; /* Alinha itens verticalmente */
+    align-items: start; /* Alinha itens verticalmente */
+    gap: 30px;
 }
 
 /* Estilos para os rótulos dos campos */
@@ -234,7 +235,7 @@ input::placeholder {
     font-size: 0.75rem; /* Tamanho menor da fonte para o placeholder */
 }
 
-#input1 {
+#input1, #nameRespons {
     width: 400px;
 }
 
@@ -261,7 +262,7 @@ input::placeholder {
     border-radius: 50%; /* Forma redonda */
     border-top: 6px solid #3498db; /* Cor do topo do loader para girar */
     animation: spin 1s linear infinite; /* Animação de rotação contínua */
-    z-index: 1001; /* Posição acima de outros elementos */
+    z-index: 1100; /* Posição acima de outros elementos */
 }
 
 /* Fundo semi-transparente para o loader */
@@ -526,6 +527,20 @@ body.dark-mode .suggestion-item {
 
 .input-amount {
     text-align: right;
+}
+
+.btn-registration {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: auto; /* Ajusta o tamanho do botão ao conteúdo */
+    margin-bottom: 10px; /* Espaço abaixo do botão */
+    width: 200px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 /* Estilo do botão de finalizar pagamento */
