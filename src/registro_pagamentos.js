@@ -6,8 +6,7 @@ const checkbox = document.querySelector('#chk'),
     expensesLink = document.querySelector('.expenses-link'),
     expensesContent = document.querySelector('.expenses-content'),
     registrationContent = document.querySelector('.registration-content'),
-    ticketContent = document.querySelector('.ticket-content'),
-    popUp = document.querySelector('.popup-container');
+    ticketContent = document.querySelector('.ticket-content');
 
 
 const paymentFieldTemplate = `
@@ -71,37 +70,6 @@ expensesLink.addEventListener('click', (event) => {
     setActive(expensesLink);
 });
 
-const closePopUp = document.querySelector('.close-popup').addEventListener('click', () =>{
-    popUp.classList.remove('active')
-});
-
-function alert(typeAlert, titleAlert, bodyAlert) {
-    const iconAlert = document.querySelector('.alert-icon'),
-        titlePopup = document.querySelector('.popup-title'),
-        bodyPopup = document.querySelector('.popup-body p'),
-        popUp = document.querySelector('.popup-container');
-
-    // Remove todas as classes anteriores
-    iconAlert.className = 'alert-icon'; // Reseta o ícone para sua classe base
-
-    if (typeAlert === "warning") {
-        iconAlert.style.color = '#f00';
-        iconAlert.classList.add('bi', 'bi-exclamation-triangle-fill');
-    } else if (typeAlert === "alert") {
-        iconAlert.style.color = '#f39c12';
-        iconAlert.classList.add('bi', 'bi-exclamation-triangle-fill');
-    } else {
-        iconAlert.style.color = '#2ecc71';
-        iconAlert.classList.add('bi', 'bi-check-circle-fill');
-    }
-
-    // Atualiza o título e o corpo do popup
-    titlePopup.textContent = titleAlert;
-    bodyPopup.textContent = bodyAlert;
-
-    // Exibe o popup
-    popUp.classList.add('active');
-}
 
 function toggleLoader(show) {
     const loaderBackground = document.querySelector('.loader-background')
@@ -363,6 +331,7 @@ async function finalizePayment() {
     const totalValueElement = document.querySelector('#total-value-modal');
     const totalGeral = parseFloat(totalValueElement.textContent.replace('R$', '').trim()) || 0;
     const locality = document.querySelector('#locality-modal').innerText;
+    const nomeResponsavel = document.querySelector('#nameRespons').value
 
     const paymentGroups = document.querySelectorAll('.input-group-payment');
 
@@ -415,35 +384,38 @@ async function finalizePayment() {
                 quantidadeTotal: faixas.reduce((total, faixa) => total + faixa.quantidade, 0),
                 valorTotal: totalPago,
                 formasDePagamento: formasDePagamento,
+                nomeResponsavel: nomeResponsavel
             };
+            console.log(paymenteData)
 
             try {
                 const statusInscricaoAvulsa = await registrarInscricaoAvulsa(paymenteData);
 
                 if (statusInscricaoAvulsa === 201) {
                     console.log(paymenteData);
-                    alert("success","Pagamento Realizado",`Pagamento de R$ ${totalPago.toFixed(2)} realizado com sucesso!`);
+                    alert(`Pagamento de R$ ${totalPago.toFixed(2)} realizado com sucesso!`);
                     closePaymentModal();
+                    window.location.reload();
                 } else if (statusInscricaoAvulsa === 401) {
-                    alert("alert","Erro na localidade","Localidade inválida! Verifique as informações e tente novamente.");
+                    alert("Localidade inválida! Verifique as informações e tente novamente.");
                 } else if (statusInscricaoAvulsa === 500) {
-                    alert("warning","Erro interno","Erro interno no servidor! Não foi possível registrar a inscrição.");
+                    alert("Erro interno no servidor! Não foi possível registrar a inscrição.");
                 } else {
-                    alert("warning","Erro desconhecido","Erro desconhecido ao tentar registrar a inscrição. Verifique os dados e tente novamente.");
+                    alert("Erro desconhecido ao tentar registrar a inscrição. Verifique os dados e tente novamente.");
                 }
             } catch (error) {
                 console.error("Erro ao processar a inscrição avulsa:", error);
-                alert("warning","Erro Inesperado","Erro inesperado! Verifique a conexão e tente novamente.");
+                alert("Erro inesperado! Verifique a conexão e tente novamente.");
             }
         } else if (totalPago > totalGeral) {
             const diferenca = (totalPago - totalGeral).toFixed(2);
-            alert("alert","Erro no Pagamento",`Valor excedente! O valor pago é R$ ${diferenca} a mais do que o necessário. Verifique se os valores estão corretos`);
+            alert(`Valor excedente! O valor pago é R$ ${diferenca} a mais do que o necessário. Verifique se os valores estão corretos`);
         } else {
             const diferenca = (totalGeral - totalPago).toFixed(2);
-            alert("alert","Erro no pagamento",`Valor insuficiente! Ainda faltam R$ ${diferenca} para concluir o pagamento.`);
+            alert(`Valor insuficiente! Ainda faltam R$ ${diferenca} para concluir o pagamento.`);
         }
     } else {
-        alert("alert","Erro no pagamento","Erro: Os valores de pagamento ou total geral não são numéricos.");
+        alert("Erro: Os valores de pagamento ou total geral não são numéricos.");
     }
 }
 
@@ -456,7 +428,6 @@ document.querySelector('button').addEventListener('click', openPaymentModal);
 function closePaymentModal() {
     // Fecha o modal de pagamento, alterando o estilo de display para 'none'
     document.getElementById('payment-modal').style.display = 'none';
-    window.location.reload();
 }
 
 // Atualizar os totais assim que os valores de quantidade ou faixa forem modificados
@@ -596,7 +567,6 @@ function updateTableInfo() {
 }
 
 
-
 // Salvar a configuração no localStorage
 function saveTicketConfigsToLocalStorage() {
     localStorage.setItem('ticketConfigs', JSON.stringify(ticketConfigs));
@@ -633,25 +603,6 @@ const toggleSalePopup = ()=>{
 
 btnTicketSale.addEventListener('click', toggleSalePopup);
 closePopupSale.addEventListener('click', toggleSalePopup);
-
-// Registrar a venda de ticket
-btnSaveSale.addEventListener('click', () => {
-    const selectedMeal = mealSaleSelect.value;
-    const quantity = ticketQuantity.value;
-
-    if (selectedMeal && quantity > 0) {
-        // Salvar a venda
-        ticketSales.push({ meal: selectedMeal, quantity });
-
-        // Exibir uma mensagem de sucesso
-        alert(`Venda registrada: ${quantity} tickets vendidos para ${selectedMeal}`);
-
-        // Fechar o popup
-        saleTicketPopup.classList.remove('active');
-    } else {
-        alert('Selecione uma refeição e informe a quantidade!');
-    }
-});
 
 // Seleciona os elementos do DOM
 const mealHistoryContainer = document.querySelector('.meal-history-container');
@@ -758,6 +709,92 @@ function createPaymentField() {
     });
 }
 
+// Adiciona o evento ao select de refeição
+document.querySelector('.meal-sale-select').addEventListener('change', (event) => {
+    const valueSelect = event.target.value;
+    // Chama a função loaderSelect passando o valor selecionado
+    loaderSelect(valueSelect);
+});
+
+// Adiciona o evento ao input de quantidade de tickets
+document.querySelector('#ticket-quantity').addEventListener('input', function() {
+    const quantityTicket = parseInt(this.value) || 0;  // Obtém o valor da quantidade de tickets
+    const valueSelect = document.querySelector('.meal-sale-select').value; // Obtém o valor selecionado no select
+    // Chama a função loaderSelect passando o valor do select e a quantidade
+    loaderSelect(valueSelect, quantityTicket);
+});
+
+// Função para carregar os dados da refeição e calcular o valor total
+function loaderSelect(valueSelect, quantityTicket = 0) {
+    // Seleciona os elementos do DOM
+    const mealDay = document.querySelector('#meal-day');
+    const mealType = document.querySelector('#meal-type');
+    const mealValue = document.querySelector('#meal-value');
+    const mealValueTotal = document.querySelector('#meal-value-total');
+
+    // Formata o valor selecionado (remover espaços ao redor de "-")
+    let mealFormat = valueSelect.trim().replace(/\s*-\s*/g, "-");
+
+    // Itera sobre as chaves do objeto ticketConfigs
+    for (let meal in ticketConfigs) {
+        if (meal === mealFormat) {  // Verifica se a chave corresponde ao valor selecionado
+            console.log(meal);  // Exibe a chave encontrada
+            console.log(ticketConfigs[meal]);  // Exibe o objeto associado à chave
+
+            // Atribui os valores aos elementos do DOM
+            mealDay.textContent = ticketConfigs[meal].day;  // Preenche o dia
+            mealType.textContent = ticketConfigs[meal].meal;  // Preenche o tipo de refeição
+            mealValue.textContent = ticketConfigs[meal].value;  // Preenche o valor da refeição
+            mealValueTotal.textContent = (ticketConfigs[meal].value * quantityTicket).toFixed(2);  // Atualiza o valor total com a quantidade
+
+            break; // Sai do loop após encontrar a chave correspondente
+        }
+    }
+}
+
+document.querySelector('.btn-save-sale').addEventListener('click', saveTicketSale);
+
+async function saveTicketSale() {
+    const mealDay = document.querySelector('#meal-day').textContent;
+    const mealType = document.querySelector('#meal-type').textContent;
+    const mealQuantity = document.querySelector('#ticket-quantity').value;
+    const mealValue = document.querySelector('#meal-value').textContent;
+    const mealValueTotal = document.querySelector('#meal-value-total').textContent;
+
+    console.log(mealDay);
+    console.log(mealType);
+    console.log(mealQuantity);
+    console.log(mealValue);
+    console.log(mealValueTotal);
+
+    // Agora, vamos pegar os tipos de pagamento e valores
+    const paymentFields = document.querySelectorAll('.ticket-payment');  // Seleciona todos os campos de pagamento
+    const paymentDataValue = [];
+
+    paymentFields.forEach(field => {
+        const paymentMethod = field.querySelector('.payment-method-select').value;  // Método de pagamento
+        const paymentAmount = field.querySelector('.payment-amount-input').value;  // Valor do pagamento
+
+        // Armazena os dados de pagamento em um objeto
+        paymentDataValue.push({
+            tipo: paymentMethod,
+            valor: paymentAmount
+        });
+    });
+    
+    const paymenteData = {
+        dia : mealDay,
+        tipo: mealType,
+        quantidade: mealQuantity,
+        valorUnitario: mealValue,
+        valorTotal: mealValueTotal,
+        pagamentos: paymentDataValue
+    };
+
+    
+}
+
+
 // Função de inicialização
 async function init() {
     // Inicializa a lógica para criação de novos campos de pagamento
@@ -772,7 +809,12 @@ async function init() {
     registrationContent.classList.add('hidden');
     setActive(ticketLink);  
     initRegistrationTable();
-    await initCitySuggestions();
+    
+    // Verifica se o ticketLink tem a classe 'active' antes de chamar initCitySuggestions
+    if (ticketLink.classList.contains('active')) {
+        await initCitySuggestions();
+    }
+    
     updatePaymentInfo();
     newPaymentMethod();
     loadTicketConfigsFromLocalStorage();
@@ -789,6 +831,7 @@ async function init() {
         input.addEventListener('input', updateTotals);
     });
 }
+
 
 // Chama a função init quando o DOM estiver completamente carregado
 document.addEventListener('DOMContentLoaded', init);

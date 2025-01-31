@@ -37,7 +37,7 @@
         <h1>Inscrição Avulsa</h1>
         <form>
             <div class="form-container">
-                <div class="form-group">
+                <div class="form-group-register">
                     <div class="form-localidade">
                         <label for="input1">Localidade:</label>
                         <div class="input-container">
@@ -45,6 +45,14 @@
                             <div id="suggestions" class="suggestions"></div>
                         </div>
                     </div>
+                    <div class="form-nome-register">
+                        <label for="input1">Nome do Responsavel:</label>
+                        <div class="input-container">
+                            <input type="text" id="nameRespons" autocomplete="off" placeholder="Coloque o nome e sobrenome">
+                            <div id="suggestions" class="suggestions"></div>
+                        </div>
+                    </div>
+                </div>
                 </div>
     
                 <div class="registration-table-container">
@@ -133,7 +141,7 @@
             </div>
         </form>
     
-        <button>GERAR PAGAMENTO</button>
+        <button class="btn-registration">GERAR PAGAMENTO</button>
     
         <!-- Modal de Pagamento -->
         <div id="payment-modal" class="payment-modal">
@@ -262,7 +270,7 @@
                             </div>
                             <div class="detail-item">
                                 <p><strong>Valor Total:</strong></p>
-                                <p>R$ <span id="meal-value"></span></p>
+                                <p>R$ <span id="meal-value-total"></span></p>
                             </div>
                         </div>
                     </div>
@@ -299,7 +307,7 @@
 
                     
                     <!-- Botão de registrar venda -->
-                    <button type="button" class="btn-save-sale" onclick="saveTicketSale()">Registrar Venda</button>
+                    <button type="button" class="btn-save-sale">Registrar Venda</button>
                 </form>
             </div>            
         </div>
@@ -368,26 +376,7 @@
 
     <div class="loader-background">
         <div class="simple-loader"></div>
-    </div>
-
-    <div class="popup-container">
-        <div class="pop-up">
-            <!-- Botão de fechar -->
-            <span class="close-popup">&times;</span>
-    
-            <!-- Ícone de alerta -->
-            <i class="alert-icon"></i>
-    
-            <!-- Título do popup -->
-            <h1 class="popup-title"></h1>
-    
-            <!-- Corpo do popup com detalhes -->
-            <div class="popup-body">
-                <p></p>
-            </div>
-        </div>
-    </div>
-    
+    </div>    
     
     <script type="module" src="../src/registro_pagamentos.js"></script>
 </body>
