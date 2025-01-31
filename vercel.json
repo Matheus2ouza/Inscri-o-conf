@@ -34,7 +34,7 @@
     },
     {
       "src": "/inscricaoJonv",
-      "dest": "/page/inscriptionJovem.html"
+      "dest": "/page/inscriptionError.html"
     },
     {
       "src": "/pagamento",
