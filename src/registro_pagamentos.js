@@ -1,4 +1,4 @@
-import { getLocations, registrarInscricaoAvulsa } from './router.js';
+import { getLocations, registrarInscricaoAvulsa, registrarVendaAlimentacao, getDataAlimentacao, registrarCaixa, getdatacaixa } from './router.js';
 
 const checkbox = document.querySelector('#chk'),
     inscricaoLink = document.querySelector('.inscricao-link'),
@@ -602,22 +602,26 @@ const toggleSalePopup = ()=>{
 };
 
 btnTicketSale.addEventListener('click', toggleSalePopup);
-closePopupSale.addEventListener('click', toggleSalePopup);
+closePopupSale.addEventListener('click', function() {
+    toggleSalePopup();
+    clearFields();
+});
 
 // Seleciona os elementos do DOM
 const mealHistoryContainer = document.querySelector('.meal-history-container');
 const noHistoryElement = document.querySelector('.no-history');
 const historyElement = document.querySelector('.history');
-const mealHistoryTableBody = document.querySelector('#meal-history-table tbody');
+const mealHistoryTableBody = document.querySelector('#meal-history-table-body'); // Correção aqui
 const refreshButton = document.querySelector('.refresh-history');
 
 // Função para buscar dados da API
 async function fetchMealHistory() {
     try {
-        // const response = await fetch('https://suaapi.com/historico'); // Substitua pela URL da sua API
-        const data = await response.json();
+        // Chama a função getDataAlimentacao para buscar os dados
+        const data = await getDataAlimentacao();
 
-        if (data.length === 0) {
+        // Verifica se os dados foram retornados
+        if (!data || data.length === 0) {
             // Caso não haja histórico, exibe a tela "sem histórico"
             noHistoryElement.style.display = 'flex';
             historyElement.style.display = 'none';
@@ -629,22 +633,29 @@ async function fetchMealHistory() {
 
             data.forEach(entry => {
                 const row = document.createElement('tr');
+
+                // Preenche a célula de "dia"
                 const dateCell = document.createElement('td');
-                dateCell.textContent = entry.date; // A data da venda
+                dateCell.textContent = entry.dia; // O dia da refeição (parte do tipo_refeicao)
                 row.appendChild(dateCell);
 
+                // Preenche a célula de "refeição"
                 const mealCell = document.createElement('td');
-                mealCell.textContent = entry.meal; // O tipo de refeição
+                mealCell.textContent = entry.refeicao; // O tipo de refeição
                 row.appendChild(mealCell);
 
+                // Preenche a célula de "quantidade"
                 const quantityCell = document.createElement('td');
-                quantityCell.textContent = entry.quantity; // Quantidade vendida
+                quantityCell.textContent = entry.quantidade; // Quantidade vendida
                 row.appendChild(quantityCell);
 
+                // Preenche a célula de "valor total"
                 const totalValueCell = document.createElement('td');
-                totalValueCell.textContent = `R$ ${entry.totalValue.toFixed(2)}`; // Valor total da venda
+                // Converte o valor total para número e formata com R$
+                totalValueCell.textContent = `R$ ${parseFloat(entry.valor_total).toFixed(2)}`; // Valor total da venda
                 row.appendChild(totalValueCell);
 
+                // Adiciona a linha à tabela
                 mealHistoryTableBody.appendChild(row);
             });
         }
@@ -738,8 +749,6 @@ function loaderSelect(valueSelect, quantityTicket = 0) {
     // Itera sobre as chaves do objeto ticketConfigs
     for (let meal in ticketConfigs) {
         if (meal === mealFormat) {  // Verifica se a chave corresponde ao valor selecionado
-            console.log(meal);  // Exibe a chave encontrada
-            console.log(ticketConfigs[meal]);  // Exibe o objeto associado à chave
 
             // Atribui os valores aos elementos do DOM
             mealDay.textContent = ticketConfigs[meal].day;  // Preenche o dia
@@ -755,8 +764,8 @@ function loaderSelect(valueSelect, quantityTicket = 0) {
 document.querySelector('.btn-save-sale').addEventListener('click', saveTicketSale);
 
 async function saveTicketSale() {
-    const mealDay = document.querySelector('#meal-day').textContent;
-    const mealType = document.querySelector('#meal-type').textContent;
+    const mealDay = document.querySelector('#meal-day').textContent.trim();
+    const mealType = document.querySelector('#meal-type').textContent.trim();
     const mealQuantity = document.querySelector('#ticket-quantity').value;
     const mealValue = document.querySelector('#meal-value').textContent;
     const mealValueTotal = document.querySelector('#meal-value-total').textContent;
@@ -767,33 +776,187 @@ async function saveTicketSale() {
     console.log(mealValue);
     console.log(mealValueTotal);
 
-    // Agora, vamos pegar os tipos de pagamento e valores
-    const paymentFields = document.querySelectorAll('.ticket-payment');  // Seleciona todos os campos de pagamento
+    // Pegando os tipos de pagamento e valores
+    const paymentFields = document.querySelectorAll('.ticket-payment');
     const paymentDataValue = [];
 
     paymentFields.forEach(field => {
-        const paymentMethod = field.querySelector('.payment-method-select').value;  // Método de pagamento
-        const paymentAmount = field.querySelector('.payment-amount-input').value;  // Valor do pagamento
+        const paymentMethod = field.querySelector('.payment-method-select').value;
+        const paymentAmount = field.querySelector('.payment-amount-input').value;
 
-        // Armazena os dados de pagamento em um objeto
         paymentDataValue.push({
             tipo: paymentMethod,
             valor: paymentAmount
         });
     });
-    
-    const paymenteData = {
-        dia : mealDay,
-        tipo: mealType,
+
+    const paymentData = {
+        tipo_refeicao: `${mealDay}_${mealType}`,  // Agora fica no formato sexta_janta
         quantidade: mealQuantity,
         valorUnitario: mealValue,
         valorTotal: mealValueTotal,
         pagamentos: paymentDataValue
     };
 
-    
+    console.log(paymentData);
+
+    toggleLoader(true);   
+    try {
+        // Passa o paymentData como parâmetro para registrar a venda
+        const response = await registrarVendaAlimentacao(paymentData);
+
+        // Se a venda foi registrada com sucesso, você pode realizar outra ação aqui
+        if (response === 201) {
+            alert("Venda registrada com sucesso!");
+            clearFields();
+            fetchMealHistory();
+        } else {
+            alert("Erro ao registrar a venda.");
+        }
+
+    } catch (error) {
+        console.error('Erro ao registrar a venda de alimentação:', error);
+        alert("Erro inesperado ao registrar a venda.");
+    } finally {
+        toggleLoader(false);
+    }
 }
 
+function clearFields() {
+    // Limpa os campos de refeição (estáticos)
+    document.querySelector('#meal-day').textContent = '';
+    document.querySelector('#meal-type').textContent = '';
+    document.querySelector('#ticket-quantity').value = '';
+    document.querySelector('#meal-value').textContent = '';
+    document.querySelector('#meal-value-total').textContent = '';
+
+    // Limpa o select, voltando para a opção padrão
+    const mealSaleSelect = document.querySelector('#meal-sale-select');
+    if (mealSaleSelect) {
+        mealSaleSelect.value = "";  // Define o valor para a opção "Nenhuma Refeição criada"
+    }
+
+    // Selecione todos os campos de pagamento
+    const paymentFields = document.querySelectorAll('.ticket-payment');
+
+    // Se houver mais de um campo de pagamento, remove todos, exceto o primeiro
+    paymentFields.forEach((field, index) => {
+        if (index > 0) {
+            field.remove();
+        }
+    });
+}
+
+// Scripts de saidas
+function openPopUpExit() {
+    document.querySelector('.pop-up-exit').style.display = 'flex';
+}
+
+function closePopUpExit() {
+    document.querySelector('.pop-up-exit').style.display = 'none';
+    resetExitForm(); // Reseta o formulário ao fechar o pop-up
+}
+
+document.querySelector('.button-add-exit').addEventListener('click', openPopUpExit);
+document.querySelector('.close-btn-exit').addEventListener('click', closePopUpExit, resetExitForm);
+
+async function registerExit(event) {
+    event.preventDefault(); // Impede o recarregamento da página
+
+    const selectType = document.querySelector('#tipo').value;
+    const responsavel = document.querySelector('#responsavel').value;
+    const descricao = document.querySelector('#descricao').value;
+    const valor = document.querySelector('#valor').value;
+
+    if (!selectType || !responsavel || !descricao || !valor) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+    }
+
+    const registerData = {
+        tipo: selectType,
+        responsavel: responsavel,
+        descricao: descricao,
+        valor: parseFloat(valor) // Converte para número
+    };
+
+    console.log("Enviando dados:", registerData);
+
+    toggleLoader(true); // Exibe o loader enquanto a operação está em andamento
+
+    try {
+        const response = await registrarCaixa(registerData); // Chama a API para registrar
+
+        if (response === 201) {
+            alert("Movimentação registrada com sucesso.");
+            loadExitTable(); // Atualiza a tabela
+            resetExitForm(); // Reseta o formulário após o registro
+            closePopUpExit(); // Fecha o pop-up
+        } else {
+            alert("Erro ao registrar movimentação. Tente novamente.");
+        }
+    } catch (error) {
+        console.error("Erro ao registrar movimentação:", error);
+        alert("Erro ao registrar movimentação.");
+    } finally {
+        toggleLoader(false); // Esconde o loader
+    }
+}
+
+async function loadExitTable() {
+    toggleLoader(true);
+    try {
+        const data = await getdatacaixa();
+        const noTable = document.querySelector('.no-exit-table');
+        const table = document.querySelector('.exit-table');
+        const tbody = table.querySelector('tbody');
+
+        tbody.innerHTML = ''; // Limpa a tabela antes de preencher os novos dados
+
+        if (!data || data.length === 0) {
+            noTable.style.display = 'flex';
+            table.style.display = 'none';
+            return;
+        }
+
+        data.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${item.tipomovimento}</td>
+                <td>${item.responsavel}</td>
+                <td>${item.descricao}</td>
+                <td>R$ ${parseFloat(item.valor).toFixed(2)}</td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        table.style.display = 'table';
+        noTable.style.display = 'none';
+
+    } catch (error) {
+        console.error('Erro ao carregar a tabela:', error);
+    } finally {
+        toggleLoader(false);
+    }
+}
+
+// Reseta os campos do formulário
+function resetExitForm() {
+    document.querySelector('#tipo').value = '';
+    document.querySelector('#responsavel').value = '';
+    document.querySelector('#descricao').value = '';
+    document.querySelector('#valor').value = '';
+}
+
+// Atualiza a tabela ao clicar no botão de atualização
+document.querySelector('.refresh-exit').addEventListener('click', loadExitTable);
+
+// Adiciona evento ao botão de registrar saída
+document.querySelector('.btn-register-exit').addEventListener('click', registerExit);
+
+// Carrega a tabela ao abrir a página
+document.addEventListener('DOMContentLoaded', loadExitTable);
 
 // Função de inicialização
 async function init() {
@@ -830,6 +993,9 @@ async function init() {
     document.querySelectorAll('.meal-table input[type="text"]').forEach(input => {
         input.addEventListener('input', updateTotals);
     });
+
+    loadExitTable();
+
 }
 
 

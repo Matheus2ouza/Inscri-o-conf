@@ -433,38 +433,27 @@ export async function registrarInscricaoAvulsa(paymenteData) {
     }
 }
 
-export async function registrarVendaAlimentacao(tipoRefeicao, quantidade, precoUnitario, dataVenda, formPagamento) {
+export async function registrarVendaAlimentacao(paymentData) {
     try {
-        console.log(tipoRefeicao, quantidade, precoUnitario, dataVenda, formPagamento);
+        console.log(paymentData); // Confirma o objeto sendo enviado
 
-        const responseVenda = await fetch(`${apiUrl}/venda-alimentacao`, {
+        // Faz a requisição para cadastrar a venda
+        const responseVenda = await fetch(`${apiUrl}/RegistroPagamento/venda-alimentacao`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                tipo_refeicao: tipoRefeicao, 
-                quantidade: quantidade,
-                valortotal: precoUnitario * quantidade 
-            })
+            body: JSON.stringify(paymentData) // Envia diretamente o objeto
         });
 
-        if (responseVenda.status === 201) {
-            const vendaData = await responseVenda.json();
-
-            const responseDetalhe = await fetch(`${apiUrl}/venda-alimentacao/detalhes/${vendaData.id}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    valor: precoUnitario * quantidade, 
-                    formapagamento: formPagamento 
-                })
-            });
-
-            return responseDetalhe.status;
+        // Verifica se a venda foi registrada com sucesso
+        if (!responseVenda.ok) {
+            console.error("Erro ao registrar venda:", await responseVenda.text());
+            return responseVenda.status;
         }
+
+        const vendaData = await responseVenda.json();
+        console.log("Venda registrada com sucesso:", vendaData);
 
         return responseVenda.status;
     } catch (error) {
@@ -473,27 +462,67 @@ export async function registrarVendaAlimentacao(tipoRefeicao, quantidade, precoU
     }
 }
 
-export async function registrarEntradaCaixa(tipoTransacao, valor, dataTransacao, descricao, responsavel) {
+export async function getdatacaixa() {
+    try{
+        const response = await fetch(`${apiUrl}/RegistroPagamento/dadosMovimentacao`);
+
+        if(!response.ok) {
+            console.log(`Erro ao buscar dados de caixa: ${response.status} ${response.statusText}`);
+            return null
+        }
+
+        const data = response.json();
+        return data;
+    } catch (error) {
+        console.error(`Erro inesperado: ${error.message}`);
+        return null;
+    }
+}
+
+export async function getDataAlimentacao() {
     try {
-        console.log(tipoTransacao, valor, dataTransacao, descricao, responsavel);
-        const response = await fetch(`${apiUrl}/caixa`, {
+        const response = await fetch(`${apiUrl}/RegistroPagamento/DadosRefeicao`);
+
+        // Verificando se a resposta foi bem-sucedida (status 200-299)
+        if (!response.ok) {
+            console.error(`Erro ao buscar a lista: ${response.status} ${response.statusText}`);
+            return null; // Retorna null ou um valor adequado em caso de erro
+        }
+
+        const data = await response.json();
+        return data;
+    
+    } catch (error) {
+        console.error(`Erro inesperado: ${error.message}`);
+        return null; // Retorna null ou outro valor em caso de erro
+    }
+}
+
+export async function registrarCaixa(registerData) {
+    try {
+        const response = await fetch(`${apiUrl}/RegistroPagamento/caixa`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                descricao: descricao, 
-                responsavel: responsavel, 
-                valor: valor, 
-                tipomovimento: tipoTransacao, 
-                data: dataTransacao 
-            })
+            body: JSON.stringify(registerData)
         });
 
-        return response.status; 
+        // Verifica o status da resposta
+        if (response.ok) {
+            const inscricaoData = await response.json();  // Pode lidar com erro JSON se precisar
+            console.log("Inscrição registrada com sucesso:", inscricaoData);
+            return response.status; // Retorna o código de sucesso
+        } else {
+            // Lida com resposta diferente de sucesso (4xx, 5xx)
+            const errorData = await response.json(); // Pega os dados de erro
+            console.error("Erro ao registrar inscrição avulsa:", errorData);
+            return response.status; // Retorna o status do erro
+        }
     } catch (error) {
         console.error('Erro ao registrar entrada no caixa:', error);
-        return 500;
+        return 500; // Código genérico de erro de servidor
     }
 }
+
 
