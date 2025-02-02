@@ -242,7 +242,7 @@
         <!-- Popup de venda de ticket -->
         <div class="ticket-sale-popup-container">
             <div class="ticket-sale-popup">
-                <span class="close-popup" id="close-popup-sale">&times;</span>
+                <span class="close-popup" id="close-popup-sale"></span>
                 <h1>Venda de Ticket</h1>
                 
                 <form id="ticket-sale-form">
@@ -350,19 +350,19 @@
                 <!-- Tela com histórico -->
                 <div class="history">
                     <h3>Histórico de Vendas</h3>
-                    <table id="sales-history-table">
+                    <table>
                         <thead>
                             <tr>
+                                <th>Dia</th>
                                 <th>Refeição</th>
-                                <th>Data</th>
                                 <th>Quantidade</th>
-                                <th>Total (R$)</th>
+                                <th>Valor Total</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <!-- O histórico será inserido aqui -->
+                        <tbody id="meal-history-table-body">
+                            <!-- As linhas da tabela serão inseridas aqui via JS -->
                         </tbody>
-                    </table>
+                    </table>                    
                 </div>
             </div>
         </div>        
@@ -371,6 +371,63 @@
     
         
     <div class="expenses-content">
+        <button class="button-add-exit">Adicionar Saida</button>
+
+        <div class="container-table-exit">
+            <h2 class="title-exit">Tabela de Saida</h2>
+            <button class="refresh-exit">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+
+            <div class="no-exit-table">
+                <h3>Nenhuma saida registrada</h3>
+            </div>
+        
+            <!-- Adicionando a tabela após o botão -->
+            <table class="exit-table">
+                <thead>
+                    <tr>
+                        <th class="col-numero">Nº</th>
+                        <th class="col-tipo">Tipo</th>
+                        <th class="col-responsavel">Responsável</th>
+                        <th class="col-descricao">Descrição</th>
+                        <th class="col-valor">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            
+        </div>
+
+        <div class="pop-up-exit">
+            <div class="pop-up-content">
+                <span class="close-btn-exit">&times;</span> <!-- Botão de fechar com &times; -->
+                <h2>Registro de Saída</h2>
+                <form>
+                    <label for="tipo">Tipo:</label>
+                    <select id="tipo" name="tipo" required>
+                        <option value="">Selecione um tipo</option>
+                        <option value="Entrada">Entrada</option>
+                        <option value="Saida">Saída</option>
+                    </select>
+        
+                    <label for="responsavel">Responsável:</label>
+                    <input type="text" id="responsavel" name="responsavel" required>
+        
+                    <label for="descricao">Descrição:</label>
+                    <textarea id="descricao" name="descricao" rows="4" required></textarea>
+        
+                    <label for="valor">Valor:</label>
+                    <input type="number" id="valor" name="valor" required>
+        
+                    <button type="submit" class="btn-register-exit">Registrar</button>
+                </form>
+            </div>
+        </div>
+        
+        
+        
     </div>
     
 

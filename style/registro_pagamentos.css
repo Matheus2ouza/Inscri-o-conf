@@ -273,7 +273,7 @@ input::placeholder {
     width: 100%; /* Largura total */
     height: 100%; /* Altura total */
     background-color: rgba(0, 0, 0, 0.5); /* Fundo preto semi-transparente */
-    z-index: 1000; /* Colocado abaixo do loader */
+    z-index: 1004; /* Colocado abaixo do loader */
 }
 
 /* Animação de rotação para o loader */
@@ -1082,10 +1082,12 @@ body.dark-mode .payment-select-group select::placeholder {
 .history table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
 }
 
 .history th, .history td {
-    padding: 8px;
+    padding: 12px;
+    text-align: left; /* Alinha o texto à esquerda nas células */
     border-bottom: 1px solid #ddd;
 }
 
@@ -1098,6 +1100,29 @@ body.dark-mode .payment-select-group select::placeholder {
     background-color: #f9f9f9;
 }
 
+/* Ajuste de largura das colunas */
+.history th:nth-child(1), .history td:nth-child(1) {
+    width: 20%; /* A largura da coluna "Dia" */
+}
+
+.history th:nth-child(2), .history td:nth-child(2) {
+    width: 30%; /* A largura da coluna "Refeição" */
+}
+
+.history th:nth-child(3), .history td:nth-child(3) {
+    width: 20%; /* A largura da coluna "Quantidade" */
+}
+
+.history th:nth-child(4), .history td:nth-child(4) {
+    width: 30%; /* A largura da coluna "Valor Total" */
+}
+
+/* Estilos extras para quando a tabela estiver vazia */
+.history .no-records {
+    text-align: center;
+    font-style: italic;
+    color: #999;
+}
 
 /* Estilos do popup de configuração de ticket */
 .ticket-popup-container {
@@ -1158,7 +1183,7 @@ body.dark-mode .payment-select-group select::placeholder {
     position: relative;
     background: white;
     width: 500px;
-    height: 580px;
+    height: 600px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -1418,3 +1443,183 @@ button:hover {
 }
 
 /* FIM POP-UP PARA ALERTAS */
+
+/* começo da area de movimentção */
+
+.button-add-exit {
+    margin-top: 50px;
+}
+
+/* Título */
+.title-exit {
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+    margin: 5px 0 20px 20px;
+}
+
+/* Container da tabela */
+.container-table-exit {
+    margin: 20px 0 0 20px;
+    width: 70%;
+    height: 440px;
+    background-color: #fff;
+    position: relative;
+    border-radius: 5px;
+    overflow-x: auto;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+/* Botão de atualização */
+.refresh-exit {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background-color: #4CAF50;
+    padding: 5px;
+    width: 50px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+.refresh-exit i {
+    font-size: 24px;
+    color: #fff;
+}
+
+.refresh-exit:hover {
+    background-color: #3e8e41;
+}
+
+/* Mensagem quando não há dados */
+.no-exit-table {
+    display: block;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #777;
+}
+
+/* Estilo da tabela */
+.exit-table {
+    display: none;
+    width: 100%;
+    min-width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Mantém colunas organizadas */
+}
+
+/* Estilo do cabeçalho e células */
+.exit-table th, .exit-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Definição de largura para cada coluna */
+.exit-table .col-numero {
+    width: 10%; /* Número */
+}
+
+.exit-table .col-tipo {
+    width: 15%; /* Tipo */
+}
+
+.exit-table .col-responsavel {
+    width: 25%; /* Responsável */
+}
+
+.exit-table .col-descricao {
+    width: 35%; /* Descrição */
+}
+
+.exit-table .col-valor {
+    width: 15%; /* Valor */
+}
+
+/* Estilo do cabeçalho */
+.exit-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Alternância de cores das linhas */
+.exit-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.exit-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilo do pop-up */
+.pop-up-exit {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    justify-content: center;
+    align-items: center;
+}
+
+.pop-up-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+    position: relative;
+}
+
+/* Estilo do botão de fechar */
+.close-btn-exit {
+    position: absolute;
+    top: 2px;
+    right: 10px;
+    font-size: 35px;
+    color: #f44336;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
+/* Inputs do pop-up */
+.pop-up-content input,
+.pop-up-content textarea,
+.pop-up-content select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Botões */
+.pop-up-content button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.pop-up-content button:hover {
+    background-color: #3e8e41;
+}
