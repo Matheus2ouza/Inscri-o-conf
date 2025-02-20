@@ -1,95 +1,242 @@
-import { loginAdmin } from "./router.js";
+import { getLocations, postLogin } from "./router.js";
 
-const iconPassword = document.querySelector('#icon-password');
 const checkbox = document.querySelector('#chk');
-const username = document.querySelector('.username');
-const password = document.querySelector('.password');
+const iconPassword = document.querySelector('#icon-password');
+const passwordField = document.querySelector('.password');
+const localidadeInput = document.querySelector('.localidade');
+const suggestionsContainer = document.getElementById('suggestions');
 
-function showpassword() {
-    iconPassword.addEventListener('click', (event) => {
+let isCitySelected = false;
+let cityNames = [];
+let redirectionTimeout;
+
+/**
+ * Função debounce para limitar a frequência de execução de outra função.
+ */
+function debounce(func, delay) {
+    let timeoutId;
+    return (...args) => {
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func(...args), delay);
+    };
+}
+
+/**
+ * Alterna a visualização da senha ao clicar no ícone.
+ */
+function showPasswordToggle() {
+    iconPassword.addEventListener('click', event => {
         event.preventDefault();
-        const isPasswordType = password.type === 'password';
-
-        password.type = isPasswordType ? 'text' : 'password';
+        const isPasswordType = passwordField.type === 'password';
+        passwordField.type = isPasswordType ? 'text' : 'password';
         iconPassword.classList.toggle('bi-eye-fill', !isPasswordType);
         iconPassword.classList.toggle('bi-eye-slash-fill', isPasswordType);
     });
 }
 
-function darkmode() {
+/**
+ * Exibe um pop-up com título e descrição informados.
+ */
+function popUp(title, description) {
+    const popUpContainer = document.querySelector('.pop-up');
+    const titlePopUp = document.querySelector('.title-alert');
+    const descriptionAlert = document.querySelector('.description-alert');
+
+    titlePopUp.textContent = title;
+    descriptionAlert.textContent = description;
+    popUpContainer.style.display = 'flex';
+}
+
+/**
+ * Redireciona o para a pagina de registro
+ */
+function redirectionLink(locality) {
+    const redirection = document.querySelector('.pop-up-redirection');
+    const fieldLocality = document.querySelector('#localidade-nome');
+
+    redirection.style.display = 'flex';
+    fieldLocality.textContent = locality
+
+    redirectionTimeout = setTimeout(()=>{
+        location.href = './userRegister.html'
+    }, 10000);
+}
+
+/**
+ * Evento para procurar o button e fechar.
+ */
+document.querySelectorAll('.close').forEach(closeButton => {
+    closeButton.addEventListener('click', ()=>{
+        closeButton.parentElement.style.display = 'none';
+
+        clearTimeout(redirectionTimeout);
+    });
+});
+
+/**
+ * Ativa ou desativa o modo escuro.
+ */
+function darkModeToggle() {
     checkbox.addEventListener('change', () => {
         document.body.classList.toggle('dark-mode');
     });
 }
 
-function showError(inputError){
-    inputError.classList.add('error');
-}
-function resetField(input){
-    input.addEventListener('focus', () => {
-        input.classList.remove('error');
-    });
-}
-
-function showLoader() {
+/**
+ * Mostra ou esconde o loader.
+ */
+function toggleLoader(show) {
     const loaderBackground = document.querySelector('.loader-background');
-    loaderBackground.classList.remove('hidden');
+    loaderBackground.classList.toggle('hidden', !show);
 }
 
-function hideLoader() {
-    const loaderBackground = document.querySelector('.loader-background');
-    loaderBackground.classList.add('hidden');
-}
-
-async function login() {
-    const loginData = {
-        username: username.value,
-        password: password.value
-    };
-
-    showLoader(); // Exibe o loader antes de iniciar a solicitação
-
+/**
+ * Busca as localidades e retorna um array com os nomes das cidades.
+ */
+async function fetchCityNames() {
     try {
-        // Chamando a função de login e aguardando o resultado
-        const resultLogin = await loginAdmin(loginData);
+    toggleLoader(true);
+    const fetchedCities = await getLocations();
+    
+    if(fetchedCities.length === 0) {
+        setTimeout(() =>{
+            popUp('⚠️Erro interno⚠️', `Erro interno do servidor, mas não se preocupe a pagina será atualizada automaticamente mas caso
+                essa mensagem continue aparecendo entre em contato com o suporte`);
+        }, 5000)
+    }
 
-        // Verificando o resultado e aplicando tratamentos de erro
-        if (resultLogin.success) {
-            console.log("Login bem-sucedido:", resultLogin.data);
-            // Redirecionar ou realizar alguma ação no caso de sucesso
-        } else {
-            console.warn("Erro no login:", resultLogin.message);
-
-            // Tratamento específico para erros de username e password
-            if (resultLogin.message.includes("Nome de usuário")) {
-                showError(username); // Exibe o erro no campo username
-                resetField(username); // Remove o erro ao focar no campo
-            } else if (resultLogin.message.includes("Senha")) {
-                showError(password); // Exibe o erro no campo password
-                resetField(password); // Remove o erro ao focar no campo
-            } else {
-                alert(resultLogin.message); // Exibe mensagem geral para erros desconhecidos
-            }
-        }
+    const cities = Object.values(fetchedCities);
+    return cities.map(city => city.nome);
     } catch (error) {
-        console.error("Erro durante o login:", error);
-        alert("Erro ao tentar fazer login. Tente novamente mais tarde.");
+    console.error("Erro ao buscar localidades:", error);
+    return [];
     } finally {
-        hideLoader(); // Oculta o loader após a resposta da solicitação
+    toggleLoader(false);
     }
 }
 
-function init() {
-    showpassword();
-    darkmode();
-    hideLoader();
+/**
+ * Filtra as cidades com base no valor digitado e exibe as sugestões.
+ */
+function filterCities(inputValue) {
+    const filtered = cityNames.filter(city => city.toLowerCase().includes(inputValue));
 
-    const btnLogin = document.querySelector('.submit');
+    // Limpa as sugestões anteriores
+    suggestionsContainer.innerHTML = '';
+    suggestionsContainer.style.display = (filtered.length > 0 && inputValue) ? 'block' : 'none';
 
-    btnLogin.addEventListener('click', (event) => {
-        event.preventDefault();
-        login();
+    filtered.forEach(city => {
+    const item = document.createElement('div');
+    item.classList.add('suggestion-item');
+    item.textContent = city;
+
+    item.addEventListener('click', async () => {
+        localidadeInput.value = city;
+        suggestionsContainer.innerHTML = '';
+        suggestionsContainer.style.display = 'none';
+        isCitySelected = true; // Marca que a cidade foi selecionada
+
+        // Se as funções checkLocation e toggleRegisterButton estiverem definidas, chame-as:
+        if (typeof checkLocation === "function" && typeof toggleRegisterButton === "function") {
+        const isValid = await checkLocation();
+        toggleRegisterButton(isValid);
+        }
+
+        // Reseta a variável após um pequeno atraso para permitir futuras interações
+        setTimeout(() => {
+        isCitySelected = false;
+        }, 500);
+    });
+
+    suggestionsContainer.appendChild(item);
     });
 }
 
-init();
+// Cria uma versão debounced da função de filtro para melhorar a performance
+const debouncedFilter = debounce(() => {
+    const inputValue = localidadeInput.value.toLowerCase();
+    filterCities(inputValue);
+}, 300);
+
+
+//Inicializa as sugestões de cidades.
+async function initCitySuggestions() {
+    cityNames = await fetchCityNames();
+
+    localidadeInput.addEventListener('input', () => {
+    if (!isCitySelected) {
+        debouncedFilter();
+    }
+    });
+
+    localidadeInput.addEventListener('blur', () => {
+    // Esconde as sugestões com um pequeno delay para permitir seleção
+    setTimeout(() => {
+        suggestionsContainer.style.display = 'none';
+    }, 200);
+    });
+
+    suggestionsContainer.addEventListener('mousedown', (event) => {
+    // Impede que o blur dispare ao clicar nas sugestões
+    event.preventDefault();
+    });
+}
+
+//Realiza o login verificando se os campos foram preenchidos.
+async function login() {
+    const locality = localidadeInput.value;
+    const password = passwordField.value;
+
+    let message = '';
+
+    if (!locality || !password) {
+    message = !locality && !password 
+        ? 'Você esqueceu de preencher o usuário e a senha. Verifique os dados.'
+        : !locality 
+        ? 'Você esqueceu de preencher o usuário. Verifique os dados.'
+        : 'Você esqueceu de preencher a senha. Verifique os dados.';
+
+    popUp('Falta de dados', message);
+    return;
+    }
+
+    const data = {
+    locality: locality.toUpperCase(),
+    password: password
+    }
+    
+    toggleLoader(true);
+    try {
+        const response = await postLogin(data);
+    
+        if (response.status === 400 || response.status === 401) {
+            if(response.message.includes('inactive')) {
+                redirectionLink(locality);
+            } else {
+                popUp('Dados inválidos', response.message);
+            }
+        }
+
+    } catch (error) {
+        console.error('Erro ao tentar fazer login:', error);
+        popUp('Erro', 'Ocorreu um erro ao tentar fazer login. Tente novamente.');
+    } finally {
+        toggleLoader(false);
+    }
+    
+}
+
+//Função de inicialização do script.
+async function init() {
+  await initCitySuggestions();
+  showPasswordToggle();
+  darkModeToggle();
+
+  const btnLogin = document.querySelector('.submit');
+  btnLogin.addEventListener('click', event => {
+    event.preventDefault();
+    login();
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);

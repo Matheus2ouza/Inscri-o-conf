@@ -188,7 +188,6 @@ nav .label {
     font-size: 1.2rem;
 }
 
-
 #input1 {
     padding: 8px;
     border: 1px solid #ccc;
@@ -630,7 +629,6 @@ h1 {
     cursor: pointer;
 }
 
-
 /* Estilos da legenda da imagem */
 #caption {
     margin-top: 15px;
@@ -672,7 +670,7 @@ h1 {
 }
 
 .loader-background {
-    display: none;
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;

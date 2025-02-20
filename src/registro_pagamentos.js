@@ -487,6 +487,7 @@ function saveTicketConfig() {
 
     // Salvar ticketConfigs no localStorage para persistência
     saveTicketConfigsToLocalStorage();
+    configTicketPopup.classList.remove('active');
 }
 
 document.querySelector('.btn-save-ticket').addEventListener('click', saveTicketConfig)
@@ -616,6 +617,8 @@ const refreshButton = document.querySelector('.refresh-history');
 
 // Função para buscar dados da API
 async function fetchMealHistory() {
+
+    toggleLoader(true);
     try {
         // Chama a função getDataAlimentacao para buscar os dados
         const data = await getDataAlimentacao();
@@ -661,6 +664,8 @@ async function fetchMealHistory() {
         }
     } catch (error) {
         console.error('Erro ao buscar o histórico:', error);
+    }finally {
+        toggleLoader(false);
     }
 }
 

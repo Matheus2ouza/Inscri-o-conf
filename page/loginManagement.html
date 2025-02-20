@@ -10,7 +10,7 @@
 <body>
     <nav>
         <div class="nav-left">
-            <!-- Outros itens da navbar podem ser colocados aqui -->
+            <h1>Sistema de Inscrição - R2</h1>
         </div>
         <div class="nav-right">
             <input type="checkbox" class="checkbox" id="chk">
@@ -25,17 +25,45 @@
     <div class="login-container">
         <h2>Login</h2>
         <form id="loginForm">
-            <label for="username">Usuário:</label>
-            <input type="text" class="username" name="username" autocomplete="off" required>
+            <label for="localidade">Localidade:</label>
+            <input type="text" class="localidade" name="localidade" autocomplete="off" required>
+            <div id="suggestions" class="suggestions"></div>
             
             <div class="form-password">
                 <label for="password">Senha:</label>
                 <input type="password" class="password" name="password" autocomplete="off" required>
                 <a href=""><i id="icon-password" class="bi bi-eye-fill"></i></a>
             </div>
+            <div class="register">Não tem uma conta? <a href="./userRegister.html">criar cadastro</a></div>
             
-            <button class="submit">Entrar</button>
+            <button class="submit">
+                <span>ENTRAR</span>
+            </button>
         </form>
+    </div>
+
+    <div class="pop-up">
+        <span class="close">&times;</span>
+        <div class="body-Pop-up">
+            <h2 class="title-alert"></h2>
+            <p class="description-alert"></p>
+        </div>
+    </div>
+
+    <div class="pop-up-redirection">
+        <span class="close">&times;</span>
+        <h2>Localidade Inativa</h2>
+        
+        <div class="popup-text">
+            <p>A Localidade: <strong id="localidade-nome"></strong>, está inativa.
+                Você será redirecionado automaticamente para a página de criação de conta em 10 segundos
+                <span class="dots">.</span><span class="dots">.</span><span class="dots">.</span>
+            </p>
+        </div>
+    
+        <p class="separate-text">
+            Ou <a href="./userRegister.html" class="redirect-link">clique aqui</a> e vá agora para a página.
+        </p>
     </div>
 
     <div class="loader-background">
