@@ -58,7 +58,7 @@ function redirectionLink(locality) {
     fieldLocality.textContent = locality
 
     redirectionTimeout = setTimeout(()=>{
-        location.href = './userRegister.html'
+        location.href = 'https://inscri-o-conf.vercel.app/register'
     }, 10000);
 }
 
