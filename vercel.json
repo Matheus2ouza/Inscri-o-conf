@@ -26,7 +26,15 @@
   "routes": [
     {
       "src": "/",
-      "dest": "/page/home.html"
+      "dest": "/page/loginManagement.html"
+    },
+    {
+      "src": "/register",
+      "dest": "/page/userRegister.html"
+    },
+    {
+      "src": "/verify-email",
+      "dest": "/page/verifyEmail.html"
     },
     {
       "src": "/inscricaoServi",

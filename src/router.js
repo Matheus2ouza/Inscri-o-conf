@@ -1,5 +1,81 @@
 const apiUrl = 'https://api-inscri-o.vercel.app'
 
+export async function postLogin(dataUser) {
+    try {
+        const response = await fetch(`${apiUrl}/user/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataUser)
+        });
+
+        const result = await response.json();
+
+        return {
+            status: response.status,  // Retorna o código de status HTTP
+            message: result.message    // Retorna a mensagem da resposta
+        };
+
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        return {
+            status: 500,               // Código de erro genérico
+            message: 'Ocorreu um erro na requisição'  // Mensagem genérica de erro
+        };
+    }
+}
+
+export async function postRegister(dataRegister) {
+    try {
+        const response = await fetch(`${apiUrl}/user/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataRegister)
+        });
+
+        const result = await response.json();
+
+        return {
+            status: response.status,
+            message: result.message
+        };
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        return {
+            status: 500,                              // Código de erro genérico
+            message: 'Ocorreu um erro na requisição'  // Mensagem genérica de erro
+        };
+    }
+}
+
+export async function postEmailToken(token) {
+    try {
+        const response = await fetch(`${apiUrl}/user/verify-email`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(token)
+        });
+
+        const result = await response.json();
+
+        return {
+            status: response.status,
+            message: result.message
+        };
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        return {
+            status: 500,                              // Código de erro genérico
+            message: 'Ocorreu um erro na requisição'  // Mensagem genérica de erro
+        };
+    }
+}
+
 export async function getLocations() {
 
     let cities = {};
@@ -192,8 +268,6 @@ export async function registrarInscricaoJovem(registrationData) {
 
 export async function registrarHospedagem(idInscricao, listaNomesHospedagem) {
     try {
-        console.log(idInscricao)
-        console.log(listaNomesHospedagem)
         const response = await fetch(`${apiUrl}/hospedagem`, {
             method: 'POST',
             headers: {
@@ -525,4 +599,30 @@ export async function registrarCaixa(registerData) {
     }
 }
 
+export async function createPdf(type) {
+    console.log('Enviando tipo para o backend:', type); // Adiciona um log para debugar o tipo enviado
+    try {
+        const response = await fetch(`${apiUrl}/pdf/createPdf`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(type) // Certifique-se de que está enviando { tipo: type }
+        });
 
+        
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Relatorio ${type.tipo}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        return response
+        
+    } catch (error) {
+        console.error('Erro ao criar o PDF:', error);
+    }
+}
