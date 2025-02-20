@@ -3,6 +3,10 @@ import { getLocations, postRegister } from "./router.js";
 const checkbox = document.querySelector('#chk');
 const localidadeInput = document.querySelector('#localidade');
 const suggestionsContainer = document.getElementById('suggestions');
+const iconPassword = document.querySelector('#icon-password');
+const passwordField = document.querySelector('#password');
+const iconConfirmPassword = document.querySelector('#icon-confirm-password');
+const confirmPasswordField = document.querySelector('#confirm-password');
 
 let isCitySelected = false;
 let cityNames = [];
@@ -30,6 +34,30 @@ document.querySelectorAll('.input-group input').forEach(input => {
 function darkModeToggle() {
     checkbox.addEventListener('change', () => {
         document.body.classList.toggle('dark-mode');
+    });
+}
+
+/**
+ * Alterna a visualização da senha enquanto o usuário segura o ícone.
+ */
+function showPasswordToggle(icon, passwordField) {
+    icon.addEventListener('mousedown', event => {
+        event.preventDefault();
+        passwordField.type = 'text';
+        icon.classList.remove('bi-eye-fill');
+        icon.classList.add('bi-eye-slash-fill');
+    });
+
+    icon.addEventListener('mouseup', () => {
+        passwordField.type = 'password';
+        icon.classList.remove('bi-eye-slash-fill');
+        icon.classList.add('bi-eye-fill');
+    });
+
+    icon.addEventListener('mouseleave', () => {
+        passwordField.type = 'password';
+        icon.classList.remove('bi-eye-slash-fill');
+        icon.classList.add('bi-eye-fill');
     });
 }
 
@@ -222,7 +250,7 @@ async function createAccount() {
 
     toggleLoader(true)
     try{
-        const response = await postRegister();
+        const response = await postRegister(data);
 
         if(response.status === 400) {
             if(response.message.includes("Localidade")) {
@@ -239,7 +267,9 @@ async function createAccount() {
 async function init() {
     darkModeToggle();
     await initCitySuggestions();
-    console.log(cityNames)
+
+    showPasswordToggle(iconPassword, passwordField);
+    showPasswordToggle(iconConfirmPassword, confirmPasswordField);
 };
 
 document.addEventListener('DOMContentLoaded', init);
