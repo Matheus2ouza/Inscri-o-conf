@@ -22,15 +22,26 @@ function debounce(func, delay) {
 }
 
 /**
- * Alterna a visualização da senha ao clicar no ícone.
+ * Alterna a visualização da senha enquanto o usuário segura o ícone.
  */
 function showPasswordToggle() {
-    iconPassword.addEventListener('click', event => {
+    iconPassword.addEventListener('mousedown', event => {
         event.preventDefault();
-        const isPasswordType = passwordField.type === 'password';
-        passwordField.type = isPasswordType ? 'text' : 'password';
-        iconPassword.classList.toggle('bi-eye-fill', !isPasswordType);
-        iconPassword.classList.toggle('bi-eye-slash-fill', isPasswordType);
+        passwordField.type = 'text';
+        iconPassword.classList.remove('bi-eye-fill');
+        iconPassword.classList.add('bi-eye-slash-fill');
+    });
+
+    iconPassword.addEventListener('mouseup', () => {
+        passwordField.type = 'password';
+        iconPassword.classList.remove('bi-eye-slash-fill');
+        iconPassword.classList.add('bi-eye-fill');
+    });
+
+    iconPassword.addEventListener('mouseleave', () => {
+        passwordField.type = 'password';
+        iconPassword.classList.remove('bi-eye-slash-fill');
+        iconPassword.classList.add('bi-eye-fill');
     });
 }
 
