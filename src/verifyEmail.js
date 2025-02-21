@@ -47,7 +47,7 @@ async function verifyToken() {
     }
 
     try {
-        const result = await postEmailToken({ token });
+        const result = await postEmailToken(token);
 
         if (result.status === 200) {
             updateVerificationStatus(true, "E-mail verificado com sucesso!");
@@ -62,6 +62,7 @@ async function verifyToken() {
         } else {
             updateVerificationStatus(false, "Erro ao verificar o e-mail. Tente novamente mais tarde.");
         }
+        
     } catch (error) {
         console.error("Erro ao verificar token:", error);
         updateVerificationStatus(false, "Erro interno ao processar a verificação.");
