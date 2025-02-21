@@ -257,16 +257,21 @@ async function createAccount() {
         const response = await postRegister(data);
     
         if (response.status === 400) {
+            let errorMessages = [];
+        
             if (response.message.includes("Localidade")) {
                 setError(fields.locality, response.message);
+                errorMessages.push(response.message);
             } else if (response.message.includes(`${data.email}`)) {
                 setError(fields.email, response.message);
+                errorMessages.push(response.message);
             }
-        } else if (response.status === 201) {
-            popUp(
-                "Registro realizado com sucesso!",
-                "Seu cadastro foi concluído! Enviamos um e-mail de confirmação para você. Verifique sua caixa de entrada e, caso não encontre, olhe também na pasta de spam."
-            );
+        
+            if (errorMessages.length > 0) {
+                popUp('Erro no cadastro!', errorMessages.join('\n'));
+            }
+        
+            return;
         }
     
     } catch (error) {
