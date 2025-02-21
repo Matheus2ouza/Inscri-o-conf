@@ -41,25 +41,37 @@ async function verifyToken() {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
 
-    if(!token) {
+    if (!token) {
         updateVerificationStatus(false, "Token inválido.");
-        return
+        return;
     }
 
-    try{
-        const result = await postEmailToken(token)
+    try {
+        const result = await postEmailToken({ token });
 
-        if(result.status === 400) {
-            updateVerificationStatus(false, "Token não fornecido ou já foi.");
+        if (result.status === 200) {
+            updateVerificationStatus(true, "E-mail verificado com sucesso!");
+        } else if (result.status === 400) {
+            if (result.message.includes("expirado")) {
+                updateVerificationStatus(false, "O token expirou. Faça o cadastro novamente.");
+            } else if (result.message.includes("inválido")) {
+                updateVerificationStatus(false, "O token é inválido.");
+            } else {
+                updateVerificationStatus(false, result.message);
+            }
+        } else {
+            updateVerificationStatus(false, "Erro ao verificar o e-mail. Tente novamente mais tarde.");
         }
-    } catch{
-        
+    } catch (error) {
+        console.error("Erro ao verificar token:", error);
+        updateVerificationStatus(false, "Erro interno ao processar a verificação.");
     }
-} 
+}
+
 
 async function init() {
     darkModeToggle();
-    await verifyToken();
+    verifyToken();
 };
 
 document.addEventListener('DOMContentLoaded', init);
