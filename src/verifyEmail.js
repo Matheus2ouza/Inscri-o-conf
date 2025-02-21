@@ -1,4 +1,4 @@
-import { postEmailToken } from "./router";
+import { postEmailToken } from "./router.js";
 
 const checkbox = document.querySelector('#chk');
 
