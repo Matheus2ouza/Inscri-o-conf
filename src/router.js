@@ -55,7 +55,7 @@ export async function postEmailToken(token) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ token })
+            body: JSON.stringify(token)
         });
 
         const result = await response.json();
