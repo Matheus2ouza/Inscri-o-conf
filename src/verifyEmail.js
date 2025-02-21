@@ -41,6 +41,7 @@ async function verifyToken() {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
 
+    console.log(token)
     if (!token) {
         updateVerificationStatus(false, "Token inválido.");
         return;
@@ -62,7 +63,7 @@ async function verifyToken() {
         } else {
             updateVerificationStatus(false, "Erro ao verificar o e-mail. Tente novamente mais tarde.");
         }
-        
+
     } catch (error) {
         console.error("Erro ao verificar token:", error);
         updateVerificationStatus(false, "Erro interno ao processar a verificação.");
