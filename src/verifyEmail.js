@@ -47,7 +47,7 @@ async function verifyToken() {
     }
 
     try {
-        const result = await postEmailToken({ token });
+        const result = await postEmailToken(token);
 
         if (result.status === 200) {
             updateVerificationStatus(true, "E-mail verificado com sucesso!");
