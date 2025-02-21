@@ -56,6 +56,8 @@ async function verifyToken() {
 
         if (result.status === 200) {
             updateVerificationStatus(true, "E-mail verificado com sucesso!");
+        } else if (result.status === 402) {
+            updateVerificationStatus(false, "O token já foi verificado")
         } else if (result.status === 401) {
             updateVerificationStatus(false, "O token expirou. Faça o cadastro novamente.");
         } else if (result.status === 400) {
