@@ -62,6 +62,7 @@ async function verifyToken() {
         } else {
             updateVerificationStatus(false, "Erro ao verificar o e-mail. Tente novamente mais tarde.");
         }
+        
     } catch (error) {
         console.error("Erro ao verificar token:", error);
         updateVerificationStatus(false, "Erro interno ao processar a verificação.");
