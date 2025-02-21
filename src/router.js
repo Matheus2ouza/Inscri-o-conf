@@ -55,15 +55,10 @@ export async function postEmailToken(token) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(token) // Certifique-se de que está enviando um objeto válido
+            body: JSON.stringify({ token })
         });
 
         const result = await response.json();
-
-        // Se o status da resposta não for OK (200-299), lançar um erro
-        if (!response.ok) {
-            throw new Error(result.message || `Erro ${response.status}`);
-        }
 
         return {
             status: response.status,
@@ -71,11 +66,13 @@ export async function postEmailToken(token) {
         };
     } catch (error) {
         console.error('Erro na requisição:', error);
-
-        // Lançar o erro para que seja capturado na função chamadora
-        throw error;
+        return {
+            status: 500,
+            message: 'Erro interno ao processar a requisição.'
+        };
     }
 }
+
 
 
 export async function getLocations() {
