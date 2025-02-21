@@ -41,14 +41,18 @@ async function verifyToken() {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
 
-    console.log(token)
+    
     if (!token) {
         updateVerificationStatus(false, "Token inválido.");
         return;
     }
 
+    const data = {
+        token: token
+    }
+
     try {
-        const result = await postEmailToken(token);
+        const result = await postEmailToken(data);
 
         if (result.status === 200) {
             updateVerificationStatus(true, "E-mail verificado com sucesso!");
