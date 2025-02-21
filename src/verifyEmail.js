@@ -59,6 +59,7 @@ async function verifyToken() {
 
 async function init() {
     darkModeToggle();
+    await verifyToken();
 };
 
 document.addEventListener('DOMContentLoaded', init);

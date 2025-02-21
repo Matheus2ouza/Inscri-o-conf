@@ -253,30 +253,33 @@ async function createAccount() {
     };
 
     toggleLoader(true)
-    try{
+    try {
         const response = await postRegister(data);
-
+    
         if (response.status === 400) {
             if (response.message.includes("Localidade")) {
                 setError(fields.locality, response.message);
             } else if (response.message.includes(`${data.email}`)) {
                 setError(fields.email, response.message);
             }
-        } else if (response.status === 201) { // Verifica se o cadastro foi bem-sucedido
+        } else if (response.status === 201) {
             popUp(
                 "Registro realizado com sucesso!",
                 "Seu cadastro foi concluído! Enviamos um e-mail de confirmação para você. Verifique sua caixa de entrada e, caso não encontre, olhe também na pasta de spam."
             );
         }
-
-    } catch(error) {
-        popUp('⚠️Erro interno⚠️', `Erro interno do servidor, mas não se preocupe a pagina será atualizada automaticamente mas caso
-            essa mensagem continue aparecendo entre em contato com o suporte`);
-    }finally {
+    
+    } catch (error) {
+        popUp(
+            '⚠️ Erro interno ⚠️', 
+            'Erro interno do servidor, mas não se preocupe. A página será atualizada automaticamente, mas caso essa mensagem continue aparecendo, entre em contato com o suporte'
+        );
+        setTimeout(() => {
+            location.reload();
+        }, 7000);
+    } finally {
         toggleLoader(false);
     }
-
-    popUp('Sucesso ')
 }
 
 async function init() {
