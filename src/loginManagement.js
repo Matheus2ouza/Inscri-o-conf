@@ -231,6 +231,9 @@ async function login() {
     } catch (error) {
         console.error('Erro ao tentar fazer login:', error);
         popUp('Erro', 'Ocorreu um erro ao tentar fazer login. Tente novamente.');
+        setTimeout(() => {
+            location.reload();
+        }, 7000);
     } finally {
         toggleLoader(false);
     }

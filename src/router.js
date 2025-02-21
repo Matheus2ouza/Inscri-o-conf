@@ -17,12 +17,8 @@ export async function postLogin(dataUser) {
             message: result.message    // Retorna a mensagem da resposta
         };
 
-    } catch (error) {
-        console.error('Erro na requisição:', error);
-        return {
-            status: 500,               // Código de erro genérico
-            message: 'Ocorreu um erro na requisição'  // Mensagem genérica de erro
-        };
+    } catch (error) { console.error('Erro na requisição:', error);
+        throw error;
     }
 }
 
@@ -38,16 +34,17 @@ export async function postRegister(dataRegister) {
 
         const result = await response.json();
 
+        if (!response.ok) {
+            throw new Error(result.message || `Erro ${response.status}`);
+        }
+
         return {
             status: response.status,
             message: result.message
         };
     } catch (error) {
         console.error('Erro na requisição:', error);
-        return {
-            status: 500,                              // Código de erro genérico
-            message: 'Ocorreu um erro na requisição'  // Mensagem genérica de erro
-        };
+        throw error;
     }
 }
 
@@ -58,10 +55,15 @@ export async function postEmailToken(token) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(token)
+            body: JSON.stringify({ token }) // Certifique-se de que está enviando um objeto válido
         });
 
         const result = await response.json();
+
+        // Se o status da resposta não for OK (200-299), lançar um erro
+        if (!response.ok) {
+            throw new Error(result.message || `Erro ${response.status}`);
+        }
 
         return {
             status: response.status,
@@ -69,12 +71,12 @@ export async function postEmailToken(token) {
         };
     } catch (error) {
         console.error('Erro na requisição:', error);
-        return {
-            status: 500,                              // Código de erro genérico
-            message: 'Ocorreu um erro na requisição'  // Mensagem genérica de erro
-        };
+
+        // Lançar o erro para que seja capturado na função chamadora
+        throw error;
     }
 }
+
 
 export async function getLocations() {
 
