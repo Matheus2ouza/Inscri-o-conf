@@ -55,7 +55,7 @@ export async function postEmailToken(token) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ token }) // Certifique-se de que está enviando um objeto válido
+            body: JSON.stringify( token ) // Certifique-se de que está enviando um objeto válido
         });
 
         const result = await response.json();
