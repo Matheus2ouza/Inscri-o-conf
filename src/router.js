@@ -34,19 +34,19 @@ export async function postRegister(dataRegister) {
 
         const result = await response.json();
 
-        if (!response.ok) {
-            throw new Error(result.message || `Erro ${response.status}`);
-        }
-
         return {
             status: response.status,
             message: result.message
         };
     } catch (error) {
         console.error('Erro na requisição:', error);
-        throw error;
+        return {
+            status: 500,
+            message: 'Erro interno ao processar a requisição.'
+        };
     }
 }
+
 
 export async function postEmailToken(token) {
     try {
