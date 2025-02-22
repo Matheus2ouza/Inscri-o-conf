@@ -245,3 +245,24 @@ button:hover span {
         transform: scale(1);
     }
 }
+
+/* Adicionando regras para o loader e fundo em telas menores */
+@media (max-width: 480px) {
+
+    .simple-loader {
+        width: 40px; 
+        height: 40px;
+    }
+
+    nav {
+        padding: 0 10px;
+    }
+
+    .nav-left h1 {
+        font-size: 1.1rem;
+    }
+    
+    .container-verify {
+        width: 95%;
+    }
+}
