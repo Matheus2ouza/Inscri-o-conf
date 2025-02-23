@@ -79,7 +79,6 @@ async function verifyToken() {
 }
 
 async function init() {
-    darkModeToggle();
     verifyToken();
 };
 
