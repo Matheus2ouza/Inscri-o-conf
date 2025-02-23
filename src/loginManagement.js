@@ -56,6 +56,11 @@ function popUp(title, description) {
     titlePopUp.textContent = title;
     descriptionAlert.innerHTML = description;
     popUpContainer.style.display = 'flex';
+    popUpContainer.classList.add("shake-popUp");
+
+    setTimeout(() =>{
+        popUpContainer.classList.remove("shake-popUp");
+    }, 600);
 };
 
 function popRedirection(locality) {
