@@ -256,7 +256,7 @@ async function createAccount() {
     }
 
     const data = {
-        locality: fields.locality.value,
+        locality: fields.locality.value.toUpperCase(),
         email: fields.email.value,
         password: fields.password.value
     };
