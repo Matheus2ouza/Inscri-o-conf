@@ -282,6 +282,10 @@ async function createAccount() {
         
             return;
         }
+
+        popUp('✅ Cadastro Concluído', 
+            'Seu cadastro foi realizado com sucesso! Verifique seu e-mail e siga as instruções para ativar sua conta.'
+        );
     
     } catch (error) {
         popUp(
