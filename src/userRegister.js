@@ -172,7 +172,7 @@ function populateLocalidadeFromURL() {
 
     if(locality) {
         const inputlocality = document.querySelector('#localidade');
-        inputlocality.value = decodeURIComponent(locality);
+        inputlocality.value = decodeURIComponent(locality.toUpperCase());
     }
 }
 
@@ -230,7 +230,7 @@ async function createAccount() {
         }
     });
 
-    if(!cityNames.includes(fields.locality.value)) {
+    if(!cityNames.includes(fields.locality.value.toUpperCase())) {
         setError(fields.locality, 'Localidade invalida.');
     }
 
