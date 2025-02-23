@@ -85,6 +85,11 @@ function popUp(title, description) {
     descriptionAlert.innerHTML = description.replace(/\n/g, '<br>'); // Substitui "\n" por "<br>"
 
     popUpContainer.style.display = 'flex';
+    popUpContainer.classList.add("shake-popUp");
+
+    setTimeout(() =>{
+        popUpContainer.classList.remove("shake-popUp");
+    }, 600);
 }
 
 /**
@@ -284,7 +289,7 @@ async function createAccount() {
         }
 
         popUp('✅ Cadastro Concluído', 
-            'Seu cadastro foi realizado com sucesso! Verifique seu e-mail e siga as instruções para ativar sua conta.'
+            'Seu cadastro foi realizado com sucesso! Verifique seu e-mail e siga as instruções para ativar sua conta. Caso não encontre o email, verifique a caixa de spam'
         );
     
     } catch (error) {

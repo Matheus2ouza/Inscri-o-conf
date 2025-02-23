@@ -1,16 +1,5 @@
 import { postEmailToken } from "./router.js";
 
-const checkbox = document.querySelector('#chk');
-
-/**
- * Ativa ou desativa o modo escuro.
- */
-function darkModeToggle() {
-    checkbox.addEventListener('change', () => {
-        document.body.classList.toggle('dark-mode');
-    });
-}
-
 /**
  * Ajusta a pagina para de acordo com o retorno da verificação do token
 */
