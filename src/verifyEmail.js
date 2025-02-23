@@ -11,36 +11,53 @@ function darkModeToggle() {
     });
 }
 
+/**
+ * Ajusta a pagina para de acordo com o retorno da verificação do token
+*/
 function updateVerificationStatus(isSuccess, message = "Ocorreu um erro na verificação.") {
     const fieldMessage = document.querySelector('.message');
     const icon = document.querySelector('.icon');
     const loading = document.querySelector('.loading');
+    const verifyBox = document.querySelector('.verify-box');
 
-    // Define os ícones
+    // Ícones
     const iconSuccess = '<i class="bi bi-check-circle-fill"></i>';
     const iconError = '<i class="bi bi-x-octagon-fill"></i>';
 
-    // Limpa o conteúdo atual do ícone
-    icon.innerHTML = "";
+    // Oculta o loader antes de atualizar o status
+    loading.style.display = 'none';
 
+    // Remove classes anteriores para evitar acúmulo
+    fieldMessage.classList.remove("success", "error");
+
+    // Atualiza a mensagem e o ícone conforme o status
     if (isSuccess) {
-        fieldMessage.innerHTML = "Email verificado com sucesso!";
+        fieldMessage.innerHTML = message;
         fieldMessage.classList.add("success");
         icon.innerHTML = iconSuccess;
-        loading.style.display = 'flex';
+
+        // Criando o botão dinamicamente
+        const button = document.createElement("button");
+        button.innerHTML = "<span>ENTRAR</span>";
+        button.classList.add("enter-button");
+
+        // Adiciona evento de clique para a pagina de login
+        button.addEventListener("click", () => {
+            window.location.href = "https://inscri-o-conf.vercel.app/"; 
+        });
+
+        // Adiciona o botão ao .verify-box
+        verifyBox.appendChild(button);
     } else {
-        loading.style.display = 'none';
         fieldMessage.innerHTML = message;
         fieldMessage.classList.add("error");
         icon.innerHTML = iconError;
     }
 }
 
-
 async function verifyToken() {
     const params = new URLSearchParams(window.location.search);
     const token = params.get("token");
-
     
     if (!token) {
         updateVerificationStatus(false, "Token inválido.");
@@ -52,12 +69,12 @@ async function verifyToken() {
     }
 
     try {
-        const result = await postEmailToken(token);
+        const result = await postEmailToken(data);
 
         if (result.status === 200) {
             updateVerificationStatus(true, "E-mail verificado com sucesso!");
         } else if (result.status === 402) {
-            updateVerificationStatus(false, "O token já foi verificado")
+            updateVerificationStatus(false, "O token já foi verificado");
         } else if (result.status === 401) {
             updateVerificationStatus(false, "O token expirou. Faça o cadastro novamente.");
         } else if (result.status === 400) {
@@ -70,9 +87,7 @@ async function verifyToken() {
         console.error("Erro ao verificar token:", error);
         updateVerificationStatus(false, "Erro interno ao processar a verificação.");
     }
-
 }
-
 
 async function init() {
     darkModeToggle();
