@@ -54,24 +54,19 @@ function popUp(title, description) {
     const descriptionAlert = document.querySelector('.description-alert');
 
     titlePopUp.textContent = title;
-    descriptionAlert.textContent = description;
+    descriptionAlert.innerHTML = description;
     popUpContainer.style.display = 'flex';
-}
+};
 
-/**
- * Redireciona o para a pagina de registro
- */
-function redirectionLink(locality) {
-    const redirection = document.querySelector('.pop-up-redirection');
+function popRedirection(locality) {
     const fieldLocality = document.querySelector('#localidade-nome');
+    const popUpRedirection = document.querySelector('.pop-up-redirection');
+    const redirectLink = document.querySelector('.redirect-link');
 
-    redirection.style.display = 'flex';
-    fieldLocality.textContent = locality
-
-    redirectionTimeout = setTimeout(()=>{
-        location.href = 'https://inscri-o-conf.vercel.app/register'
-    }, 10000);
-}
+    fieldLocality.innerHTML = locality
+    redirectLink.href = `https://inscri-o-conf.vercel.app/register?locality=${encodeURIComponent(locality)}`
+    popUpRedirection.style.display = 'flex';
+};
 
 /**
  * Evento para procurar o button e fechar.
@@ -109,7 +104,7 @@ async function fetchCityNames() {
     toggleLoader(true);
     const fetchedCities = await getLocations();
     
-    if(fetchedCities.length === 0) {
+    if(Object.keys(fetchedCities).length === 0) {
         setTimeout(() =>{
             popUp('⚠️Erro interno⚠️', `Erro interno do servidor, mas não se preocupe a pagina será atualizada automaticamente mas caso
                 essa mensagem continue aparecendo entre em contato com o suporte`);
@@ -124,7 +119,7 @@ async function fetchCityNames() {
     } finally {
     toggleLoader(false);
     }
-}
+};
 
 /**
  * Filtra as cidades com base no valor digitado e exibe as sugestões.
@@ -220,13 +215,20 @@ async function login() {
     try {
         const response = await postLogin(data);
     
-        if (response.status === 400 || response.status === 401) {
-            if(response.message.includes('inactive')) {
-                redirectionLink(locality);
-            } else {
-                popUp('Dados inválidos', response.message);
+        if (response.status != 200) {
+            if(response.status === 400) {
+                popUp('Dados invalidos', response.message);
+            } else if (response.status === 401) {
+                popRedirection(locality);
+            } else if (response.status === 402) {
+                popUp('Dados invalidos', response.message);
+            } else if (response.status === 403) {
+                popUp('Dados invalidos', response.message);
             }
+            return
         }
+
+        alert(`Dados aceitos!!!`);
 
     } catch (error) {
         console.error('Erro ao tentar fazer login:', error);
@@ -251,6 +253,6 @@ async function init() {
     event.preventDefault();
     login();
   });
-}
+};
 
 document.addEventListener('DOMContentLoaded', init);

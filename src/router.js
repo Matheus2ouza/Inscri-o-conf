@@ -73,9 +73,6 @@ export async function postEmailToken(token) {
     }
 }
 
-
-
-
 export async function getLocations() {
 
     let cities = {};

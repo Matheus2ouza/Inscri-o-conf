@@ -121,7 +121,7 @@ async function fetchCityNames() {
     } finally {
     toggleLoader(false);
     }
-}
+};
 
 /**
  * Filtra as cidades com base no valor digitado e exibe as sugestões.
@@ -166,6 +166,15 @@ const debouncedFilter = debounce(() => {
     filterCities(inputValue);
 }, 300);
 
+function populateLocalidadeFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const locality = urlParams.get('locality');
+
+    if(locality) {
+        const inputlocality = document.querySelector('#localidade');
+        inputlocality.value = decodeURIComponent(locality);
+    }
+}
 
 //Inicializa as sugestões de cidades.
 async function initCitySuggestions() {
@@ -290,6 +299,7 @@ async function createAccount() {
 async function init() {
     darkModeToggle();
     await initCitySuggestions();
+    populateLocalidadeFromURL();
 
     showPasswordToggle(iconPassword, passwordField);
     showPasswordToggle(iconConfirmPassword, confirmPasswordField);
