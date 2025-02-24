@@ -29,6 +29,14 @@
       "dest": "/page/loginManagement.html"
     },
     {
+      "src": "/home",
+      "dest": "/page/home.html"
+    },
+    {
+      "src": "/teste",
+      "dest": "/page/pageteste.html"
+    },
+    {
       "src": "/register",
       "dest": "/page/userRegister.html"
     },
