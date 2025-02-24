@@ -1,5 +1,7 @@
 const apiUrl = 'https://api-inscri-o.vercel.app'
 
+const isProduction = window.location.hostname !== "localhost";
+
 export async function postLogin(dataUser) {
     try {
         const response = await fetch(`${apiUrl}/user/login`, {
@@ -7,20 +9,30 @@ export async function postLogin(dataUser) {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include', 
             body: JSON.stringify(dataUser)
         });
 
+        // 🔥 LOG PARA VER SE OS COOKIES ESTÃO SENDO RECEBIDOS
+        console.log("🔥 Headers da resposta:", response.headers);
+
         const result = await response.json();
 
+        if (!response.ok) {
+            throw new Error(result.message || `Erro ${response.status}`);
+        }
+
         return {
-            status: response.status,  // Retorna o código de status HTTP
-            message: result.message    // Retorna a mensagem da resposta
+            status: response.status,  
+            message: result.message,
+            accessToken: result.accessToken
         };
 
-    } catch (error) { console.error('Erro na requisição:', error);
+    } catch (error) { 
+        console.error('Erro na requisição:', error);
         throw error;
     }
-}
+};
 
 export async function postRegister(dataRegister) {
     try {
@@ -70,6 +82,49 @@ export async function postEmailToken(token) {
             status: 500,
             message: 'Erro interno ao processar a requisição.'
         };
+    }
+}
+
+export async function verifyToken(token) {
+    try {
+        const response = await fetch(`${apiUrl}/user/verify-token`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            return { error: result.message, status: response.status }; // Retorna erro e status
+        }
+
+        return result; // { message: "Token válido" }
+    } catch (error) {
+        console.error("Erro ao verificar o token:", error);
+        return { error: "Erro ao verificar o token", status: 500 };
+    }
+}
+
+export async function refreshAccessToken() {
+    try {
+        const response = await fetch(`${apiUrl}/user/refresh-token`, {
+            method: "POST",
+            credentials: "include", // 🔥 Permite envio automático do cookie de refreshToken
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Falha ao renovar o token");
+        }
+
+        return await response.json(); // Retorna novo accessToken
+    } catch (error) {
+        console.error("Erro ao renovar o token:", error);
+        return null;
     }
 }
 
