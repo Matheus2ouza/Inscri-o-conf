@@ -234,7 +234,7 @@ async function login() {
         }
 
         localStorage.setItem("accessToken", response.accessToken);
-        location.href = "http://127.0.0.1:5500/page/home.html"
+        location.href = "https://inscri-o-conf.vercel.app/home"
 
     } catch (error) {
         console.error('Erro ao tentar fazer login:', error);

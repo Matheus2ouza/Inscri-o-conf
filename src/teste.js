@@ -54,7 +54,7 @@ function redirectToLogin(message) {
 
 function logoutUser() {
     localStorage.removeItem("accessToken");
-    location.href = "http://127.0.0.1:5500/page/loginManagement.html";
+    location.href = "https://inscri-o-conf.vercel.app/";
 }
 
 /**
