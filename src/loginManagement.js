@@ -191,7 +191,7 @@ async function initCitySuggestions() {
     // Impede que o blur dispare ao clicar nas sugestões
     event.preventDefault();
     });
-}
+};
 
 //Realiza o login verificando se os campos foram preenchidos.
 async function login() {
@@ -233,19 +233,16 @@ async function login() {
             return
         }
 
-        alert(`Dados aceitos!!!`);
+        localStorage.setItem("accessToken", response.accessToken);
+        location.href = "http://127.0.0.1:5500/page/home.html"
 
     } catch (error) {
         console.error('Erro ao tentar fazer login:', error);
-        popUp('Erro', 'Ocorreu um erro ao tentar fazer login. Tente novamente.');
-        setTimeout(() => {
-            location.reload();
-        }, 7000);
+        popUp('Erro', 'Ocorreu um erro ao tentar fazer login. Tente novamente. Se o erro persistir entre em contato com o suporte');
     } finally {
         toggleLoader(false);
     }
-    
-}
+};
 
 //Função de inicialização do script.
 async function init() {
