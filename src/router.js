@@ -59,7 +59,6 @@ export async function postRegister(dataRegister) {
     }
 }
 
-
 export async function postEmailToken(token) {
     try {
         const response = await fetch(`${apiUrl}/user/verify-email`, {
@@ -360,7 +359,6 @@ export async function getDashboardData(eventoId) {
         return null; // Retorna null em caso de erro
     }
 }
-
 
 export async function getEventData() {
     try {
