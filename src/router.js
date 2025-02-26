@@ -1,7 +1,5 @@
 const apiUrl = 'https://api-inscri-o.vercel.app'
 
-const isProduction = window.location.hostname !== "localhost";
-
 export async function postLogin(dataUser) {
     try {
         const response = await fetch(`${apiUrl}/user/login`, {
@@ -9,28 +7,25 @@ export async function postLogin(dataUser) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            credentials: 'include', 
-            body: JSON.stringify(dataUser)
+            credentials: 'include', // Garante que cookies de autenticação sejam enviados junto à requisição
+            body: JSON.stringify(dataUser) // Converte o objeto `dataUser` em JSON antes de enviar
         });
-
-        // 🔥 LOG PARA VER SE OS COOKIES ESTÃO SENDO RECEBIDOS
-        console.log("🔥 Headers da resposta:", response.headers);
 
         const result = await response.json();
 
         if (!response.ok) {
-            throw new Error(result.message || `Erro ${response.status}`);
+            throw new Error(result.message || `Erro ${response.status}`); // Lança um erro caso a resposta não seja bem-sucedida
         }
-
+        
         return {
             status: response.status,  
             message: result.message,
-            accessToken: result.accessToken
+            accessToken: result.accessToken // Retorna o token de acesso, caso exista
         };
 
     } catch (error) { 
-        console.error('Erro na requisição:', error);
-        throw error;
+        console.error('Erro na requisição:', error); // Registra o erro no console
+        throw error; // Relança o erro para que possa ser tratado externamente
     }
 };
 
@@ -41,19 +36,20 @@ export async function postRegister(dataRegister) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dataRegister)
+            body: JSON.stringify(dataRegister) // Converte o objeto `dataRegister` em JSON antes de enviar
         });
 
         const result = await response.json();
 
         return {
             status: response.status,
-            message: result.message
+            message: result.message // Retorna a mensagem da API, que pode indicar sucesso ou erro
         };
     } catch (error) {
-        console.error('Erro na requisição:', error);
+        console.error('Erro na requisição:', error); // Registra o erro no console para depuração
+        
         return {
-            status: 500,
+            status: 500, // Retorna um status genérico de erro interno caso a requisição falhe
             message: 'Erro interno ao processar a requisição.'
         };
     }
@@ -66,19 +62,20 @@ export async function postEmailToken(token) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ token })
+            body: JSON.stringify({ token }) // Envia o token de verificação no corpo da requisição
         });
 
         const result = await response.json();
 
         return {
             status: response.status,
-            message: result.message
+            message: result.message // Retorna a mensagem da API, indicando sucesso ou erro
         };
     } catch (error) {
-        console.error('Erro na requisição:', error);
+        console.error('Erro na requisição:', error); // Registra o erro no console para depuração
+        
         return {
-            status: 500,
+            status: 500, // Retorna um status genérico de erro interno caso a requisição falhe
             message: 'Erro interno ao processar a requisição.'
         };
     }
@@ -89,20 +86,21 @@ export async function verifyToken(token) {
         const response = await fetch(`${apiUrl}/user/verify-token`, {
             method: "GET",
             headers: {
-                "Authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}` // Envia o token de autenticação no cabeçalho
             }
         });
 
         const result = await response.json();
 
         if (!response.ok) {
-            return { error: result.message, status: response.status }; // Retorna erro e status
+            return { error: result.message, status: response.status }; // Retorna erro e status caso a resposta não seja bem-sucedida
         }
 
-        return result; // { message: "Token válido" }
+        return result; // Retorna os dados da API em caso de sucesso
     } catch (error) {
-        console.error("Erro ao verificar o token:", error);
-        return { error: "Erro ao verificar o token", status: 500 };
+        console.error("Erro ao verificar o token:", error); // Registra o erro no console
+        
+        return { error: "Erro ao verificar o token", status: 500 }; // Retorna erro genérico em caso de falha na requisição
     }
 }
 
@@ -110,44 +108,50 @@ export async function refreshAccessToken() {
     try {
         const response = await fetch(`${apiUrl}/user/refresh-token`, {
             method: "POST",
-            credentials: "include", // 🔥 Permite envio automático do cookie de refreshToken
+            credentials: "include", // Garante que o cookie de refreshToken seja enviado automaticamente
             headers: {
                 "Content-Type": "application/json",
             },
         });
 
         if (!response.ok) {
-            throw new Error("Falha ao renovar o token");
+            throw new Error("Falha ao renovar o token"); // Lança um erro caso a requisição falhe
         }
 
-        return await response.json(); // Retorna novo accessToken
+        return await response.json(); // Retorna o novo accessToken em caso de sucesso
     } catch (error) {
-        console.error("Erro ao renovar o token:", error);
-        return null;
+        console.error("Erro ao renovar o token:", error); // Registra o erro no console
+        
+        return null; // Retorna `null` caso a renovação falhe
     }
 }
 
 export async function getLocations() {
-
-    let cities = {};
-    try{
+    try {
         const response = await fetch(`${apiUrl}/dados/localidades`);
 
-        if(!response.ok) {
-            throw new Error(`Erro ao buscar localidades: ${response.status} ${response.statusText}`)
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar localidades: ${response.status} ${response.statusText}`);
         }
-        
-        const data = await response.json();
-        data.forEach(city => {
-            cities[city.id] = {id: city.id, nome: city.nome, saldoDevedor: city.saldo_devedor};
-        });
-        
-    }catch(error){
-        console.error(`Error: ${error.message}`);
-    }
 
-    return cities;
+        const data = await response.json();
+
+        // Transforma o array de localidades em um objeto
+        return data.reduce((cities, city) => {
+            cities[city.id] = { 
+                id: city.id, 
+                nome: city.nome, 
+                saldoDevedor: city.saldo_devedor 
+            };
+            return cities;
+        }, {});
+
+    } catch (error) {
+        console.error(`Erro ao buscar localidades: ${error.message}`);
+        return null; // Retorna `null` em caso de erro
+    }
 }
+
 
 export async function getDatalocations() {
     let registrations = {};

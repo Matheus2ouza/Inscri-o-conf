@@ -63,6 +63,9 @@ function popUp(title, description) {
     }, 600);
 };
 
+/**
+ * Passa a localidade selecionada para a pagina de registro.
+ */
 function popRedirection(locality) {
     const fieldLocality = document.querySelector('#localidade-nome');
     const popUpRedirection = document.querySelector('.pop-up-redirection');
@@ -106,25 +109,33 @@ function toggleLoader(show) {
  */
 async function fetchCityNames() {
     try {
-    toggleLoader(true);
-    const fetchedCities = await getLocations();
-    
-    if(Object.keys(fetchedCities).length === 0) {
-        setTimeout(() =>{
-            popUp('⚠️Erro interno⚠️', `Erro interno do servidor, mas não se preocupe a pagina será atualizada automaticamente mas caso
-                essa mensagem continue aparecendo entre em contato com o suporte`);
-        }, 5000)
-    }
+        toggleLoader(true);
 
-    const cities = Object.values(fetchedCities);
-    return cities.map(city => city.nome);
+        const fetchedCities = await getLocations();
+
+        // Se a API falhar, exibe um pop-up e recarregamento da página
+        if (!fetchedCities) {
+            popUp('⚠️ Erro interno ⚠️', `Erro interno do servidor. A página será recarregada automaticamente, 
+            mas caso essa mensagem continue aparecendo, entre em contato com o suporte.`);
+
+            setTimeout(() => {
+                location.reload();
+            }, 5000);
+            
+            return [];
+        }
+
+        // Retorna apenas os nomes das cidades em um array
+        return Object.values(fetchedCities).map(city => city.nome);
+
     } catch (error) {
-    console.error("Erro ao buscar localidades:", error);
-    return [];
+        console.error("Erro ao buscar localidades:", error);
+        return [];
     } finally {
-    toggleLoader(false);
+        toggleLoader(false);
     }
-};
+}
+
 
 /**
  * Filtra as cidades com base no valor digitado e exibe as sugestões.

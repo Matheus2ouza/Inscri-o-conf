@@ -260,6 +260,7 @@ async function createAccount() {
         return;
     }
 
+    //Cria um objeto com os dados do usuario
     const data = {
         locality: fields.locality.value.toUpperCase(),
         email: fields.email.value,
