@@ -1,476 +1,330 @@
-/* Estilos para o modo claro */
-body {
-    font-family: 'Roboto', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+* {
     margin: 0;
     padding: 0;
-    background-color: #f0f0f5; /* Fundo suave */
-    color: #333; /* Cor do texto */
-    transition: background-color 0.3s, color 0.3s; /* Transições suaves */
+    box-sizing: border-box; /* Inclui padding e bordas no cálculo da largura/altura */
+}
+
+body {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    overflow-x: hidden; /* Impede o overflow horizontal */
 }
 
 nav {
     display: flex;
     align-items: center;
     height: 70px;
-    background-color: #2c3e50; /* Fundo nav moderno */
+    box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    background-color: #3c5672;
+    width: 100%;
     padding: 0 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    box-sizing: border-box; /* Adiciona o padding na largura do nav */
 }
 
 nav ul {
     list-style: none;
+    display: flex;
+    justify-content: center;
     padding: 0;
-    margin: 0;
-    display: flex; /* Flexbox para navegação */
 }
 
 nav ul li {
-    margin: 0 15px;
+    margin: 0 10px;
 }
 
 nav ul li a {
-    color: white;
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.3s; /* Transição suave ao passar o mouse */
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    color: #fff;
+    letter-spacing: 0.1em;
 }
 
-nav ul li a:hover {
-    color: #1abc9c; /* Cor ao passar o mouse */
-}
-
-.dashboard-container {
-    padding: 20px;
-}
-
-.cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.card {
-    background-color: #ffffff; /* Fundo branco para contraste */
-    border-radius: 15px; /* Bordas mais arredondadas */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    padding: 20px;
-    transition: transform 0.3s, box-shadow 0.3s; /* Transições suaves */
-    position: relative;
-}
-
-.card:hover {
-    transform: translateY(-5px); /* Elevação ao passar o mouse */
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Sombra mais forte ao hover */
-}
-
-.card h2 {
-    margin: 0 0 10px;
-    font-size: 1.5em;
-    color: #425c77; /* Cor do título */
-}
-
-.card p {
-    margin: 3px 0;
-    font-size: 1.2em; /* Tamanho da fonte diminuído para suavidade */
-    color: #959595; /* Cor do texto mais suave */
-    font-weight: bold;
-    background-color: rgba(40, 167, 70, 0.1); /* Fundo suave */
-    padding: 10px; /* Espaçamento interno */
-    border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-}
-
-/* Estilo do Carregador */
-.loader-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.8);
+/* Contêiner da select */
+.container-event {
     display: flex;
     align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    visibility: hidden; /* Oculta inicialmente */
+    padding: 20px;
 }
 
-.loader-background.hidden {
-    visibility: hidden; /* Oculta quando a classe 'hidden' é aplicada */
+/* Container que contém os cards */
+.container-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Alinha os cards à esquerda */
 }
 
-.loader {
-    border: 8px solid #f3f3f3; /* Cor de fundo */
-    border-top: 8px solid #3498db; /* Cor do carregador */
-    border-radius: 50%;
+/* Estilos para o card */
+.card {
+    position: relative;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 250px;
+    height: 200px;
+    margin: 20px;
+    transition: transform 0.5s ease, width 0.3s ease, height 0.3s ease;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    flex-direction: column; /* Garante que o conteúdo fique empilhado verticalmente */
+}
+
+/* Estilos para o Select de eventos */
+.events {
+    width: 100%;
+    max-width: 400px; /* Largura máxima */
+    padding: 12px 20px; /* Padding para tornar mais confortável o uso */
+    font-size: 1rem; /* Tamanho da fonte */
+    border: 2px solid #3c5672; /* Cor da borda */
+    border-radius: 8px; /* Bordas arredondadas */
+    background-color: #fff; /* Fundo branco */
+    color: #333; /* Cor do texto */
+    outline: none; /* Remove o contorno ao focar */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra leve para destacar */
+}
+
+
+/* Adiciona o traço verde acima do card */
+.card::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 25%;
+    height: 5px; /* Altura do traço */
+    background-color: #37cc5a; /* Cor verde */
+    border-radius: 8px;
+    cursor: pointer;
+    transform: translateX(-50%); /* Corrige a posição para centralizar */
+    z-index: 2; /* Garante que o traço fique acima de outros conteúdos, se necessário */
+}
+
+/* Garantindo que os cards fiquem lado a lado */
+.container-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espaço entre os cards */
+}
+
+/* Estilos adicionais para hover e animações */
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.add-icon {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    font-size: 17px; /* Ajuste o tamanho do ícone */
+    color: #3c5672; /* Cor do ícone */
+    cursor: pointer; /* Muda o cursor ao passar por cima */
+}
+
+h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+p {
+    text-align: center;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Conteúdo expandido (container-details) */
+.container-details {
+    display: none; /* Inicialmente oculto */
+    position: fixed; /* Fixo no meio da tela */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centraliza o conteúdo */
+    background-color: #f2f2f2; /* Fundo semi-transparente */
+    width: 60%; /* Largura ajustável */
+    height: 70%; /* Altura ajustável */
+    border-radius: 8px;
+    padding: 20px;
+    z-index: 9; /* Fica sobre outros elementos */
+    opacity: 0; /* Inicialmente invisível */
+    visibility: hidden; /* Torna o conteúdo invisível */
+    transition: opacity 0.6s ease, visibility 0s 0.6s; /* Suaviza o efeito */
+}
+
+/* Ícone de fechar */
+.close-icon {
+    position: absolute;
+    top: 14px;
+    right: 15px;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+/* Efeito de hover no ícone */
+.close-icon:hover {
+    color: #ff0000; /* Muda a cor para vermelho quando passa o mouse */
+}
+
+/* Mostrar o conteúdo expandido */
+.container-details.expanded {
+    display: block; /* Torna visível */
+    opacity: 1; /* Torna o conteúdo visível */
+    visibility: visible; /* Garante que o conteúdo seja visível */
+    animation: expand 0.6s ease-out forwards;
+    transition: opacity 0.6s ease, visibility 0s 0s; /* A transição de opacidade é aplicada */
+}
+
+/* Animação de expansão */
+@keyframes expand {
+    from {
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+    to {
+        width: 60%;
+        height: 70%;
+        opacity: 1;
+    }
+}
+
+/* Animação de fechamento */
+@keyframes collapse {
+    from {
+        width: 60%;
+        height: 70%;
+        opacity: 1;
+    }
+    to {
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+}
+
+/* Quando o container é fechado, aplica a animação de colapso */
+.container-details.closed {
+    animation: collapse 0.6s ease-out forwards;
+    opacity: 0; /* Deixa o conteúdo invisível durante o fechamento */
+    visibility: hidden; /* Oculta completamente o conteúdo */
+    transition: opacity 0.5s ease, visibility 0s 0.5s; /* Suaviza a transição */
+}
+
+/* Tabela dentro do container expanded */
+.expanded-content table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif; /* Estilo de fonte mais comum no Excel */
+    background-color: #f9f9f9; /* Fundo claro para a tabela */
+    table-layout: auto; /* Ajusta automaticamente a largura das células conforme o conteúdo */
+}
+
+/* Cabeçalho da tabela */
+.expanded-content th {
+    background-color: #4CAF50; /* Cor de fundo verde (como no Excel) */
+    color: white; /* Texto branco */
+    padding: 10px 15px; /* Mais espaçamento nas células do cabeçalho */
+    font-size: 1.1rem; /* Tamanho de fonte maior para o cabeçalho */
+    text-align: center;
+    border: 1px solid #ddd; /* Borda suave */
+    word-wrap: break-word; /* Permite que o texto quebre em várias linhas, se necessário */
+}
+
+/* Corpo da tabela (linhas) */
+.expanded-content td {
+    background-color: #ffffff; /* Fundo branco nas células */
+    color: #333; /* Texto em cinza escuro */
+    padding: 10px 15px; /* Mais espaçamento nas células */
+    font-size: 1rem; /* Tamanho da fonte */
+    text-align: center;
+    border: 1px solid #ddd; /* Borda suave */
+    word-wrap: break-word; /* Permite que o texto quebre em várias linhas, se necessário */
+}
+
+/* Linha de destaque (hover) */
+.expanded-content tr:hover {
+    background-color: #f1f1f1; /* Fundo suave para destacar a linha ao passar o mouse */
+}
+
+/* Linhas alternadas para a tabela */
+.expanded-content tr:nth-child(even) td {
+    background-color: #f7f7f7; /* Fundo alternado para linhas pares */
+}
+
+/* Linha de rodapé da tabela */
+.expanded-content tfoot {
+    background-color: #e1e1e1; /* Cor de fundo do rodapé */
+    font-weight: bold;
+}
+
+.expanded-content tfoot td {
+    padding: 12px;
+    text-align: center;
+}
+
+/* Estilo das bordas */
+.expanded-content td, .expanded-content th {
+    border-width: 1px;
+    border-color: #ccc;
+    border-style: solid;
+}
+
+/* Estilos de responsividade para telas menores */
+@media (max-width: 768px) {
+    .expanded-content table {
+        font-size: 0.9rem; /* Reduz o tamanho da fonte em telas menores */
+    }
+    
+    .expanded-content th, .expanded-content td {
+        padding: 8px 10px; /* Reduz o preenchimento nas células */
+    }
+    
+    /* Ajuste para garantir que a tabela ocupe 100% da largura em telas pequenas */
+    .expanded-content td, .expanded-content th {
+        min-width: 50px; /* Evita que as células fiquem muito estreitas */
+    }
+}
+
+/* loader */
+.simple-loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 50px;
     height: 50px;
-    animation: spin 1s linear infinite; /* Animação do carregador */
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 15px; /* Bordas arredondadas do modal */
-    max-width: 90%;
-    max-height: 80%;
-    overflow-y: auto; /* Adiciona rolagem vertical se necessário */
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3); /* Sombra mais forte */
-    position: relative;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-/* Estilo da tabela */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-table, th, td {
-    border: 1px solid #ddd; /* Bordas retas */
-}
-
-th, td {
-    padding: 12px; /* Aumenta o padding para mais conforto */
-    text-align: left;
-    color: #080808;
-}
-td h2 {
-    font-size: 1.5em;
-    color: #2c3e50; /* Cor do título */
-}
-th {
-    background-color: #3c5672; /* Cor do cabeçalho */
-    color: white; /* Cor do texto do cabeçalho */
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9; /* Cor de fundo para linhas pares */
-}
-
-tr:hover {
-    background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
-}
-
-/* Botão circular */
-.details-btn {
-    position: absolute;
-    bottom: 30px;
-    right: 20px;
-    background-color: #2c3e50; /* Cor de fundo do botão */
-    color: white; /* Cor do texto */
-    border: none; /* Remove a borda padrão */
-    border-radius: 50%; /* Faz o botão ser circular */
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
-}
-
-.details-btn:hover {
-    background-color: #2980b9; /* Cor mais escura ao passar o mouse */
-    transform: scale(1.05); /* Aumenta levemente o botão ao hover */
-}
-
-.list-container {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-}
-
-.list-card {
-    background-color: #ffffff; /* Fundo branco */
-    border-radius: 15px; /* Bordas arredondadas */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
-
-.list-card h2 {
-    font-size: 1.5em;
-    color: #425c77; /* Cor do título */
-}
-
-.list-card table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.list-card th,
-.list-card td {
-    padding: 12px; /* Aumenta o padding para mais conforto */
-    border: 1px solid #ddd; /* Bordas retas */
-}
-
-.list-card th {
-    background-color: #3c5672;
-    color: white;
-}
-
-.card {
-    border: 1px solid #ccc;
-    border-radius: 15px; /* Bordas mais arredondadas */
-    padding: 16px;
-    margin: 16px 0;
-    background-color: #f9f9f9;
-}
-
-.card-title {
-    font-size: 1.5em;
-    margin-bottom: 12px;
-    color: #425c77; /* Cor do título */
-}
-
-.list {
-    list-style-type: none; /* Remove os marcadores padrão */
-    padding: 0; /* Remove o padding padrão */
-}
-
-.list-item {
-    padding: 8px 0; /* Espaçamento entre os itens */
-    border-bottom: 1px solid #ddd; /* Linha de separação entre os itens */
-}
-
-.list-item:last-child {
-    border-bottom: none; /* Remove a linha do último item */
-}
-
-/* Estilos para o modo noturno */
-body.night-mode {
-    background-color: #121212; /* Fundo escuro */
-    color: #e0e0e0; /* Cor do texto clara */
-}
-
-nav.night-mode {
-    background-color: #1f1f1f; /* Fundo nav escuro */
-}
-
-nav ul li a {
-    color: white; /* Cor do link no modo noturno */
-}
-
-nav ul li a:hover {
-    color: #1dd1a1; /* Cor ao passar o mouse */
-}
-
-.card.night-mode {
-    background-color: #1e1e1e; /* Fundo escuro dos cards */
-    color: #e0e0e0; /* Cor do texto clara */
-    border: 1px solid #444; /* Bordas escuras */
-}
-
-/* Estilo do modal no modo noturno */
-.modal.night-mode {
-    background: rgba(0, 0, 0, 0.9); /* Fundo escuro do modal */
-}
-
-.modal-content.night-mode {
-    background-color: #1e1e1e; /* Fundo escuro do conteúdo do modal */
-    color: #ffffff; /* Cor do texto clara */
-}
-
-/* Estilo da tabela no modo noturno */
-.table.night-mode, .list-card.night-mode {
-    background-color: #1e1e1e; /* Fundo escuro para a tabela */
-    border-color: #444; /* Cor da borda da tabela */
-}
-
-/* Estilo das células da tabela */
-table.night-mode th,
-table.night-mode td {
-    border: 1px solid #444; /* Borda das células mais visível */
-    color: #e0e0e0; /* Cor do texto */
-}
-
-/* Estilo do cabeçalho da tabela */
-table.night-mode th {
-    background-color: #333; /* Cor de fundo do cabeçalho mais escura */
-    color: #ffffff; /* Cor do texto do cabeçalho clara */
-}
-
-/* Estilo das linhas pares */
-table.night-mode tr:nth-child(even) {
-    background-color: #2a2a2a; /* Cor de fundo para linhas pares */
-}
-
-/* Estilo das linhas ao passar o mouse */
-table.night-mode tr:hover {
-    background-color: #444; /* Cor de fundo ao passar o mouse */
-}
-
-/* Aumenta o padding das células para mais conforto */
-table.night-mode th,
-table.night-mode td {
-    padding: 15px; /* Aumenta o padding para mais conforto */
-}
-
-/* Adicione isso aos seus botões */
-.details-btn.night-mode {
-    background-color: #2c3e50; /* Cor de fundo do botão */
-}
-
-.details-btn.night-mode:hover {
-    background-color: #2980b9; /* Cor mais escura ao passar o mouse */
-}
-/* Estilos para o modo noturno */
-body.night-mode {
-    background-color: #121212; /* Fundo escuro */
-    color: #e0e0e0; /* Cor do texto clara */
-}
-
-nav.night-mode {
-    background-color: #1f1f1f; /* Fundo nav escuro */
-}
-
-.card.night-mode {
-    background-color: #1e1e1e; /* Fundo escuro para os cartões */
-    color: #ffffff; /* Cor do texto dos cartões */
-}
-
-.ranking-cidades.night-mode,
-.list-card.night-mode,
-.lista-eventos.night-mode {
-    background-color: #1e1e1e; /* Fundo escuro para essas divs */
-    color: #ffffff; /* Cor do texto clara */
-}
-
-#toggleNightMode {
-    background-color: #fff; /* Cor de fundo padrão */
-    border: none; /* Remove a borda padrão */
-    border-radius: 50%; /* Faz o botão ser circular */
-    width: 50px; /* Largura do botão */
-    height: 50px; /* Altura do botão */
-    font-size: 24px; /* Tamanho da fonte */
-    cursor: pointer; /* Muda o cursor ao passar sobre o botão */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Animação suave */
-    display: flex; /* Usado para centralizar o conteúdo */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    margin-left: auto; /* Move o botão para o lado direito */
-}
-
-#toggleNightMode:hover {
-    background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
-    transform: scale(1.1); /* Aumenta o tamanho do botão ao passar o mouse */
-}
-
-.night-mode #toggleNightMode {
-    background-color: #333; /* Cor de fundo no modo noturno */
-    color: #fff; /* Cor do texto no modo noturno */
+    border: 6px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 6px solid #3498db;
+    animation: spin 1s linear infinite;
+    z-index: 11; /* Certifique-se que o loader esteja acima do fundo escuro */
 }
 
 .loader-background {
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-}
-
-.loader {
-    border: 6px solid #f3f3f3;
-    border-top: 6px solid #3498db;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-}
-
-.hidden {
-    display: none;
+    background-color: rgba(0, 0, 0, 0.5); /* Cor preta com 50% de opacidade */
+    z-index: 10; /* Abaixo do loader, mas acima de tudo */
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-.modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 10px;
-}
-
-.print-btn {
-    background-color: #3b913d61;
-    color: #2b2a2a;
-    border: none;
-    margin-left: auto;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    padding: 5px 10px;
-}
-
-.print-btn:hover {
-    background-color: #2e732e;
-}
-
-.print-btn:active {
-    background-color: #388e3c00; /* Cor de fundo ao clicar */
-    transform: translateY(1px); /* Efeito de "pressionar" */
-}
-.info-icon {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 10px; /* tamanho de fonte reduzido */
-    color: #888; /* cor clara */
-    border: 1px solid #888;
-    border-radius: 50%;
-    width: 14px; /* largura reduzida */
-    height: 14px; /* altura reduzida */
-    text-align: center;
-    line-height: 14px; /* alinhamento do texto para o novo tamanho */
-    cursor: pointer;
-}
-
-/* Estilos para o tooltip */
-.info-icon:hover::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    top: -10px;
-    right: 25px;
-    background-color: rgba(0, 0, 0, 0.75);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-    z-index: 10;
 }

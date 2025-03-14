@@ -1,25 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 /* Reset e estilos básicos */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    list-style: none;
+    font-family: 'Lato', sans-serif;
+    line-height: 1;
 }
 
 body {
     display: flex;
-    justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f2f2f2;
+    background-color: #F5F6F8;
+    overflow: hidden;
     transition: background-color 0.3s, color 0.3s;
-}
-
-body.dark-mode {
-    background-color: #121212;
-    color: #e0e0e0;
 }
 
 /* Navbar */
@@ -27,14 +24,13 @@ nav {
     display: flex;
     align-items: center; 
     justify-content: space-between; 
-    height: 90px;
-    box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-    background-color: #3c5672;
+    height: 70px;
     width: 100%;
-    padding: 0 20px;
+    padding: 0 15px 0 10px;
     position: fixed;
     top: 0;
     z-index: 9;
+    background-color: #313443;
 }
 
 .nav-left {
@@ -42,25 +38,24 @@ nav {
     align-items: center;
 }
 
+.menu-icon:hover {
+    background-color: #dadada;
+}
+
 .nav-left h1 {
-    color: #f2f2f2;
-    font-family: Roboto, sans-serif;
+    color: white;
     text-transform: uppercase;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     letter-spacing: 0.1em;
+    margin-left: 20px;
 }
 
 .nav-right {
     display: flex;
-    align-items: center; 
-    height: 100%; 
+    align-items: center;
 }
 
-
-body.dark-mode nav {
-    background-color: #1c1c1c;
-}
-
+/* Switch de tema */
 .checkbox {
     position: absolute;
     opacity: 0;
@@ -104,120 +99,132 @@ nav .label {
     color: #fff;
 }
 
-.observation {
-    margin-left: 20px;
-    max-width: 1000px;
-    padding: 20px;
+/* Sidebar */
+.sidebar-navigation {
+    position: fixed;
+    display: inline-block;
+    min-height: 100vh;
+    width: 80px;
+    background-color: #313443;
+    float: left;
+    z-index: 8;
 }
 
-.container h1, p, a {
-    margin-bottom: 8px;
-}
-
-.documentation {
-    color: #1a73e8;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.documentation:hover {
-    text-decoration: underline;
-    color: #0869e7;
-}
-
-p {
-    color: #555;
-    margin-bottom: 12px;
-    line-height: 1.5;
-}
-
-.routes {
-    display: flex;
-    flex-wrap: wrap; /* Permite que as divs se empilhem em telas menores */
-    justify-content: center; /* Centraliza as colunas */
-    gap: 50px;
-    margin: 40px 0;
-    padding: 20px;
-}
-
-.router-event-servi, .router-event-jovens {
-    display: flex;
-    flex-direction: column; /* Para garantir que os links fiquem empilhados */
-    align-items: center;
-    justify-content: center;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    width: 280px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.router-event-servi h2, .router-event-jovens h2 {
-    font-size: 1.5rem;
-    color: #3c5672;
-    margin-bottom: 16px;
-}
-
-.routes a {
-    display: block; /* Mudando de inline-block para block */
-    width: 100%; /* Para ocupar toda a largura disponível */
-    height: 48px;
-    background-color: #28a745;
-    color: #fff;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-    font-weight: 500;
+.sidebar-navigation ul {
     text-align: center;
-    line-height: 48px;
-    text-decoration: none;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 10px; /* Adicionando espaçamento entre os links */
+    margin-top: 70px;
+    color: white;
 }
 
-.routes a:hover {
-    background-color: #218838;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+.sidebar-navigation ul li {
+    padding: 28px 0;
+    cursor: pointer;
+    transition: all ease-out 120ms;
+    position: relative;
 }
 
-.routes a:last-child {
-    margin-bottom: 0; /* Remove o espaçamento da última rota */
+.sidebar-navigation ul li i {
+    display: block;
+    font-size: 24px;
+    transition: all ease 450ms;
 }
 
-/* Media Queries para Responsividade */
-@media (max-width: 768px) {
-    nav ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    nav ul li {
-        margin: 5px 0;
-    }
-
-    .routes {
-        height: auto;
-        padding: 20px;
-    }
-
-    .routes a {
-        width: 80%;
-    }
-
-    p {
-        font-size: 14px;
-    }
+.sidebar-navigation ul li .tooltip {
+    display: inline-block;
+    position: absolute;
+    background-color: #313443;
+    padding: 8px 15px;
+    border-radius: 3px;
+    margin-top: -26px;
+    left: 90px;
+    opacity: 0;
+    visibility: hidden;
+    font-size: 13px;
+    letter-spacing: .5px;
 }
 
-@media (max-width: 480px) {
-    nav ul li a {
-        font-size: 1rem;
-    }
+.sidebar-navigation ul li .tooltip:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -4px;
+    top: 10px;
+    transform: rotate(45deg);
+    width: 10px;
+    height: 10px;
+    background-color: inherit;
+}
 
-    .routes a {
-        height: 40px;
-        font-size: 14px;
-    }
+.sidebar-navigation ul li:hover {
+    background-color: #22252E;
+}
+
+.sidebar-navigation ul li:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.sidebar-navigation ul li.active {
+    background-color: #22252E;
+}
+
+.sidebar-navigation ul li.active i {
+    color: #98D7EC;
+}
+
+/* ==================== */
+/* === DARK MODE CSS === */
+/* ==================== */
+body.dark-mode {
+    background-color: #212529;
+    color: #e0e0e0;
+}
+
+/* Navbar em Dark Mode */
+body.dark-mode nav {
+    background-color: #2A2F38;
+}
+
+body.dark-mode .nav-left h1 {
+    color: #e0e0e0;
+}
+
+/* Sidebar em Dark Mode */
+body.dark-mode .sidebar-navigation {
+    background-color: #2A2F38;
+}
+
+body.dark-mode .sidebar-navigation ul li {
+    color: #e0e0e0;
+}
+
+body.dark-mode .sidebar-navigation ul li:hover {
+    background-color: #3A404A;
+}
+
+body.dark-mode .sidebar-navigation ul li.active {
+    background-color: #3A404A;
+}
+
+body.dark-mode .sidebar-navigation ul li.active i {
+    color: #98D7EC;
+}
+
+/* Tooltip em Dark Mode */
+body.dark-mode .sidebar-navigation ul li .tooltip {
+    background-color: #3A404A;
+    color: #e0e0e0;
+}
+
+body.dark-mode .sidebar-navigation ul li .tooltip:before {
+    background-color: #3A404A;
+}
+
+/* Switch de Tema em Dark Mode */
+body.dark-mode .label {
+    background-color: #3A404A;
+}
+
+body.dark-mode .label .ball {
+    background-color: #98D7EC;
 }

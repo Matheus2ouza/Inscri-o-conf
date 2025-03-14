@@ -7,44 +7,85 @@
     <title>Dashboard</title>
 </head>
 <body>
-
-    <div class="loader-background"> 
-        <div class="loader"></div>
-    </div>
-
     <nav>
         <ul>
-            <li><a href="https://inscri-o-conf.vercel.app">Home</a></li>
+            <li><a>HOME</a></li>
         </ul>
-            <button id="toggleNightMode">☀️</button>
-        
-    </nav>  
+    </nav>
+
+    <div class="container-event">
+        <select name="event" class="events">
+        </select>
+    </div>
     
-    <div class="dashboard-container">
-        <h1>Dashboard</h1>
-        <div class="cards-container">
-            
-            <div id="hospedagem" class="card"></div>
-            <div id="inscricoes0_6" class="card"></div>
-            <div id="inscricoes7_10" class="card"></div>
-            <div id="inscricoes10_acima" class="card"></div>
-            <div id="inscricao_servico" class="card"></div>
-            <div id="inscricao_tx_participacao" class="card"></div>
-            <div id="inscricao_avulsa" class="card"></div>
-            <div id="inscricaoGeral" class="card"></div>
-            <div id="venda_alimentacao" class="card"></div>
-            <div id="saida_financeiro" class="card"></div>
-            <div id="movimentacaoFinanceira" class="card"></div>
-            <div id="pagamento" class="card"></div>
-            <div id="saldoDevedor" class="card"></div>
-            
+    <!-- Card -->
+    <div class="container-card">
+        <div class="card" id="card-eventos">
+            <i class="bi bi-arrows-angle-expand add-icon"></i>
+            <h2 class="card-title">Eventos</h2>
+            <p class="card-description"></p>
+            <p class="card-date"></p>
         </div>
-        <div class="list-container">
-            <div id="lista-eventos" class="list-card"></div>
-            <div id="lista-tipo-inscricao" class="list-card"></div>
-            <div id="ranking-cidades" class="list-card"></div>
-          
+
+        <div class="card" id="card-inscricaoGeral">
+            <i class="bi bi-arrows-angle-expand add-icon"></i>
+            <h2>Inscrição Geral</h2>
+            <p></p>
+            <p></p>
         </div>
+
+        <div class="card" id="card-inscricoes0_6">
+            <i class="bi bi-arrows-angle-expand add-icon"></i>
+            <h2>Inscrição 0 - 6</h2>
+            <p></p>
+        </div>
+
+        <div class="card" id="card-inscricoes7_10">
+            <i class="bi bi-arrows-angle-expand add-icon"></i>
+            <h2>Inscrição 7 - 10</h2>
+            <p>localidades: 20</p>
+        </div>
+
+        <div class="card" id="card-inscricoes10_acima">
+            <i class="bi bi-arrows-angle-expand add-icon"></i>
+            <h2>Inscrição 10+</h2>
+            <p>localidades: 20</p>
+        </div>
+
+        <div class="card" id="card-inscricao_servico">
+            <i class="bi bi-arrows-angle-expand add-icon"></i>
+            <h2>Inscrição Serviço</h2>
+            <p>localidades: 20</p>
+        </div>
+
+        <div class="card" id="card-inscricao_tx_participacao">
+            <i class="bi bi-arrows-angle-expand add-icon"></i>
+            <h2>Inscrição Participação</h2>
+            <p>localidades: 20</p>
+        </div>
+    </div>
+    
+    <div class="container-details">
+        <i class="bi bi-arrows-angle-contract close-icon"></i> <!-- Ícone para fechar -->
+        <h1 class="title-table">Tabela Eventos</h1>
+        <div class="expanded-content">
+            <table>
+                <table>
+                    <thead id="table-head">
+                        <!-- dados preenchidos no Js -->
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- dados preenchidos no Js -->
+                    </tbody>
+                </table>
+                
+            </table>
+        </div>
+    </div>
+    
+            
+    <div class="loader-background"> 
+        <div class="simple-loader"></div>
     </div>
 
     <script type="module" src="../src/dashboard.js"></script>
