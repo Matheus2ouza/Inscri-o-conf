@@ -13,44 +13,89 @@
             <a href="">Login</a>
         </div>
         
-        <div class="nav-right">
-            <input type="checkbox" class="checkbox" id="chk">
-            <label for="chk" class="label">
-                <i class="bi bi-brightness-high-fill"></i>
-                <i class="bi bi-moon-fill"></i>
-                <div class="ball"></div>
-            </label>
-        </div>
     </nav>
 
-    <div class="container">
-        <h1>Movimentações Financeiras</h1>
-    
-        <!-- Caixa de valor total -->
-        <div id="totalValueBox" class="total-value-box">
-            <span>Total Atual: </span><span id="totalValue">R$ 0,00</span>
+    <h1>Movimentações Financeiras</h1>
+
+    <div class="container-totais">
+        <div id="total-geral" class="total-box">
+            <h3>Total Geral</h3>
+            <p>0</p>
         </div>
-    
-        <table id="movementsTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tipo</th>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Detalhes</th>
-                    <th>Data</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- As linhas de dados serão inseridas aqui dinamicamente -->
-            </tbody>
-        </table>
+        <div id="total-inscricao" class="total-box">
+            <h3>Total Inscrição</h3>
+            <p>0</p>
+        </div>
+        <div id="total-conferencia" class="total-box">
+            <h3>Total Conferência</h3>
+            <p>0</p>
+        </div>
+        <div id="total-inscricao-avulsa" class="total-box">
+            <h3>Total Inscrição avulsa</h3>
+            <p>0</p>
+        </div>
+        <div id="total-ticket" class="total-box">
+            <h3>Total Ticket</h3>
+            <p>0</p>
+        </div>
+        <div id="total-saida" class="total-box">
+            <h3>Total Saida</h3>
+            <p>0</p>
+        </div>
     </div>
 
-    <!-- Botão de download -->
-    <div class="download-btn-container">
-        <button id="downloadBtn" class="download-btn">Baixar PDF</button>
+    <div class="container-select">
+        <select name="" id="" class="select-download">
+            <option value="">Selecione alguma informação...</option>
+            <option value="download geral">download Geral</option>
+            <option value="download inscricao">download Inscrição</option>
+            <option value="download conferencia">download Dados Conferência Geral</option>
+            <option value="download inscricao_avulsa">download Inscrição avulsa</option>
+            <option value="download ticket">download Ticket</option>
+            <option value="download movimentacao">download Saidas</option>
+        </select>
+
+        <button class="downloadPDF">download</button>
+    </div>
+    <div class="container-tables">
+        <div class="table-inscricao">
+            <h2>Dados das Inscrições</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Detalhes</th>
+                    </tr>
+                </thead>
+                <tbody id="inscricao-tbody">
+                </tbody>
+            </table>
+        </div>
+        <div class="table-conferencia">
+            <h2>Dados da Conferência</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nº</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Data</th>
+                        <th>Detalhes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="loader-background"> 
+        <div class="simple-loader"></div>
     </div>
     
     <script type="module" src="../src/movement.js"></script>

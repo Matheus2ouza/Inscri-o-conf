@@ -73,7 +73,7 @@ function logoutUser() {
  */
 async function init() {
     darkModeToggle();
-    await tokenVerification();
+    //await tokenVerification();
 }
 
 document.addEventListener("DOMContentLoaded", init);
