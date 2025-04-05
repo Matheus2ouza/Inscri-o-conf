@@ -1,4 +1,5 @@
-import { getLocations, getDatalocations, getProofPayment } from './router.js';
+import { getLocations, getDatalocations } from "../router/dataRoutes.js";
+import { getProofPayment } from "../router/financialRoutes.js";
 
 let isCitySelected = false;
 let dataLocations = {}; // Variável global para armazenar os dados das localidades

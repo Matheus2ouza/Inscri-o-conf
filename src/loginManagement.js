@@ -1,4 +1,5 @@
-import { getLocations, postLogin } from "./router.js";
+import { getLocations } from "../router/dataRoutes.js";
+import { postLogin } from "../router/authRoutes.js";
 
 const checkbox = document.querySelector('#chk');
 const iconPassword = document.querySelector('#icon-password');
@@ -245,7 +246,7 @@ async function login() {
         }
 
         localStorage.setItem("accessToken", response.accessToken);
-        location.href = "https://inscri-o-conf.vercel.app/home"
+        location.href = "home.html"
 
     } catch (error) {
         console.error('Erro ao tentar fazer login:', error);

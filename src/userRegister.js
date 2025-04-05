@@ -1,4 +1,5 @@
-import { getLocations, postRegister } from "./router.js";
+import { getLocations } from "../router/dataRoutes.js";
+import { postRegister } from "../router/authRoutes.js";
 
 const checkbox = document.querySelector('#chk');
 const localidadeInput = document.querySelector('#localidade');

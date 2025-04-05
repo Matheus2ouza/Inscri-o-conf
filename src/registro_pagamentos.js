@@ -1,4 +1,5 @@
-import { getLocations, registrarInscricaoAvulsa, registrarVendaAlimentacao, getDataAlimentacao, registrarCaixa, getdatacaixa } from './router.js';
+import { registrarInscricaoAvulsa, registrarVendaAlimentacao, getDataAlimentacao, registrarCaixa, getdatacaixa } from '../router/registrationRoutes.js';
+import { getLocations } from "../router/dataRoutes.js"
 
 const checkbox = document.querySelector('#chk'),
     inscricaoLink = document.querySelector('.inscricao-link'),

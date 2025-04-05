@@ -3,73 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conferencia R2</title>
+    <title>Conferência R2</title>
     <link rel="stylesheet" href="../style/payment.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <nav>
-        <ul>
-            <li><a href="https://inscri-o-conf.vercel.app/">Registrar Pagamento</a></li>
-        </ul>
+        <div class="nav-left">
+            <h1>Sistema de Inscrição - R2</h1>
+        </div>
+        <div class="nav-right">
+            <input type="checkbox" class="checkbox" id="chk">
+            <label for="chk" class="label">
+                <i class="bi bi-brightness-high-fill"></i>
+                <i class="bi bi-moon-fill"></i>
+                <div class="ball"></div>
+            </label>
+        </div>
     </nav>
-    <div class="main-container">
-        <div class="account-payment">
-            <p><strong>Favorecido:</strong> IGREJA EM CASTANHAL</p>
-            <p><strong>Banco</strong> Bradesco
-            <p>AG: 6667-2 C/C: 6779-2
-            <p><strong>Chave PIX:</strong> <a href="mailto:ofertaigcastanhal@gmail.com">ofertaigcastanhal@gmail.com</a></p>
-            <span><strong>OBSERVAÇÃO:</strong> Favor indentificar na descrição do comprovante com o nome ( CONFERÊNCIA REGIONAL ).</span>
-        </div>
-        <div class="second-container">
-            <form id="paymentForm">
-                <div class="form-container">
-                    <div class="form-group">
-                        <label for="cidade">Nome da Cidade:</label>
-                        <input type="text" id="input1" autocomplete="off" placeholder="Selecione o nome da cidade">
-                        <div id="suggestions" class="suggestions"></div> <!-- Correto aqui -->
-                    </div>
-                    <div class="form-group">
-                        <label for="saldoDevedor">Saldo Devedor:</label>
-                        <input type="text" id="saldoDevedor" name="saldoDevedor" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="valor_pago">Valor Pago:</label>
-                        <input type="number" id="valor_pago" name="valor_pago" required step="0.01">
-                    </div>
-                    <div class="form-group">
-                        <label for="comprovante_pagamento">Comprovante de Pagamento:</label>
-                        <label for="comprovante_pagamento" class="custom-file-upload">Selecionar Arquivo</label>
-                        <input type="file" id="comprovante_pagamento" name="comprovante_pagamento" accept="image/jpeg, image/png, image/webp" required>
-                        <span id="file-name" class="file-name">Nenhum arquivo selecionado</span>
-                    </div>
-                    
-                </div>
-                <button type="submit">Registrar Pagamento</button>
-            </form>
-        </div>
+    <div class="sidebar-navigation">
+        <ul>
+            <li>
+                <i class="fa fa-home"></i>
+                <span class="tooltip" id="home">Home</span>
+            </li>
+            <li>
+                <i class="fa fa-user-plus"></i>
+                <span class="tooltip" id="inscription">Inscrição</span>
+            </li>
+            <li  class="active">
+                <i class="fa fa-dollar-sign"></i>
+                <span class="tooltip" id="payment">Pagamento</span>
+            </li>
+            <li>
+                <i class="fa fa-history"></i>
+                <span class="tooltip" id="history">Histórico</span>
+            </li>
+            <li>
+                <i class="fa fa-cog"></i>
+                <span class="tooltip" id="settings">Configuração</span>
+            </li>
+        </ul>
     </div>
- 
-    <div class="loader-background">
-        <div class="simple-loader"></div>
-    </div>
-    
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <span class="close-btn">&times;</span>
-            <h2>Pagamento Realizado com Sucesso!</h2>
-            <p></p>
-            <button id="btn-home">voltar para a pagina princial</button>
-            <button id="btn-novoPagamento">Realizar novo pagamento</button>
-        </div>
-    </div>
-    <div id="popupError" class="popupError">
-        <div class="popup-contentError">
-            <span class="close-btnError">&times;</span>
-            <h2>Falha no Pagamento!</h2>
-            <p></p>
-        </div>
-    </div>
-    
+
     <script type="module" src="../src/payment.js"></script>
 </body>
 </html>

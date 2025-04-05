@@ -1,4 +1,4 @@
-import { postEmailToken } from "./router.js";
+import { postEmailToken } from "../router/authRoutes.js";
 
 /**
  * Ajusta a pagina para de acordo com o retorno da verificação do token

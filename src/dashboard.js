@@ -1,4 +1,4 @@
-import { getDashboardData, getEventData } from './router.js';
+import { getDashboardData, getEventData } from "../router/reportRoutes.js";
 
 let dashboardData;
 

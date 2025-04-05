@@ -1,4 +1,6 @@
-import { getfinancialMovement, createPdf, getLocations } from './router.js';
+import { getLocations } from "../router/dataRoutes.js";
+import { getfinancialMovement } from "../router/financialRoutes.js"
+import { createPdf } from "../router/pdfRoutes.js"
 
 let dataInscricao = {};
 let dataInscricaoAvulsa = {};
@@ -91,7 +93,7 @@ function extrairIdDescricao(descricao) {
 
 function formatDate(dateString) {
     return new Intl.DateTimeFormat('pt-BR').format(new Date(dateString));
-};
+}
 
 function createDetailsRow(pagamentos) {
     const detailsRow = document.createElement("tr");

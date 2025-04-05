@@ -1,4 +1,5 @@
-import { getlistHosting, generatePdf } from "./router.js";
+import { getlistHosting } from "../router/reportRoutes.js";
+import { generatePdf } from "../router/pdfRoutes.js";
 
 let currentLocationIndex = 0; // Índice da localidade atualmente exibida
 let locationsData = []; // Armazena as localidades e suas pessoas

@@ -1,6 +1,39 @@
-import { verifyToken, refreshAccessToken } from "./router.js";
+import { verifyToken, refreshAccessToken } from "../router/authRoutes.js";
 
 const checkbox = document.querySelector("#chk");
+
+function movimentPage() {
+    document.querySelectorAll(".sidebar-navigation li").forEach(li => {
+        li.style.cursor = "pointer";
+
+        li.addEventListener('click', () => {
+            const span = li.querySelector(".tooltip"); // Encontra o span dentro do li
+            
+            if (span && span.id) {
+                const pageId = span.id;
+                const pageURL = `${pageId}.html`;
+
+                // Verifica se a página existe antes de redirecionar
+                fetch(pageURL, { method: 'HEAD' })
+                    .then(res => {
+                        if (res.ok) {
+                            window.location.href = pageURL;
+                        } else {
+                            console.error(`Página não encontrada: ${pageURL}`);
+                            alert('Página não encontrada!');
+                        }
+                    })
+                    .catch(() => {
+                        console.error(`Erro ao tentar acessar: ${pageURL}`);
+                        alert('Erro ao tentar acessar a página!');
+                    });
+            } else {
+                console.error("ID do span não encontrado.");
+                alert('Página inválida!');
+            }
+        });
+    });
+};
 
 /**
  * Ativa ou desativa o modo escuro.
@@ -65,7 +98,7 @@ function redirectToLogin(message) {
 
 function logoutUser() {
     localStorage.removeItem("accessToken");
-    location.href = "https://inscri-o-conf.vercel.app/";
+    location.href = "loginManagement.html";
 }
 
 /**
@@ -73,7 +106,8 @@ function logoutUser() {
  */
 async function init() {
     darkModeToggle();
-    //await tokenVerification();
+    await tokenVerification();
+    movimentPage();
 }
 
 document.addEventListener("DOMContentLoaded", init);

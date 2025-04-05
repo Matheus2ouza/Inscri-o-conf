@@ -1,4 +1,5 @@
-import { getLocations, registrarInscricaoJovem, registrarHospedagem } from './router.js';
+import { registrarInscricaoJovem, registrarHospedagem } from '../router/registrationRoutes.js';
+import { getLocations } from "../router/dataRoutes.js";
 
 let cities = [];
 let isCitySelected = false;

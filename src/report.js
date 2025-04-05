@@ -1,4 +1,5 @@
-import { getLocations, getRelatorio } from './router.js'; 
+import { getLocations } from "../router/dataRoutes.js";
+import { getRelatorio } from "../router/reportRoutes.js"
 
 document.addEventListener('DOMContentLoaded', async () => {
     const localidades = await fetchLocalidades();
