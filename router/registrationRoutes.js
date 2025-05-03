@@ -1,12 +1,16 @@
 const apiUrl = "https://api-inscri-o.vercel.app";
 
-export async function postFileRegister(file) {
+export async function postFileRegister(responsible, file, token) {
     try {
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("responsible", responsible)
 
         const response = await fetch(`${apiUrl}/register/upload-file`, {
             method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
             body: formData
         });
 

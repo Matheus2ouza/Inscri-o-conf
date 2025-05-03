@@ -48,18 +48,42 @@
         </ul>
     </div>
 
+    <div class="event-container">
+        <div class="event-group">
+            <div class="event-header">
+              <img src="../img/Capa geral 1.png" alt="Evento 1">
+              <div class="event-info">
+                <h3>Nome do Evento</h3>
+                <p>Inscrições até: <strong>20/05/2025</strong></p>
+              </div>
+            </div>
+            <div class="event-details">
+              <p>Normal: R$ 50</p>
+              <p>Participante: R$ 80</p>
+              <p>Serviço: R$ 30</p>
+            </div>
+            <button class="select-event-btn">Selecionar</button>
+          </div>          
+    </div>
+
     <div class="progress-container">
         <div class="progress-step active" data-step="1">
             <p>Tipo de Inscrição</p>
         </div>
     </div>
 
+    </div>
     <!-- Container main onde vai os cards -->
-    <div class="main-container">
+    <div class="enrollment-container">
         <h2 id="step-title">Etapa 1: Tipo de Inscrição</h2>
 
         <!-- Card para escolher o tipo de inscrição -->
         <div class="card-default">
+            <p>➤ Responsável pela inscrição:</p>
+            <div class="responsible-group">
+            <input type="text" id="responsible-name" required placeholder=" ">
+            <label for="nome">Responsável</label>
+            </div>
             <p>➤ Escolha o tipo de inscrição:</p>
             <div class="options">
                 <label>
