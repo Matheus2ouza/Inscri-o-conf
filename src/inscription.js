@@ -3,6 +3,8 @@ import { postFileRegister } from "../router/registrationRoutes.js"
 
 const checkbox = document.querySelector("#chk");
 
+let accessToken = localStorage.getItem("accessToken");
+
 /**
  * Funções de Loader
  */
@@ -129,8 +131,17 @@ function redirectToLogin(message) {
 
 function logoutUser() {
     localStorage.removeItem("accessToken");
-    location.href = "https://inscri-o-conf.vercel.app/";
+    location.href = "loginManagement.html";
 }
+
+//controle de container para evento e inscricao
+const eventContainer = document.querySelector(".event-container"),
+enrollmentContainer = document.querySelector(".enrollment-container");
+
+function controlContainer() {
+    
+}
+
 
 // Definindo os passos de inscrição
 const stepGroup = ['Dados', 'Lista', 'Confirmação'];
@@ -429,6 +440,7 @@ function structuringPaymenData(inscriptionCount, totais) {
  * Passa o arquivo XLSX do usuario e passa para a API
  */
 async function sendFile() {
+    const responsibleName = document.querySelector("#responsible-name").value
     const file = fileInput.files[0];
 
     if (!file) {
@@ -437,11 +449,18 @@ async function sendFile() {
     }
 
     try {
-        const response = await postFileRegister(file);
+        const response = await postFileRegister(responsibleName, file, accessToken);
+
+        if (response.status > 401) {
+            PopUpError("Erro no Upload", response.message || "Erro desconhecido");
+            setTimeout(()=>{
+                localStorage.removeItem("accessToken");
+                location.href = "loginManagement.html"
+            },3000)
+        }
 
         // Verifica o status da resposta
-        if (response.status > 201) {
-            // Se o status for maior que 201, significa que houve um erro
+        if (response.status > 400) {
             PopUpError("Erro no Upload", response.message || "Erro desconhecido");
             return false;
         }
@@ -468,6 +487,7 @@ async function sendFile() {
         return false;
     }
 }
+
 // Evento de click no botão de upload
 document.querySelector(".upload-btn").addEventListener("click", async (event) => {
     event.preventDefault(); // Impede que o evento do botão envie o formulário ou cause múltiplas navegações
@@ -488,7 +508,7 @@ document.querySelector(".upload-btn").addEventListener("click", async (event) =>
 // Inicializa a página
 async function init() {
     darkModeToggle();
-    // await tokenVerification();
+    await tokenVerification();
     movimentPage();
 
     radioButtons.forEach(radio => radio.addEventListener("change", updateStepsBasedOnSelection));
