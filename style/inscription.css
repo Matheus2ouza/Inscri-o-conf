@@ -283,6 +283,7 @@ nav .label {
     font-family: 'Arial', sans-serif;
     flex-direction: column;
     justify-content: space-between;
+    overflow-y: auto;
 }
 
 .hidden {

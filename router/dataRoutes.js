@@ -13,7 +13,7 @@ export async function getLocations() {
         // Transforma o array de localidades em um objeto
         return data.reduce((cities, city) => {
             cities[city.id] = { 
-                id: city.id, 
+                id: city.id,
                 nome: city.nome, 
                 saldoDevedor: city.saldo_devedor 
             };
@@ -69,3 +69,28 @@ export async function getDatalocations() {
 
     return registrations;
 }
+
+export async function getEventList() {
+    try {
+        const response = await fetch(`${apiUrl}/dados/eventos`);
+
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar eventos: ${response.status} ${response.statusText}`);
+        }
+        const data = await response.json();
+        const events = {};
+        
+        data.forEach(event => {
+            const eventId = event.id;
+            events[eventId] = {
+                id: event.id,
+                descricao: event.descricao,
+                data_limite: event.data_limite,
+            };
+        });
+        return events;
+    }catch (error) {
+        console.error(`Erro ao buscar eventos: ${error.message}`);
+        return null; // Retorna `null` em caso de erro
+    }
+};

@@ -1,5 +1,6 @@
 import { verifyToken, refreshAccessToken } from "../router/authRoutes.js";
 import { postFileRegister } from "../router/registrationRoutes.js"
+import { getEventList } from "../router/dataRoutes.js";
 
 const checkbox = document.querySelector("#chk");
 
@@ -132,6 +133,12 @@ function redirectToLogin(message) {
 function logoutUser() {
     localStorage.removeItem("accessToken");
     location.href = "loginManagement.html";
+}
+
+async function createcardEvent() {
+    const eventList = await getEventList()
+    
+    console.log(eventList);
 }
 
 //controle de container para evento e inscricao
@@ -509,6 +516,7 @@ document.querySelector(".upload-btn").addEventListener("click", async (event) =>
 async function init() {
     darkModeToggle();
     await tokenVerification();
+    createcardEvent()
     movimentPage();
 
     radioButtons.forEach(radio => radio.addEventListener("change", updateStepsBasedOnSelection));
