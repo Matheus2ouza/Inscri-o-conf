@@ -48,21 +48,6 @@
     </div>
 
     <div class="event-container">
-        <div class="event-group">
-            <div class="event-header">
-              <img src="../img/Capa geral 1.png" alt="Evento 1">
-              <div class="event-info">
-                <h3>Nome do Evento</h3>
-                <p>Inscrições até: <strong>20/05/2025</strong></p>
-              </div>
-            </div>
-            <div class="event-details">
-              <p>Normal: R$ 50</p>
-              <p>Participante: R$ 80</p>
-              <p>Serviço: R$ 30</p>
-            </div>
-            <button class="select-event-btn">Selecionar</button>
-          </div>          
     </div>
 
     <div class="progress-container">
@@ -92,6 +77,7 @@
                     <input type="radio" name="inscription" value="group"> Em grupo
                 </label>
             </div>
+            <button class="prev-btn" id="close-enrollment-btn">Mudar Evento</button>
             <button class="next-btn" id="next-step">Próxima Etapa</button>
         </div>
 
@@ -123,10 +109,53 @@
             <button class="next-btn upload-btn" id="next-card-list-group" disabled>Enviar Arquivo</button>
         </div>
 
+        <div class="card-list-error">
+            <p>Abaixo esta sendo mostrado todos os erros encontrados. Verifique com cuidado e tente enviar novamente:</p>
+            <div class="scrollable-content">
+                <div class="error-section" id="error-missing-data">
+                    <h3>Falta de dados </h3>
+
+                    <ul class="missing-data-list">
+                    </ul>
+                </div>
+
+                <div class="error-section" id="error-duplicated-names">
+                    <h3>Nomes Duplicados ou fora do formato esperado</h3>
+                    <ul class="duplicated-names-list">
+                        <li>Nome inválido na linha5: João da Silva</li>
+                        <li>Nome inválido na linha5: João da Silva</li>
+                        <li>Nome inválido na linha5: João da Silva</li>
+                        <li>Nome inválido na linha5: João da Silva</li>
+                    </ul> 
+                </div>
+
+                <div class="error-section" id="error-invalid-ages">
+                    <h3>Idades Invalidas</h3>
+                    <ul class="invalid-ages-list">
+                        <li>Idade inválida na linha 5: 150</li>
+                        <li>Idade inválida na linha 5: 150</li>
+                        <li>Idade inválida na linha 5: 150</li>
+                    </ul>
+                </div>
+
+                <div class="error-section" id="error-invalid-types">
+                    <h3>Tipos de inscrição Inválidos</h3>
+                    <ul class="invalid-types-list">
+                        <li>Tipo inválido na linha 3: Normal</li>
+                        <li>Tipo inválido na linha 7: Normal</li>
+                        <li>Tipo inválido na linha 7: Normal</li>
+                        <li>Tipo inválido na linha 7: Normal</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <button class="prev-btn" id="prev-card-default">Voltar</button>
+        </div>
+
+
         <!-- Card de lista para inscrições do tipo grupo -->
         <div class="card-list-group">
-            <p>➤ Essas é a sua lista de pessoas que serão inscritas:</p>
-
+            <p></p>
                 <!-- Tabela para exibir os inscritos -->
             <div class="table-container">
                 <table>
@@ -220,6 +249,23 @@
             <p id="error-message">Mensagem de erro aqui...</p>
         </div>
     </div>
+
+    <div id="event-popup" class="popup hiddenEvent">
+    <div class="popup-content">
+        <div class="popup-header">
+            <img id="event-image" src="" alt="Imagem do Evento">
+            <h2 id="event-name"></h2>
+        </div>
+
+        <p>Deseja continuar fazendo inscrições para este evento ou selecionar outro?</p>
+
+        <div class="popup-buttons">
+            <button id="continue-button">Continuar</button>
+            <button id="change-button">Mudar Evento</button>
+        </div>
+    </div>
+    </div>
+
 
     <div class="loader-background">
         <div class="simple-loader"></div>

@@ -5,6 +5,7 @@ import { getEventList } from "../router/dataRoutes.js";
 const checkbox = document.querySelector("#chk");
 
 let accessToken = localStorage.getItem("accessToken");
+let eventList
 
 /**
  * Funções de Loader
@@ -27,8 +28,8 @@ function darkModeToggle() {
  */
 function PopUpError(title, message) { //Recebe dos parametros o titulo e a messagem para serem mostrados para o usuario. 
     const popUp = document.querySelector(".error-popup"),
-    titleError = document.querySelector("#error-title"),
-    messageError = document.querySelector("#error-message");
+        titleError = document.querySelector("#error-title"),
+        messageError = document.querySelector("#error-message");
 
     titleError.textContent = title;
     messageError.textContent = message;
@@ -36,7 +37,7 @@ function PopUpError(title, message) { //Recebe dos parametros o titulo e a messa
 }
 
 //Button de close do popUpError
-document.querySelector(".close-btn").addEventListener("click", () =>{
+document.querySelector(".close-btn").addEventListener("click", () => {
     const popUp = document.querySelector(".error-popup")
 
     popUp.classList.add("hiddenError");
@@ -51,7 +52,7 @@ function movimentPage() {
 
         li.addEventListener('click', () => {
             const span = li.querySelector(".tooltip"); // Encontra o span dentro do li
-            
+
             if (span && span.id) {
                 const pageId = span.id;
                 const pageURL = `${pageId}.html`;
@@ -116,7 +117,7 @@ async function tokenVerification() {
 function handleTokenError(status) {
     if (status === 401) {
         alert("Sua sessão expirou. Faça login novamente.");
-    } else if (status === 403) {
+    } else if (status === 401) {
         alert("Acesso negado. Token inválido.");
     } else {
         alert("Erro na autenticação. Faça login novamente.");
@@ -135,20 +136,140 @@ function logoutUser() {
     location.href = "loginManagement.html";
 }
 
+function checkPreviousEventSelection() {
+    const storedEvent = localStorage.getItem("selectedEvent");
+
+    if (!storedEvent) {
+        document.querySelector(".popup").classList.add("hiddenEvent");
+        return;
+    }
+
+    const eventSelected = JSON.parse(storedEvent);
+    const eventPopUp = document.querySelector(".popup");
+
+    eventPopUp.classList.remove("hiddenEvent");
+
+    const eventName = document.querySelector("#event-name");
+    const eventImage = document.querySelector("#event-image");
+
+    eventName.textContent = eventSelected.descricao;
+    eventImage.src = `../img/${eventSelected.descricao}.png`;
+}
+
+// Eventos do popup de evento selecionado anteriormente
+document.querySelector("#continue-button").addEventListener("click", () => {
+    document.querySelector(".popup").classList.add("hiddenEvent");
+    controlEvent(); // Mostra o card de inscrição se o evento estiver selecionado
+});
+
+document.querySelector("#change-button").addEventListener("click", () => {
+    localStorage.removeItem("eventSelected");
+    document.querySelector(".popup").classList.add("hiddenEvent");
+    controlEvent(); // Retorna à tela de seleção de eventos
+});
+
 async function createcardEvent() {
-    const eventList = await getEventList()
-    
-    console.log(eventList);
+    toggleLoader(true); // Ativa o loader
+
+    eventList = await getEventList();
+
+    const eventContainer = document.querySelector(".event-container");
+    eventContainer.innerHTML = ""; // Limpa o conteúdo anterior
+
+    Object.values(eventList).forEach(event => {
+        const eventgroup = document.createElement("div");
+        eventgroup.classList.add("event-group");
+
+        const eventHeader = document.createElement("div");
+        eventHeader.classList.add("event-header");
+
+        const img = document.createElement("img");
+        const imageName = event.descricao;
+        img.src = `../img/${imageName}.png`;
+        img.alt = `Evento ${event.id}`;
+
+        const eventInfo = document.createElement("div");
+        eventInfo.classList.add("event-info");
+
+        const h3 = document.createElement("h3");
+        h3.textContent = event.descricao;
+
+        const pDate = document.createElement("p");
+        const data = new Date(event.data_limite);
+        const dataformatted = data.toLocaleDateString('pt-BR')
+        pDate.textContent = `Data: ${dataformatted}`;
+
+        eventInfo.appendChild(h3);
+        eventInfo.appendChild(pDate);
+
+        eventHeader.appendChild(img);
+        eventHeader.appendChild(eventInfo);
+
+        const eventDetails = document.createElement("div");
+        eventDetails.classList.add("event-details");
+
+        event.tipo_inscricao.forEach(tipo => {
+            const p = document.createElement("p");
+            p.textContent = `${tipo.descricao}: R$ ${tipo.valor}`;
+            eventDetails.appendChild(p);
+        });
+
+        const button = document.createElement('button');
+        button.classList.add('select-event-btn');
+        button.textContent = 'Selecionar';
+        button.dataset.eventId = event.id;
+
+        button.addEventListener('click', () => {
+            const selectedEventId = event.id
+            const selectedEvent = {
+                id: event.id,
+                descricao: event.descricao
+            };
+
+            localStorage.setItem("selectedEvent", JSON.stringify(selectedEvent));
+            localStorage.setItem("selectedEventId", selectedEventId);
+            controlEvent();
+        });
+
+        // Monta todo o card
+        eventgroup.appendChild(eventHeader);
+        eventgroup.appendChild(eventDetails);
+        eventgroup.appendChild(button);
+
+        // Adiciona ao container
+        eventContainer.appendChild(eventgroup);
+    });
+    toggleLoader(false); // Desativa o loader
 }
 
-//controle de container para evento e inscricao
-const eventContainer = document.querySelector(".event-container"),
-enrollmentContainer = document.querySelector(".enrollment-container");
+function controlEvent() {
+    const eventcontainer = document.querySelector(".event-container");
+    const enrollmentContainer = document.querySelector(".enrollment-container");
 
-function controlContainer() {
-    
+    if (localStorage.getItem("selectedEvent")) {
+
+        eventcontainer.classList.remove("flex");
+        enrollmentContainer.classList.add("flex");
+    } else {
+        eventcontainer.classList.add("flex");
+        enrollmentContainer.classList.remove("flex");
+    }
 }
 
+document.querySelector("#close-enrollment-btn").addEventListener("click", () => {
+    localStorage.removeItem("selectedEventId");
+    localStorage.removeItem("selectedEvent");
+
+    // Limpa o campo de nome do responsável
+    const responsibleName = document.querySelector("#responsible-name");
+    responsibleName.value = "";
+
+    // Desmarca os radio buttons
+    const radioButtons = document.querySelectorAll('input[name="inscription"]');
+    radioButtons.forEach(radio => radio.checked = false);
+
+    controlEvent();
+});
 
 // Definindo os passos de inscrição
 const stepGroup = ['Dados', 'Lista', 'Confirmação'];
@@ -213,7 +334,8 @@ function updateStepsBasedOnSelection() {
 // Função que avança para o próximo passo
 async function nextStep() {
     if (currentStepIndex === -1) {
-        if (!selectedOption) return; // Impede avanço sem selecionar uma opção
+        const responsibleName = document.querySelector("#responsible-name").value;
+        if (!selectedOption || responsibleName === "") return; // Impede avanço sem selecionar uma opção
 
         // Define os passos com base no tipo de inscrição escolhido
         currentSteps = selectedOption.value === 'group' ? stepGroup : stepIndividual;
@@ -229,7 +351,7 @@ async function nextStep() {
     if (JSON.stringify(currentSteps) === JSON.stringify(stepGroup)) {
         if (currentStepIndex === 0) {
             // Exibe o card de "Grupo" (primeira etapa)
-            currentStepIndex++; 
+            currentStepIndex++;
             updateStepTitle();
             updateProgressSteps();
             updateCards();
@@ -267,6 +389,13 @@ function prevStep() {
     } else {
         currentStepIndex = -1; // Retorna ao card inicial
         titleStep.textContent = "Etapa 1: Tipo de Inscrição";
+
+        // Limpa a seleção do rádio button e o selectedOption
+        const radioButtons = document.querySelectorAll('input[name="inscription"]');
+        radioButtons.forEach(radio => radio.checked = false); // Desmarca todos os radio buttons
+
+        selectedOption = null; // Reseta a seleção
+
         updateProgressSteps();
         updateCards();
     }
@@ -279,7 +408,6 @@ function updateStepTitle() {
     }
 }
 
-// Atualiza as setas de progresso
 function updateProgressSteps() {
     progressContainer.innerHTML = ''; // Limpa os passos anteriores
 
@@ -289,10 +417,18 @@ function updateProgressSteps() {
     firstStep.setAttribute('data-step', '1');
     firstStep.innerHTML = '<p>Tipo de Inscrição</p>';
 
-    firstStep.classList.add(currentStepIndex === -1 ? 'active' : 'completed');
+    // Marca como active se estiver no card inicial
+    if (currentStepIndex === -1) {
+        firstStep.classList.add('active');
+        progressContainer.appendChild(firstStep);
+        return; // Não adiciona mais passos enquanto estiver no card-default
+    }
+
+    // Se já passou da escolha, mostra a primeira como completada
+    firstStep.classList.add('completed');
     progressContainer.appendChild(firstStep);
 
-    // Adiciona as demais etapas dinamicamente
+    // Adiciona as demais etapas com base nos passos atuais
     currentSteps.forEach((step, index) => {
         const stepDiv = document.createElement('div');
         stepDiv.classList.add('progress-step');
@@ -332,7 +468,6 @@ const fileInput = document.getElementById("file-upload");
 const fileNameDisplay = document.querySelector(".file-name");
 const uploadButton = document.querySelector(".upload-btn");
 
-let fileData = '';
 
 function handlesFileUpload(file) {
     if (file) {
@@ -380,10 +515,95 @@ fileInput.addEventListener("change", (event) => {
     }
 });
 
+function showErrorCard(response = {}) {
+    const errorCard = document.querySelector(".card-list-error");
+
+    const errorConfigs = [
+        {
+            key: 'missingData',
+            sectionId: '#error-missing-data',
+            listClass: '.missing-data-list',
+            getMenssages: item => item.field.map(field => `Falta de dados na linha ${item.row}: ${field}`)
+        },
+        {
+            key: 'invalidNames',
+            sectionId: '#error-duplicated-names',
+            listClass: '.duplicated-names-list',
+            getMenssages: item => [`Nome inválido ou duplicado na linha ${item.row}: ${item.name}`]
+        },
+        {
+            key: 'invalidBirthDates',
+            sectionId: '#error-invalid-ages',
+            listClass: '.invalid-ages-list',
+            getMenssages: item => [`Data de nascimento inválida na linha ${item.row}: ${item.field}`]
+        },
+        {
+            key: "invalidRegistrationTypes",
+            sectionId: "#error-invalid-types",
+            listClass: ".invalid-types-list",
+            getMenssages: item => [`Tipo de inscrição inválido na linha ${item.row}: ${item.field}`]
+        }
+    ];
+
+    let hasAnyError = false;
+
+    errorConfigs.forEach(({ key, sectionId, listClass, getMenssages }) => {
+        const section = document.querySelector(sectionId);
+        const list = document.querySelector(listClass);
+
+        //limpa a lista
+        list.innerHTML = "";
+        section.classList.remove("show");
+
+        const data = response[key];
+        if (Array.isArray(data) && data.length > 0) {
+            data.forEach(item => {
+                getMenssages(item).forEach(msg => {
+                    const li = document.createElement("li");
+                    li.textContent = msg;
+                    list.appendChild(li);
+                });
+            });
+
+            section.classList.add("show");
+            hasAnyError = true;
+        }
+    });
+
+    if (hasAnyError) {
+        hideAllCards();
+        errorCard.classList.add("show");
+        titleStep.textContent = "Erro no arquivo de inscrição";
+
+        const activeStep = document.querySelector('.progress-step.active');
+        if (activeStep) {
+            activeStep.classList.add('error'); // Marca a etapa ativa com erro
+        }
+    }
+};
+
+// Adiciona o listener apenas ao botão dentro do card de erro
+document.querySelector(".card-list-error #prev-card-default").addEventListener("click", () => {
+    const errorCard = document.querySelector(".card-list-error");
+    errorCard.classList.remove("show"); // Oculta o card de erro
+
+    // Remove destaque vermelho da etapa atual, se existir
+    const errorStep = document.querySelector(".progress-step.error");
+    if (errorStep) {
+        errorStep.classList.remove("error");
+    }
+
+    // Volta para o estado inicial
+    currentStepIndex = -1;
+    titleStep.textContent = "Etapa 1: Tipo de Inscrição";
+
+    updateProgressSteps();
+    updateCards();
+});
+
 function createList(inscriptions) {
     const tbody = document.querySelector("#list-table-body");
     tbody.innerHTML = "";  // Limpa o conteúdo da tabela antes de adicionar novos itens
-
     // Verifica se o array de inscrições existe e é um array
     if (Array.isArray(inscriptions)) {
         inscriptions.forEach((row, index) => {
@@ -403,50 +623,49 @@ function createList(inscriptions) {
 
 function structuringPaymenData(inscriptionCount, totais) {
     const formatCurrency = (value) =>
-      value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-  
+        value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
     // Mapeamento de nomes de chave para os labels da tabela e totais
     const map = {
-      isenta: { label: "Inscritos Isenta", totalKey: null },
-      normal: { label: "Inscritos Normais", totalKey: "totalNormal" },
-      meia: { label: "Inscritos Meia", totalKey: "totalMeia" },
-      participação: { label: "Inscritos Participantes", totalKey: "totalParticipação" },
-      serviço: { label: "Inscritos Serviço", totalKey: "totalServiço" }
+        normal: { label: "Inscritos Normais", totalKey: "totalNormal" },
+        meia: { label: "Inscritos Meia", totalKey: "totalMeia" },
+        participação: { label: "Inscritos Participantes", totalKey: "totalParticipação" },
+        serviço: { label: "Inscritos Serviço", totalKey: "totalServiço" }
     };
-  
+
     // Atualizar cada linha
     Object.entries(map).forEach(([key, { label, totalKey }]) => {
-      const item = Array.from(document.querySelectorAll('.detail-item')).find(
-        (el) => el.querySelector('.label')?.textContent.includes(label)
-      );
-  
-      if (item) {
-        const spans = item.querySelectorAll('.value');
-        const quantidade = inscriptionCount[key] || 0;
-        const valor = totalKey ? (totais[totalKey] || 0) : 0;
-  
-        spans[0].textContent = quantidade;
-        spans[1].textContent = formatCurrency(valor);
-      }
+        const item = Array.from(document.querySelectorAll('.detail-item')).find(
+            (el) => el.querySelector('.label')?.textContent.includes(label)
+        );
+
+        if (item) {
+            const spans = item.querySelectorAll('.value');
+            const quantidade = inscriptionCount[key] || 0;
+            const valor = totalKey ? (totais[totalKey] || 0) : 0;
+
+            spans[0].textContent = quantidade;
+            spans[1].textContent = formatCurrency(valor);
+        }
     });
-  
+
     // Total geral
     const totalItem = document.querySelector('.detail-item.total');
     if (totalItem) {
-      const totalInscritos = Object.values(inscriptionCount).reduce((acc, val) => acc + val, 0);
-      const totalValor = Object.values(totais).reduce((acc, val) => acc + val, 0);
-  
-      const spans = totalItem.querySelectorAll('.value');
-      spans[0].textContent = totalInscritos;
-      spans[1].textContent = formatCurrency(totalValor);
+        const totalInscritos = Object.values(inscriptionCount).reduce((acc, val) => acc + val, 0);
+        const totalValor = Object.values(totais).reduce((acc, val) => acc + val, 0);
+
+        const spans = totalItem.querySelectorAll('.value');
+        spans[0].textContent = totalInscritos;
+        spans[1].textContent = formatCurrency(totalValor);
     }
 }
-    
 
 /**
  * Passa o arquivo XLSX do usuario e passa para a API
  */
 async function sendFile() {
+    const eventSelectedId = localStorage.getItem("selectedEventId");
     const responsibleName = document.querySelector("#responsible-name").value
     const file = fileInput.files[0];
 
@@ -456,33 +675,44 @@ async function sendFile() {
     }
 
     try {
-        const response = await postFileRegister(responsibleName, file, accessToken);
-
-        if (response.status > 401) {
-            PopUpError("Erro no Upload", response.message || "Erro desconhecido");
-            setTimeout(()=>{
-                localStorage.removeItem("accessToken");
-                location.href = "loginManagement.html"
-            },3000)
-        }
-
-        // Verifica o status da resposta
-        if (response.status > 400) {
-            PopUpError("Erro no Upload", response.message || "Erro desconhecido");
-            return false;
-        }
-
-        // Exibe os dados no console para depuração
-        console.log(response);
-        // Passando diretamente response para a função createList
-        createList(response.data.inscription);
-        structuringPaymenData(response.data.inscriptionCount, response.data.totais)
+        const response = await postFileRegister(eventSelectedId, responsibleName, file, accessToken);
 
         fileInput.value = '';
         fileNameDisplay.classList.remove("users");
         fileNameDisplay.textContent = 'Nenhum arquivo selecionado';
+        uploadButton.disabled = true;
 
-        // Caso o upload tenha sido bem-sucedido, avança para o próximo passo
+        if (response.status === 401) {
+            console.log("Token expirado. Tentando obter um novo...");
+
+            const newTokens = await refreshAccessToken();
+
+            if (newTokens?.accessToken) {
+                localStorage.setItem("accessToken", newTokens.accessToken);
+                accessToken = newTokens.accessToken; // Atualiza o token atual
+                return sendFile(); // Tenta enviar o arquivo novamente com o novo token
+            } else {
+                PopUpError("Erro no Upload", "Não foi possível obter um novo token de acesso.");
+                return false;
+            }
+        }
+
+        // Verifica o status da resposta
+        if (response.status === 400) {
+            PopUpError("Erro no Upload", response.message || "Erro desconhecido");
+            return false;
+        }
+
+        console.log(response.data)
+        // verifica se a api retornou dados errados
+        if (response.data.errors && Object.keys(response.data.errors).length > 0) {
+            PopUpError("Dados Inválidos", "O arquivo enviado contém dados inválidos. Verifique os seguintes erros");
+            showErrorCard(response.data.errors);
+            return false;
+        }
+        
+
+        //Caso o upload tenha sido bem-sucedido, avança para o próximo passo
         nextStep();
 
         return true;
@@ -497,25 +727,19 @@ async function sendFile() {
 
 // Evento de click no botão de upload
 document.querySelector(".upload-btn").addEventListener("click", async (event) => {
-    event.preventDefault(); // Impede que o evento do botão envie o formulário ou cause múltiplas navegações
-    
-    // Desabilita o botão para evitar múltiplos envios
+    event.preventDefault();
     uploadButton.disabled = true;
 
-    // Chama a função sendFile que agora inclui a navegação para o próximo passo
-    const fileUploaded = await sendFile(); 
+    const fileUploaded = await sendFile();
 
-    // Caso o upload tenha sido bem-sucedido, o próximo passo será chamado dentro do sendFile
-    if (!fileUploaded) {
-        // Reabilita o botão em caso de erro para que o usuário tente novamente
-        uploadButton.disabled = false;
-    }
 });
 
 // Inicializa a página
 async function init() {
     darkModeToggle();
     await tokenVerification();
+    checkPreviousEventSelection();
+    controlEvent();
     createcardEvent()
     movimentPage();
 

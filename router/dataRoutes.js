@@ -86,6 +86,7 @@ export async function getEventList() {
                 id: event.id,
                 descricao: event.descricao,
                 data_limite: event.data_limite,
+                tipo_inscricao: event.tipo_inscricao,
             };
         });
         return events;

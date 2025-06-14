@@ -1,9 +1,10 @@
 const apiUrl = "https://api-inscri-o.vercel.app";
 
-export async function postFileRegister(responsible, file, token) {
+export async function postFileRegister(eventId, responsible, file, token) {
     try {
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("eventSelectedId", eventId);
         formData.append("responsible", responsible)
 
         const response = await fetch(`${apiUrl}/register/upload-file`, {
@@ -16,12 +17,10 @@ export async function postFileRegister(responsible, file, token) {
 
         const responseData = await response.json();
 
-        // Se a resposta for bem-sucedida, retorna o corpo e o status
-        if (response.ok) {
-            return { data: responseData, status: response.status };
+        if(response.ok) {
+            return {data: responseData, status: response.status}
         } else {
-            // Se a resposta não for bem-sucedida, retorna a mensagem de erro e o status
-            return { message: responseData.message, status: response.status };
+            return {message: responseData.message, status: response.status}
         }
     } catch (error) {
         console.log("Erro ao enviar o arquivo:", error);

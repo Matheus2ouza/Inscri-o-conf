@@ -1,0 +1,265 @@
+
+/* ============================
+   VARIÁVEIS E RESET GLOBAL
+============================= */
+:root {
+    --primary: #3A404A;
+    --primary-light: #555b66;
+    --secondary: #FFC107;
+    --error: #D32F2F;
+    --success: #4CAF50;
+    --bg: #F5F7FA;
+    --text: #212121;
+    --white: #FFFFFF;
+    --gray: #B0BEC5;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* ============================
+   NAVEGAÇÃO E TOPO
+============================= */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--primary);
+    color: var(--white);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+nav h1 {
+    font-size: 1.5rem;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* ============================
+   BARRA LATERAL
+============================= */
+.sidebar-navigation {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    height: 100%;
+    width: 70px;
+    background: var(--primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    z-index: 9;
+}
+
+.sidebar-navigation ul {
+    list-style: none;
+    width: 100%;
+}
+
+.sidebar-navigation li {
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    color: var(--white);
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.sidebar-navigation li.active,
+.sidebar-navigation li:hover {
+    background-color: var(--primary-light);
+}
+
+.tooltip {
+    display: block;
+    font-size: 0.75rem;
+    margin-top: 4px;
+}
+
+/* ============================
+   CONTAINERS E CARDS
+============================= */
+.enrollment-container {
+    margin-left: 90px;
+    padding: 2rem;
+}
+
+.card-default,
+.card-inscription-unique,
+.card-inscription-group,
+.card-list-group,
+.card-confirmation,
+.card-list-error {
+    display: none;
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+    transition: all 0.3s ease;
+}
+
+.show {
+    display: block;
+}
+
+/* ============================
+   BOTOES
+============================= */
+button {
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--primary-light);
+}
+
+button:disabled {
+    background-color: var(--gray);
+    cursor: not-allowed;
+}
+
+/* ============================
+   UPLOAD
+============================= */
+.upload-container {
+    border: 2px dashed var(--gray);
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    background: #f0f4f8;
+    transition: 0.3s;
+}
+
+.upload-container.drag-over {
+    background-color: #e1f5fe;
+    border-color: var(--secondary);
+}
+
+.file-name.users {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* ============================
+   TABELA
+============================= */
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+th {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+/* ============================
+   PROGRESSO
+============================= */
+.progress-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+    position: fixed;
+    top: 70px;
+    z-index: 7;
+}
+
+.progress-step {
+    position: relative;
+    height: 60px;
+    width: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    color: var(--white);
+    font-weight: 600;
+    cursor: pointer;
+    clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%);
+    border: 3px solid var(--primary);
+    transition: all 0.3s ease;
+}
+
+.progress-step p {
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.progress-step.active {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    color: var(--text);
+}
+
+.progress-step.error {
+    background: var(--error);
+    border-color: var(--error);
+}
+
+.progress-step.completed {
+    background: var(--success);
+    border-color: var(--success);
+}
+
+.progress-step.pending {
+    opacity: 0.5;
+}
+
+/* ============================
+   CARD DE ERRO
+============================= */
+.card-list-error {
+    border-left: 6px solid var(--error);
+}
+
+.card-list-error h3 {
+    margin-top: 1rem;
+    color: var(--error);
+}
+
+.card-list-error ul {
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+}
+
+.card-list-error li {
+    margin-bottom: 0.25rem;
+}
