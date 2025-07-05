@@ -65,6 +65,10 @@
       "dest": "/page/documentation.html"
     },
     {
+      "src": "/localidades",
+      "dest": "/page/locality.html"
+    },
+    {
       "src": "/style/(.*)",
       "dest": "/style/$1"
     },

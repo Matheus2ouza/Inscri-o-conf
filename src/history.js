@@ -19,6 +19,9 @@ const DOM = {
 
     // Loader
     loader: document.getElementById('loader'),
+
+    //logout
+    logoutBtn: document.getElementById('logout-btn')
 };
 
 function init() {

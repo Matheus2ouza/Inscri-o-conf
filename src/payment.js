@@ -32,7 +32,8 @@ const DOM = {
     loader: document.getElementById('loader'),
     menuToggle: document.getElementById('menu-toggle'),
     overlay: document.getElementById('overlay'),
-    sidebar: document.getElementById('sidebar')
+    sidebar: document.getElementById('sidebar'),
+    logoutBtn: document.getElementById('logout-btn')
 };
 
 function init() {

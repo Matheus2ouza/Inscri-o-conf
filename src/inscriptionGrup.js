@@ -53,7 +53,10 @@ const DOM = {
     loader: document.getElementById('loader'),
 
     // Progress
-    progressSteps: document.querySelectorAll('.progress-step')
+    progressSteps: document.querySelectorAll('.progress-step'),
+
+    //logout
+    logoutBtn: document.getElementById('logout-btn')
 };
 
 // Current step

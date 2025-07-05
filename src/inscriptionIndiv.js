@@ -71,7 +71,10 @@ const DOM = {
     stepTitle: document.getElementById('step-title'),
 
     // Loader
-    loader: document.getElementById('loader')
+    loader: document.getElementById('loader'),
+
+    //logout
+    logoutBtn: document.getElementById('logout-btn')
 };
 
 // Current step
