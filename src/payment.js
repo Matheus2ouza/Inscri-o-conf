@@ -59,7 +59,7 @@ async function tokenVerification() {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
         showErrorMessage("Acesso Negado", "Você precisa estar logado para acessar esta página.");
-        logoutUser();
+        Disconnect()
         return;
     }
 
@@ -67,14 +67,14 @@ async function tokenVerification() {
         const result = await verifyToken(accessToken);
         if (result.error) {
             showErrorMessage("Token Inválido", result.error);
-            logoutUser();
+            Disconnect()
             return;
         }
         loadRegisteredSubscription();
     } catch (error) {
         console.error("Erro ao verificar token:", error);
         showErrorMessage("Erro de Autenticação", "Ocorreu um erro ao verificar seu token. Por favor, faça login novamente.");
-        logoutUser();
+        Disconnect()
     }
 }
 
@@ -142,7 +142,7 @@ async function loadRegisteredSubscription() {
 
         if (response.status === 401) {
             showErrorMessage("Sessão expirada", "Sua sessão expirou. Por favor, faça login novamente.");
-            logoutUser();
+            Disconnect()
             return;
         }
 
@@ -474,7 +474,7 @@ async function handlePaymentSubmit(e) {
 
         if (!accessToken) {
             showErrorMessage("Acesso Negado", "Você precisa estar logado para acessar esta página.");
-            logoutUser();
+            Disconnect()
             return;
         }
 
@@ -484,7 +484,7 @@ async function handlePaymentSubmit(e) {
 
         if (result.status === 401) {
             showErrorMessage("Sessão expirada", "Sua sessão expirou. Por favor, faça login novamente.");
-            logoutUser();
+            Disconnect()
             return
         }
 
@@ -527,6 +527,10 @@ async function handlePaymentSubmit(e) {
     } finally {
         hideLoader();
     }
+}
+
+function Disconnect() {
+  location.href = 'https://inscri-o-conf.vercel.app/'
 }
 
 function updateSubscriptionUI() {

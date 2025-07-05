@@ -54,7 +54,7 @@ async function tokenVerification() {
 
   if (!accessToken) {
     showErrorMessage("Acesso Negado", "Você precisa estar logado para acessar esta página.");
-    logoutUser();
+    Disconnect()
     return;
   }
 
@@ -63,13 +63,13 @@ async function tokenVerification() {
 
     if (result.error) {
       showErrorMessage("Token Inválido", result.error);
-      logoutUser();
+      Disconnect()
       return
     }
   } catch (error) {
     console.error("Erro ao verificar token:", error);
     showErrorMessage("Erro de Autenticação", "Ocorreu um erro ao verificar seu token. Por favor, faça login novamente.");
-    logoutUser();
+    Disconnect()
     return;
   } finally {
     hideLoader();
@@ -88,6 +88,10 @@ function logoutUser() {
       location.href = "https://inscri-o-conf.vercel.app/";
     }, 1500);
   }
+}
+
+function Disconnect() {
+  location.href = 'https://inscri-o-conf.vercel.app/'
 }
 
 function showLoader() {

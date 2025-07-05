@@ -110,7 +110,7 @@ async function tokenVerification() {
 
     if (!accessToken) {
         showErrorMessage("Acesso Negado", "Você precisa estar logado para acessar esta página.");
-        logoutUser();
+        Disconnect()
         return;
     }
 
@@ -119,13 +119,13 @@ async function tokenVerification() {
 
         if(result.error) {
             showErrorMessage("Token Inválido", result.error);
-            logoutUser();
+            Disconnect()
             return
         }
     }catch (error) {
         console.error("Erro ao verificar token:", error);
         showErrorMessage("Erro de Autenticação", "Ocorreu um erro ao verificar seu token. Por favor, faça login novamente.");
-        logoutUser();
+        Disconnect()
         return;
     }
 }
@@ -403,7 +403,8 @@ async function uploadFile() {
         const token = localStorage.getItem('accessToken');
         
         if (!token) {
-            throw new Error('Usuário não autenticado');
+            showErrorMessage('Usuario não Autenticado', 'Redirecionando para o login')
+            Disconnect();
         }
 
         const response = await postFileRegister(
@@ -418,7 +419,7 @@ async function uploadFile() {
         if (response.error) {
             if (response.status === 401) {
                 showErrorMessage("Sessão expirada", "Sua sessão expirou. Por favor, faça login novamente.");
-                logoutUser();
+                Disconnect();
                 return;
             }
 
@@ -575,7 +576,7 @@ async function confirmRegistration() {
         const token = localStorage.getItem('accessToken');
         if (!token) {
             showErrorMessage("Erro de Autenticação", "Você precisa estar logado para confirmar a inscrição.");
-            logoutUser();
+            Disconnect()
             return;
         }
         const eventSelectedId = state.selectedEvent.id;
@@ -586,7 +587,7 @@ async function confirmRegistration() {
 
         if (response.status === 401) {
             showErrorMessage("Sessão expirada", "Sua sessão expirou. Por favor, faça login novamente.");
-            logoutUser();
+            Disconnect()
             return;
         }
 
@@ -613,6 +614,10 @@ async function confirmRegistration() {
     } finally {
         hideLoader();
     }
+}
+
+function Disconnect() {
+  location.href = 'https://inscri-o-conf.vercel.app/'
 }
 
 function logoutUser() {

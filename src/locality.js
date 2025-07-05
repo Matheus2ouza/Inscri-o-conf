@@ -251,7 +251,7 @@ function redirectToLogin(message) {
 
 function logoutUser() {
   localStorage.removeItem("accessToken");
-  location.href = "loginManagement.html";
+  location.href = "https://inscri-o-conf.vercel.app/";
 }
 
 // Carregar localidades
