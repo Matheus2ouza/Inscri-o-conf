@@ -15,6 +15,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "router/**/*.js",
+      "use": "@vercel/static"
+    },
+    {
       "src": "img/**/*",
       "use": "@vercel/static"
     },
