@@ -79,7 +79,6 @@ function logoutUser() {
   
   if (confirmed) {
     localStorage.removeItem("accessToken");
-    showSuccessMessage("Logout realizado", "Você saiu do sistema com sucesso!");
     
     // Redireciona após um breve delay
     setTimeout(() => {

@@ -79,7 +79,6 @@ function logoutUser() {
   
   if (confirmed) {
     localStorage.removeItem("accessToken");
-    showSuccessMessage("Logout realizado", "Você saiu do sistema com sucesso!");
     
     // Redireciona após um breve delay
     setTimeout(() => {
@@ -87,7 +86,6 @@ function logoutUser() {
     }, 1500);
   }
 }
-
 function showLoader() {
   if (DOM.loader) {
     DOM.loader.style.display = 'flex';

@@ -159,12 +159,12 @@ function setupNavigation() {
     });
   });
 }
+
 function setupLogoutButton() {
   if (DOM.logoutBtn) {
     DOM.logoutBtn.addEventListener('click', logoutUser);
   }
 }
-
 
 function formatBirthDate() {
     let value = DOM.birthDate.value.replace(/\D/g, '');
@@ -552,7 +552,6 @@ function logoutUser() {
   
   if (confirmed) {
     localStorage.removeItem("accessToken");
-    showSuccessMessage("Logout realizado", "Você saiu do sistema com sucesso!");
     
     // Redireciona após um breve delay
     setTimeout(() => {
