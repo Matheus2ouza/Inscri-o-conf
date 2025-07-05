@@ -2,7 +2,7 @@ const apiUrl = 'https://api-inscri-o.vercel.app'
 
 export async function getLocations() {
     try {
-        const response = await fetch(`${apiUrl}/dados/localidades`);
+        const response = await fetch(`${apiUrl}/data/localidades`);
 
         if (!response.ok) {
             throw new Error(`Erro ao buscar localidades: ${response.status} ${response.statusText}`);
@@ -12,10 +12,10 @@ export async function getLocations() {
 
         // Transforma o array de localidades em um objeto
         return data.reduce((cities, city) => {
-            cities[city.id] = { 
+            cities[city.id] = {
                 id: city.id,
-                nome: city.nome, 
-                saldoDevedor: city.saldo_devedor 
+                nome: city.nome,
+                saldoDevedor: city.saldo_devedor
             };
             return cities;
         }, {});
@@ -30,7 +30,7 @@ export async function getDatalocations() {
     let registrations = {};
 
     try {
-        const response = await fetch(`${apiUrl}/dados/inscricaoData`);
+        const response = await fetch(`${apiUrl}/data/inscricaoData`);
 
         if (!response.ok) {
             throw new Error(`Erro ao buscar as inscrições: ${response.status} ${response.statusText}`);
@@ -72,26 +72,51 @@ export async function getDatalocations() {
 
 export async function getEventList() {
     try {
-        const response = await fetch(`${apiUrl}/dados/eventos`);
+        const response = await fetch(`${apiUrl}/data/eventos`);
 
         if (!response.ok) {
             throw new Error(`Erro ao buscar eventos: ${response.status} ${response.statusText}`);
         }
+
         const data = await response.json();
-        const events = {};
-        
-        data.forEach(event => {
-            const eventId = event.id;
-            events[eventId] = {
-                id: event.id,
-                descricao: event.descricao,
-                data_limite: event.data_limite,
-                tipo_inscricao: event.tipo_inscricao,
-            };
-        });
+
+        const events = data.map(event => ({
+            id: event.id,
+            descricao: event.descricao,
+            data_limite: event.data_limite,
+            tipo_inscricao: event.tiposInscricao,
+        }));
+
         return events;
-    }catch (error) {
+
+    } catch (error) {
         console.error(`Erro ao buscar eventos: ${error.message}`);
-        return null; // Retorna `null` em caso de erro
+        return null;
     }
-};
+}
+
+export async function getListRegister(token) {
+    try {
+        const response = await fetch(`${apiUrl}/register/list-register`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+
+        const list = await response.json();
+
+        return {
+            status: response.status,
+            ...list
+        }
+
+    } catch (error) {
+        console.error("Erro ao confirmar inscrição:", error);
+        return {
+            success: false,
+            message: "Erro de rede ou servidor fora do ar.",
+            details: error.message
+        };
+    }
+}

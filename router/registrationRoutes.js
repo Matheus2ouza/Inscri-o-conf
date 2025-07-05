@@ -5,9 +5,9 @@ export async function postFileRegister(eventId, responsible, file, token) {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("eventSelectedId", eventId);
-        formData.append("responsible", responsible)
+        formData.append("responsible", responsible);
 
-        const response = await fetch(`${apiUrl}/register/upload-file`, {
+        const response = await fetch(`${apiUrl}/register/register-group`, {
             method: 'POST',
             headers: {
                 "Authorization": `Bearer ${token}`
@@ -17,105 +17,148 @@ export async function postFileRegister(eventId, responsible, file, token) {
 
         const responseData = await response.json();
 
-        if(response.ok) {
-            return {data: responseData, status: response.status}
-        } else {
-            return {message: responseData.message, status: response.status}
+        if (!response.ok) {
+            // Retorna erro com status e mensagem vinda do backend
+            return {
+                error: true,
+                status: response.status,
+                message: responseData.message || "Erro desconhecido",
+                errors: responseData.errors || null
+            };
         }
+
+        return responseData;
     } catch (error) {
-        console.log("Erro ao enviar o arquivo:", error);
-        return { error: error.message, status: 500 };
+        console.error("Erro ao enviar o arquivo:", error);
+        return {
+            error: true,
+            message: "Erro de rede ou servidor fora do ar.",
+            details: error.message
+        };
     }
 }
 
-
-export async function registrarInscricao(registrationData) {
+export async function confirmRegister(eventSelectedId, uniqueId, token) {
     try {
-        const response = await fetch(`${apiUrl}/registro`, {
+        const response = await fetch(`${apiUrl}/register/confirm-group`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(registrationData),
-        });
-
-        const responseData = await response.json(); // Converte a resposta JSON
-
-        // Retorna o responseData e o response
-        return { data: responseData, status: response.status };
-
-    } catch (error) {
-        console.error('Erro ao fazer a requisição:', error); // Log do erro de requisição
-        return { data: null, status: 500 }; // Retorna status de erro
-    }
-};
-
-export async function registrarInscricaoServ(registrationData) {
-    try {
-        const response = await fetch(`${apiUrl}/registroServ`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(registrationData),
-        });
-
-        const responseData = await response.json(); // Converte a resposta JSON
-
-        console.log('Resposta da inscrição:', responseData, 'Status:', response.status);
-        return { data: responseData, status: response.status }; // Retorna tanto os dados quanto o status da resposta
-
-    } catch (error) {
-        console.error('Erro ao fazer a requisição:', error); // Log do erro de requisição
-        return { data: null, status: 500 }; // Retorna status de erro genérico
-    }
-};
-
-export async function registrarInscricaoJovem(registrationData) {
-    try {
-        const response = await fetch(`${apiUrl}/registroJovem`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(registrationData),
-        });
-
-        const responseData = await response.json(); // Converte a resposta JSON
-
-        console.log('Resposta da inscrição:', responseData, 'Status:', response.status);
-        return { data: responseData, status: response.status }; // Retorna tanto os dados quanto o status da resposta
-
-    } catch (error) {
-        console.error('Erro ao fazer a requisição:', error); // Log do erro de requisição
-        return { data: null, status: 500 }; // Retorna status de erro genérico
-    }
-}
-
-
-
-export async function registrarHospedagem(idInscricao, listaNomesHospedagem) {
-    try {
-        const response = await fetch(`${apiUrl}/hospedagem`, {
-            method: 'POST',
-            headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id_inscricao: idInscricao,
-                nomes_hospedagem: listaNomesHospedagem
+                eventSelectedId: eventSelectedId,
+                uniqueId: uniqueId
             })
         });
 
-        console.log('Status da Hospedagem:', response.status);
-        return response.status; // Retorna apenas o status da requisição
+        const responseData = await response.json();
+        return {
+            status: response.status,
+            ...responseData
+        };
     } catch (error) {
-        console.error('Erro ao registrar hospedagem:', error);
-        return 500; // Retorna erro genérico se falhar
+        console.error("Erro ao confirmar inscrição:", error);
+        return {
+            success: false,
+            message: "Erro de rede ou servidor fora do ar.",
+            details: error.message
+        };
     }
 }
 
-//FUNCOES PARA A TELA DE REGISTROS DE PAGAMENTOS
+export async function postIndividualRegister(data, eventSelectedId, token, responsible) {
+    try {
+        const response = await fetch(`${apiUrl}/register/register-unique`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ...data,
+                responsible: responsible,
+                eventSelectedId: eventSelectedId
+            })
+        });
+
+        const result = await response.json()
+        return {
+            status: response.status,
+            ...result
+        }
+        
+    }catch (error) {
+        console.error("Erro ao registrar inscrição individual:", error);
+        return {
+            success: false,
+            message: "Erro de rede ou servidor fora do ar.",
+            details: error.message
+        };
+    }
+}
+
+export async function confirmRegisterUnique(eventSelectedId, uniqueId, token) {
+    try {
+        const response = await fetch(`${apiUrl}/register/confirm-unique`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                eventSelectedId: eventSelectedId,
+                uniqueId: uniqueId
+            })
+        })
+
+        const result = await response.json()
+
+        return {
+            status: response.status,
+            ...result
+        }
+    } catch (error) {
+        console.error("Erro ao registrar inscrição individual:", error);
+        return {
+            success: false,
+            message: "Erro de rede ou servidor fora do ar.",
+            details: error.message
+        };
+    }
+}
+
+export async function registerPayment(paymenteFile, valuePaid, registrationDetailsId, token) {
+    const formData = new FormData();
+    formData.append("paymenteFile", paymenteFile);
+    formData.append("valuePaid", valuePaid);
+    formData.append("registrationDetailsId", registrationDetailsId);
+
+    try{
+        const response = await fetch(`${apiUrl}/payment/upload-payment`,{
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        })
+
+        const result = await response.json()
+
+        return {
+            status: response.status,
+            ...result
+        }
+    }catch (error) {
+        console.error("Erro ao registrar o comprovante:", error);
+        return {
+            success: false,
+            message: "Erro de rede ou servidor fora do ar.",
+            details: error.message
+        };
+    }
+}
+
 export async function registrarInscricaoAvulsa(paymenteData) {
     try {
         // Faz a requisição para registrar a inscrição avulsa

@@ -7,52 +7,106 @@ export async function postLogin(dataUser) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            credentials: 'include', // Garante que cookies de autenticação sejam enviados junto à requisição
-            body: JSON.stringify(dataUser) // Converte o objeto `dataUser` em JSON antes de enviar
+            credentials: 'include',
+            body: JSON.stringify(dataUser)
         });
 
         const result = await response.json();
 
         if (!response.ok) {
-            throw new Error(result.message || `Erro ${response.status}`); // Lança um erro caso a resposta não seja bem-sucedida
+            return result
         }
-        
+
         return {
-            status: response.status,  
+            status: response.status,
             message: result.message,
-            accessToken: result.accessToken // Retorna o token de acesso, caso exista
+            accessToken: result.accessToken,
+            role: result.role
         };
 
-    } catch (error) { 
+    } catch (error) {
         console.error('Erro na requisição:', error); // Registra o erro no console
         throw error; // Relança o erro para que possa ser tratado externamente
     }
 };
 
-export async function postRegister(dataRegister) {
+export async function postActive(datalocality, token) {
     try {
-        const response = await fetch(`${apiUrl}/user/register`, {
+        const response = await fetch(`${apiUrl}/locality/activeLocality`, {
             method: 'POST',
             headers: {
+                "Authorization": `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dataRegister) // Converte o objeto `dataRegister` em JSON antes de enviar
+            body: JSON.stringify(datalocality)
         });
 
         const result = await response.json();
 
-        return {
-            status: response.status,
-            message: result.message // Retorna a mensagem da API, que pode indicar sucesso ou erro
-        };
+        if (!response.ok) {
+            return {
+                success: false,
+                message: result.message || `Erro ${response.status}: ${response.statusText}`
+            };
+        }
+
+        return result;
+
     } catch (error) {
-        console.error('Erro na requisição:', error); // Registra o erro no console para depuração
-        
+        console.error('Erro na requisição:', error);
         return {
-            status: 500, // Retorna um status genérico de erro interno caso a requisição falhe
-            message: 'Erro interno ao processar a requisição.'
+            success: false,
+            message: 'Erro de conexão com o servidor'
         };
     }
+}
+
+export async function postDeactivated(locality, token) {
+    try {
+        const response = await fetch(`${apiUrl}/locality/deactivated`, {
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(locality)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            return {
+                success: false,
+                message: result.message || `Erro ${response.status}: ${response.statusText}`
+            };
+        }
+
+        return result;
+
+    } catch (error) {
+        console.error('Erro na requisição:', error);
+        return {
+            success: false,
+            message: 'Erro de conexão com o servidor'
+        };
+    }
+}
+
+export async function getLocality(token) {
+    try {
+        const response = await fetch(`${apiUrl}/locality/ListLocality`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        return response
+    } catch (error) {
+        console.log(`Erro ao buscar a lista de localidades: ${error}`);
+    }
+
 }
 
 export async function postEmailToken(token) {
@@ -73,7 +127,7 @@ export async function postEmailToken(token) {
         };
     } catch (error) {
         console.error('Erro na requisição:', error); // Registra o erro no console para depuração
-        
+
         return {
             status: 500, // Retorna um status genérico de erro interno caso a requisição falhe
             message: 'Erro interno ao processar a requisição.'
@@ -86,42 +140,27 @@ export async function verifyToken(token) {
         const response = await fetch(`${apiUrl}/user/verify-token`, {
             method: "GET",
             headers: {
-                "Authorization": `Bearer ${token}` // Envia o token de autenticação no cabeçalho
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
             }
         });
 
-        const result = await response.json();
+        const result = await response.json().catch(() => ({})); // Evita falha no JSON caso response seja vazio ou malformado
 
         if (!response.ok) {
-            return { error: result.message, status: response.status }; // Retorna erro e status caso a resposta não seja bem-sucedida
+            return {
+                error: result?.message || "Erro ao verificar o token",
+                status: response.status
+            };
         }
 
-        return result; // Retorna os dados da API em caso de sucesso
+        return result; // { message, id, nome, role, ... }
     } catch (error) {
-        console.error("Erro ao verificar o token:", error); // Registra o erro no console
-        
-        return { error: "Erro ao verificar o token", status: 500 }; // Retorna erro genérico em caso de falha na requisição
-    }
-}
+        console.error("Erro ao verificar o token:", error);
 
-export async function refreshAccessToken() {
-    try {
-        const response = await fetch(`${apiUrl}/user/refresh-token`, {
-            method: "POST",
-            credentials: "include", // Garante que o cookie de refreshToken seja enviado automaticamente
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Falha ao renovar o token"); // Lança um erro caso a requisição falhe
-        }
-
-        return await response.json(); // Retorna o novo accessToken em caso de sucesso
-    } catch (error) {
-        console.error("Erro ao renovar o token:", error); // Registra o erro no console
-        
-        return null; // Retorna `null` caso a renovação falhe
+        return {
+            error: "Erro ao verificar o token",
+            status: 500
+        };
     }
 }

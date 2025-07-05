@@ -1,113 +1,105 @@
-import { verifyToken, refreshAccessToken } from "../router/authRoutes.js";
+import { verifyToken } from '../router/authRoutes.js';
+import { NotificationSystem } from './notification.js';
 
-const checkbox = document.querySelector("#chk");
+// Inicialize o sistema de notificações:
+const notificationSystem = new NotificationSystem();
 
-function movimentPage() {
-    document.querySelectorAll(".sidebar-navigation li").forEach(li => {
-        li.style.cursor = "pointer";
-
-        li.addEventListener('click', () => {
-            const span = li.querySelector(".tooltip"); // Encontra o span dentro do li
-            
-            if (span && span.id) {
-                const pageId = span.id;
-                const pageURL = `${pageId}.html`;
-
-                // Verifica se a página existe antes de redirecionar
-                fetch(pageURL, { method: 'HEAD' })
-                    .then(res => {
-                        if (res.ok) {
-                            window.location.href = pageURL;
-                        } else {
-                            console.error(`Página não encontrada: ${pageURL}`);
-                            alert('Página não encontrada!');
-                        }
-                    })
-                    .catch(() => {
-                        console.error(`Erro ao tentar acessar: ${pageURL}`);
-                        alert('Erro ao tentar acessar a página!');
-                    });
-            } else {
-                console.error("ID do span não encontrado.");
-                alert('Página inválida!');
-            }
-        });
-    });
+// State object to store application data
+const state = {
+  events: [],
+  selectedEvent: null,
+  uploadResponse: [],
+  participants: [],
+  registrationType: null,
+  errors: []
 };
 
-/**
- * Ativa ou desativa o modo escuro.
- */
-function darkModeToggle() {
-    checkbox.addEventListener("change", () => {
-        document.body.classList.toggle("dark-mode");
+// DOM Elements
+const DOM = {
+
+    // Loader
+    loader: document.getElementById('loader'),
+};
+
+function init() {
+  tokenVerification();
+  setupNavigation();
+  setupMaintenanceAnimations();
+}
+
+function setupNavigation() {
+  document.querySelectorAll(".sidebar-navigation li").forEach(li => {
+    li.addEventListener('click', () => {
+      const span = li.querySelector(".tooltip");
+      if (span && span.id) {
+        window.location.href = `${span.id}.html`;
+      }
     });
+  });
 }
 
-/**
- * Verifica a validade do token de acesso.
- */
 async function tokenVerification() {
-    let accessToken = localStorage.getItem("accessToken");
+  showLoader();
+  const accessToken = localStorage.getItem('accessToken');
 
-    if (!accessToken) {
-        redirectToLogin("Token não encontrado. Faça login novamente.");
-        return;
-    }
-
-    try {
-        let result = await verifyToken(accessToken);
-
-        if (result.error) {
-            if (result.status === 401) {
-                console.log("Token expirado. Tentando obter um novo...");
-
-                const newTokens = await refreshAccessToken();
-
-                if (newTokens?.accessToken) {
-                    localStorage.setItem("accessToken", newTokens.accessToken);
-                    console.log("Novo accessToken obtido com sucesso!");
-                    return;
-                }
-            }
-
-            handleTokenError(result.status);
-        }
-    } catch (error) {
-        console.error("Erro ao verificar o token:", error);
-        redirectToLogin("Erro ao verificar sua sessão. Faça login novamente.");
-    }
-}
-
-function handleTokenError(status) {
-    if (status === 401) {
-        alert("Sua sessão expirou. Faça login novamente.");
-    } else if (status === 403) {
-        alert("Acesso negado. Token inválido.");
-    } else {
-        alert("Erro na autenticação. Faça login novamente.");
-    }
-
+  if (!accessToken) {
+    showErrorMessage("Acesso Negado", "Você precisa estar logado para acessar esta página.");
     logoutUser();
-}
+    return;
+  }
 
-function redirectToLogin(message) {
-    alert(message);
+  try {
+    const result = await verifyToken(accessToken);
+
+    if (result.error) {
+      showErrorMessage("Token Inválido", result.error);
+      logoutUser();
+      return
+    }
+  } catch (error) {
+    console.error("Erro ao verificar token:", error);
+    showErrorMessage("Erro de Autenticação", "Ocorreu um erro ao verificar seu token. Por favor, faça login novamente.");
     logoutUser();
+    return;
+  } finally {
+    hideLoader();
+  }
 }
 
 function logoutUser() {
-    localStorage.removeItem("accessToken");
-    location.href = "https://inscri-o-conf.vercel.app/";
+  localStorage.removeItem("accessToken");
+  location.href = "loginManagement.html";
 }
 
-/**
- * Inicializa a página.
- */
-async function init() {
-    darkModeToggle();
-    await tokenVerification();
-    movimentPage();
+function showLoader() {
+  DOM.loader.classList.add('show');
 }
 
-document.addEventListener("DOMContentLoaded", init);
+function hideLoader() {
+  DOM.loader.classList.remove('show');
+}
+
+function showSuccessMessage(title, message) {
+  notificationSystem.showNotification('success', title, message);
+}
+
+function showErrorMessage(title, message) {
+  notificationSystem.showNotification('error', title, message);
+}
+
+function setupMaintenanceAnimations() {
+    // Animação adicional para o ícone de manutenção
+    const maintenanceIcon = document.querySelector('.maintenance-icon');
+    
+    if (maintenanceIcon) {
+        setInterval(() => {
+            maintenanceIcon.style.transform = 'rotate(5deg)';
+            setTimeout(() => {
+                maintenanceIcon.style.transform = 'rotate(-5deg)';
+            }, 500);
+        }, 2000);
+    }
+}
+
+// Initialize the application
+document.addEventListener('DOMContentLoaded', init);

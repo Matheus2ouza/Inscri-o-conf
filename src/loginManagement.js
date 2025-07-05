@@ -65,19 +65,6 @@ function popUp(title, description) {
 };
 
 /**
- * Passa a localidade selecionada para a pagina de registro.
- */
-function popRedirection(locality) {
-    const fieldLocality = document.querySelector('#localidade-nome');
-    const popUpRedirection = document.querySelector('.pop-up-redirection');
-    const redirectLink = document.querySelector('.redirect-link');
-
-    fieldLocality.innerHTML = locality
-    redirectLink.href = `https://inscri-o-conf.vercel.app/register?locality=${encodeURIComponent(locality)}`
-    popUpRedirection.style.display = 'flex';
-};
-
-/**
  * Evento para procurar o button e fechar.
  */
 document.querySelectorAll('.close').forEach(closeButton => {
@@ -233,20 +220,17 @@ async function login() {
         const response = await postLogin(data);
     
         if (response.status != 200) {
-            if(response.status === 400) {
-                popUp('Dados invalidos', response.message);
-            } else if (response.status === 401) {
-                popRedirection(locality);
-            } else if (response.status === 402) {
-                popUp('Dados invalidos', response.message);
-            } else if (response.status === 403) {
-                popUp('Dados invalidos', response.message);
-            }
-            return
+           popUp('Dados invalidos', response.message);
+           return
         }
 
+        let role = response.role
         localStorage.setItem("accessToken", response.accessToken);
-        location.href = "home.html"
+        if (role === "admin") {
+            location.href = "homeAdmin.html"
+        } else {
+            location.href = "home.html"
+        }
 
     } catch (error) {
         console.error('Erro ao tentar fazer login:', error);

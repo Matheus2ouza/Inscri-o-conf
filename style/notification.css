@@ -1,0 +1,180 @@
+:root {
+    --success: #06d6a0;
+    --error: #ef476f;
+    --warning: #ffd166;
+    --info: #118ab2;
+    --dark: #2b2d42;
+    --light: #edf2f4;
+    --white: #ffffff;
+    --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.15);
+    --transition: all 0.3s ease;
+}
+
+.notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.notification {
+    padding: 18px 22px;
+    border-radius: 12px;
+    color: var(--white);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
+    transform: translateX(120%);
+    animation: slideIn 0.5s forwards;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.notification.success {
+    background: linear-gradient(135deg, var(--success), #04b58d);
+}
+
+.notification.error {
+    background: linear-gradient(135deg, var(--error), #d33e62);
+}
+
+.notification.warning {
+    background: linear-gradient(135deg, var(--warning), #ffc44d);
+    color: var(--dark);
+}
+
+.notification.info {
+    background: linear-gradient(135deg, var(--info), #0f7a9d);
+}
+
+.notification-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+}
+
+.notification-message {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: var(--transition);
+    padding: 0;
+    margin: 0;
+    align-self: flex-start;
+}
+
+.notification-close:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.notification-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    width: 100%;
+}
+
+.notification-progress-bar {
+    height: 100%;
+    background: var(--white);
+    width: 100%;
+    animation: progressBar 5s linear forwards;
+}
+
+/* Adicione estas classes para o modal de confirmação */
+.notification.confirm {
+    background: linear-gradient(135deg, #118ab2, #0f7a9d);
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-confirm, .btn-cancel {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.btn-confirm {
+    background-color: #06d6a0;
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #ef476f;
+    color: white;
+}
+
+.btn-confirm:hover {
+    background-color: #04b58d;
+    transform: translateY(-2px);
+}
+
+.btn-cancel:hover {
+    background-color: #d33e62;
+    transform: translateY(-2px);
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes progressBar {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0%;
+    }
+}
+
+@media (max-width: 768px) {
+    .notification-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    .notification {
+        padding: 15px;
+    }
+}

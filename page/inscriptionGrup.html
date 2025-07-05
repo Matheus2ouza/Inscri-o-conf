@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conferência R2 - Inscrição</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../style/inscriptionGrup.css">
+    <link rel="stylesheet" href="../style/notification.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-left">
+            <h1>Sistema de Inscrição R2</h1>
+        </div>
+        <div class="nav-right">
+            <input type="checkbox" class="checkbox" id="chk">
+            <label for="chk" class="label">
+                <i class="bi bi-brightness-high-fill"></i>
+                <i class="bi bi-moon-fill"></i>
+                <div class="ball"></div>
+            </label>
+        </div>
+    </nav>
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar-navigation">
+        <ul>
+            <li><i class="fa fa-home"></i><span class="tooltip" id="home">Home</span></li>
+            <li><i class="fa fa-user-plus"></i><span class="tooltip" id="inscriptionIndiv">Inscrição - Unica</span></li>
+            <li class="active"><i class="fa fa-users"></i><span class="tooltip" id="inscriptionGrup">Inscrição - Grupo</span></li>
+            <li><i class="fa fa-dollar-sign"></i><span class="tooltip" id="payment">Pagamento</span></li>
+            <li><i class="fa fa-history"></i><span class="tooltip" id="history">Histórico</span></li>
+            <li><i class="fa fa-cog"></i><span class="tooltip" id="settings">Configuração</span></li>
+            <li id="logout-btn"><i class="fas fa-sign-out-alt"></i><span class="tooltip" id="logout">Sair</span></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Event Selection View -->
+        <section class="event-container" id="event-selection-view">
+            <h2 class="section-title">Selecione um evento</h2>
+            <div class="event-cards-container"></div>
+        </section>
+
+        <!-- Enrollment Process -->
+        <section class="enrollment-container" id="enrollment-process">
+            <div class="selected-event-banner" id="selected-event-banner" style="display: none;">
+                <div class="event-info">
+                    <img src="" alt="Event Logo" id="event-logo">
+                    <div>
+                        <h3 id="event-title">Nome do Evento</h3>
+                        <p id="event-dates">Datas do Evento</p>
+                    </div>
+                </div>
+                <button class="btn btn-outline" id="change-event-btn">
+                    <i class="fas fa-exchange-alt"></i> Alterar
+                </button>
+            </div>
+
+            <!-- Progress Indicators -->
+            <div class="progress-container" id="progress-bar">
+                <!-- Desktop Progress -->
+                <div class="progress-steps">
+                    <div class="progress-step active" data-index="0">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Tipo</div>
+                    </div>
+                    <div class="progress-step" data-index="1">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Upload</div>
+                    </div>
+                    <div class="progress-step" data-index="2">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Lista</div>
+                    </div>
+                    <div class="progress-step" data-index="3">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Confirmação</div>
+                    </div>
+                    <div class="progress-bar" style="width: 0%;"></div>
+                </div>
+
+                <!-- Mobile Progress -->
+                <div class="mobile-progress" id="mobile-progress">
+                    <div class="mobile-step" data-index="0">
+                        <div class="mobile-step-number">1</div>
+                        <div class="mobile-step-title">Tipo</div>
+                    </div>
+                    <div class="mobile-step" data-index="1">
+                        <div class="mobile-step-number">2</div>
+                        <div class="mobile-step-title">Upload</div>
+                    </div>
+                    <div class="mobile-step" data-index="2">
+                        <div class="mobile-step-number">3</div>
+                        <div class="mobile-step-title">Lista</div>
+                    </div>
+                    <div class="mobile-step" data-index="3">
+                        <div class="mobile-step-number">4</div>
+                        <div class="mobile-step-title">Confirmação</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 id="step-title">Etapa 1: Tipo de Inscrição</h2>
+
+            <div class="cards-container">
+                <!-- Card: Enrollment Type Selection -->
+                <div class="card show" id="card-enrollment-type">
+                    <div class="card-content">
+                        <p class="card-instruction">➤ Responsável pela inscrição:</p>
+                        <div class="form-group">
+                            <input type="text" id="responsible-name" required placeholder=" ">
+                            <label for="responsible-name">Nome do responsável</label>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-secondary" id="change-event-btn">
+                                <i class="fas fa-arrow-left"></i> Mudar Evento
+                            </button>
+                            <button class="btn btn-primary" id="next-step-btn">
+                                Próxima Etapa <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Group Enrollment -->
+                <div class="card" id="card-group">
+                    <div class="card-content">
+                        <p class="card-instruction">➤ Faça o upload do arquivo com os dados dos participantes:</p>
+                        <div class="upload-container drop-area" id="drop-area">
+                            <label for="file-upload" class="btn-upload">
+                                <span class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></span>
+                                <p>Arraste e solte o arquivo aqui ou <span class="upload-text">clique para selecionar</span></p>
+                            </label>
+                            <input type="file" id="file-upload" accept=".xlsx">
+                            <p class="file-name">Nenhum arquivo selecionado</p>
+                        </div>
+                        <div class="download-section">
+                            <p>*Se você ainda não tem o arquivo, <a href="#" class="download-link">baixe aqui</a> o modelo e preencha com os dados.*</p>
+                        </div>
+                        <div class="button-group">
+                            <button class="btn btn-secondary" id="prev-to-type-btn">
+                                <i class="fas fa-arrow-left"></i> Voltar
+                            </button>
+                            <button class="btn btn-primary" id="upload-file-btn" disabled>
+                                <i class="fas fa-upload"></i> Enviar Arquivo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Group List -->
+                <div class="card" id="card-group-list">
+                    <div class="card-content">
+                        <p class="card-instruction">➤ Lista de participantes do grupo:</p>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nome Completo</th>
+                                        <th>Idade</th>
+                                        <th>Tipo</th>
+                                        <th>Sexo</th> <!-- Coluna adicionada para sexo -->
+                                    </tr>
+                                </thead>
+                                <tbody id="participants-table-body">
+                                    <!-- Dados serão preenchidos via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <label class="mobile-scroll-hint">
+                            ⚠️ Se estiver no celular, arraste a tabela para o lado para ver todas as colunas.
+                        </label>
+                        <div class="button-group">
+                            <button class="btn btn-secondary" id="prev-to-group-btn">
+                                <i class="fas fa-arrow-left"></i> Voltar
+                            </button>
+                            <button class="btn btn-primary" id="next-to-confirmation-btn">
+                                Próxima Etapa <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Confirmation -->
+                <div class="card" id="card-confirmation">
+                    <div class="card-content">
+                        <h2>Confirmação de Inscrição</h2>
+                        <div class="confirmation-details">
+                            <div class="detail-header">
+                                <span class="label">Tipo</span>
+                                <span class="value">Quantidade</span>
+                                <span class="value valor" style="align-self: flex-end;">Valor</span>
+                            </div>
+                            <!-- Os detalhes serão preenchidos dinamicamente -->
+                            <div class="separator"></div>
+                            <div class="detail-item total">
+                                <span class="label">Total:</span>
+                                <span class="value">0</span>
+                                <span class="value">R$ 0</span>
+                            </div>
+                        </div>
+                        <p class="warning">
+                            ➤ Verifique os dados e valores que estão sendo inscritos com atenção.
+                            Caso estejam certos, confirme sua inscrição no botão abaixo:
+                        </p>
+                        <div class="button-group">
+                            <button class="btn btn-secondary" id="prev-to-list-btn">
+                                <i class="fas fa-arrow-left"></i> Voltar
+                            </button>
+                            <button class="btn btn-primary" id="confirm-registration-btn">
+                                <i class="fas fa-check"></i> Confirmar Inscrição
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Validation Errors -->
+                <div class="card" id="card-validation-errors">
+                    <div class="card-content">
+                        <div class="error-header">
+                            <i class="fas fa-exclamation-triangle error-icon"></i>
+                            <h2>Erros no Arquivo</h2>
+                        </div>
+                        <p class="error-description">
+                            Foram encontrados problemas no arquivo enviado. Por favor, corrija os erros abaixo e tente novamente.
+                            Cada erro é listado com o número da linha e a descrição do problema.
+                        </p>
+                        <div class="error-list-container">
+                            <ul class="error-list" id="error-list">
+                                <!-- Erros serão inseridos aqui via JavaScript -->
+                            </ul>
+                        </div>
+                        <p class="error-description">
+                            (Caso tenha alguma dúvida, entre em contato com o suporte.)
+                        </p>
+                        <div class="button-group">
+                            <button class="btn btn-secondary" id="back-to-upload-btn">
+                                <i class="fas fa-arrow-left"></i> Voltar para Upload
+                            </button>
+                            <button class="btn btn-primary" id="download-error-btn">
+                                <i class="fas fa-download"></i> Baixar Relatório de Erros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Container de notificações (adicionar no final do body) -->
+    <div class="notification-container" id="notification-container"></div>
+
+    <!-- Loader -->
+    <div class="loader-background" id="loader">
+        <div class="simple-loader"></div>
+    </div>
+    <script type="module" src="../src/inscriptionGrup.js"></script>
+</body>
+</html>

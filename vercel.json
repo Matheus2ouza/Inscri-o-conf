@@ -33,52 +33,24 @@
       "dest": "/page/home.html"
     },
     {
-      "src": "/register",
-      "dest": "/page/userRegister.html"
+      "src": "/registroUnico",
+      "dest": "/page/inscriptionIndiv.html"
     },
     {
-      "src": "/verify-email",
-      "dest": "/page/verifyEmail.html"
-    },
-    {
-      "src": "/inscricaoServi",
-      "dest": "/page/inscriptionServ.html"
-    },
-    {
-      "src": "/inscricaoJonv",
-      "dest": "/page/inscriptionError.html"
+      "src": "/registroGrupo",
+      "dest": "/page/inscriptionGrup.html"
     },
     {
       "src": "/pagamento",
       "dest": "/page/payment.html"
     },
     {
-      "src": "/documentacao",
-      "dest": "/page/documentation.html"
+      "src": "/historico",
+      "dest": "/page/history.html"
     },
     {
-      "src": "/dashboard",
-      "dest": "/page/dashboard.html"
-    },
-    {
-      "src": "/report",
-      "dest": "/page/report.html"
-    },
-    {
-      "src": "/hospedagem",
-      "dest": "/page/hostingPage.html"
-    },
-    {
-      "src": "/movimentacao",
-      "dest": "/page/movement.html"
-    },
-    {
-      "src": "/comprovante",
-      "dest": "/page/proofPayment.html"
-    },
-    {
-      "src": "/vendas",
-      "dest": "/page/registro_pagamentos.html"
+      "src": "/configuração",
+      "dest": "/page/settings.html"
     },
     {
       "src": "/style/(.*)",
