@@ -45,7 +45,6 @@ function setupLogoutButton() {
   }
 }
 
-
 async function tokenVerification() {
   showLoader();
   const accessToken = localStorage.getItem('accessToken');
@@ -80,7 +79,6 @@ function logoutUser() {
   
   if (confirmed) {
     localStorage.removeItem("accessToken");
-    showSuccessMessage("Logout realizado", "Você saiu do sistema com sucesso!");
     
     // Redireciona após um breve delay
     setTimeout(() => {

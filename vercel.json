@@ -57,7 +57,7 @@
       "dest": "/page/history.html"
     },
     {
-      "src": "/configuração",
+      "src": "/configuracao",
       "dest": "/page/settings.html"
     },
     {
