@@ -23,20 +23,28 @@ const DOM = {
 
 function init() {
   tokenVerification();
-  setupNavigation()
-  setupMaintenanceAnimations()
+  setupNavigation();
+  setupMaintenanceAnimations();
+  setupLogoutButton();
 }
 
 function setupNavigation() {
   document.querySelectorAll(".sidebar-navigation li").forEach(li => {
     li.addEventListener('click', () => {
       const span = li.querySelector(".tooltip");
-      if (span && span.id) {
-        window.location.href = `${span.id}.html`;
+      if (span && span.id && span.id !== 'logout') {
+        window.location.href = `https://inscri-o-conf.vercel.app/${span.id}`;
       }
     });
   });
 }
+
+function setupLogoutButton() {
+  if (DOM.logoutBtn) {
+    DOM.logoutBtn.addEventListener('click', logoutUser);
+  }
+}
+
 
 async function tokenVerification() {
   showLoader();
@@ -67,8 +75,18 @@ async function tokenVerification() {
 }
 
 function logoutUser() {
-  localStorage.removeItem("accessToken");
-  location.href = "loginManagement.html";
+  // Confirmação antes de sair
+  const confirmed = confirm("Tem certeza que deseja sair do sistema?");
+  
+  if (confirmed) {
+    localStorage.removeItem("accessToken");
+    showSuccessMessage("Logout realizado", "Você saiu do sistema com sucesso!");
+    
+    // Redireciona após um breve delay
+    setTimeout(() => {
+      location.href = "https://inscri-o-conf.vercel.app/";
+    }, 1500);
+  }
 }
 
 function showLoader() {

@@ -333,3 +333,31 @@ body.dark-mode .contact-info p {
         font-size: 1rem;
     }
 }
+
+
+/* ===== ESTILO PARA ITEM DE LOGOUT ===== */
+#logout-btn {
+    margin-top: auto; /* Empurra o item para o final da sidebar */
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* Linha separadora */
+}
+
+#logout-btn i {
+    color: #ef233c; /* Cor vermelha para o ícone */
+}
+
+#logout-btn:hover {
+    background-color: rgba(239, 35, 60, 0.1) !important; /* Fundo vermelho claro no hover */
+}
+
+#logout-btn:hover i {
+    color: #ef233c; /* Mantém a cor vermelha no hover */
+}
+
+/* Modo escuro */
+body.dark-mode #logout-btn {
+    border-top: 1px solid #444;
+}
+
+body.dark-mode #logout-btn:hover {
+    background-color: rgba(239, 35, 60, 0.2) !important;
+}

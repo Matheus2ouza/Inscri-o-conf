@@ -33,6 +33,10 @@
       "dest": "/page/home.html"
     },
     {
+      "src": "/homeAdmin",
+      "dest": "/page/documentation.html"
+    },
+    {
       "src": "/registroUnico",
       "dest": "/page/inscriptionIndiv.html"
     },
@@ -51,6 +55,10 @@
     {
       "src": "/configuração",
       "dest": "/page/settings.html"
+    },
+    {
+      "src": "/documentação",
+      "dest": "/page/documentation.html"
     },
     {
       "src": "/style/(.*)",

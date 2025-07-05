@@ -227,9 +227,9 @@ async function login() {
         let role = response.role
         localStorage.setItem("accessToken", response.accessToken);
         if (role === "admin") {
-            location.href = "homeAdmin.html"
+            location.href = "https://inscri-o-conf.vercel.app/homeAdmin"
         } else {
-            location.href = "home.html"
+            location.href = "https://inscri-o-conf.vercel.app/home"
         }
 
     } catch (error) {

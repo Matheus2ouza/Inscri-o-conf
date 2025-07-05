@@ -77,6 +77,7 @@ function init() {
     setupEventListeners();
     setupFileUpload();
     setupNavigation();
+    setupLogoutButton()
 }
 
 function setupEventListeners() {
@@ -131,13 +132,11 @@ function setupNavigation() {
     li.addEventListener('click', () => {
       const span = li.querySelector(".tooltip");
       if (span && span.id && span.id !== 'logout') {
-        window.location.href = `${span.id}.html`;
+        window.location.href = `https://inscri-o-conf.vercel.app/${span.id}`;
       }
     });
   });
 }
-
-
 
 function setupLogoutButton() {
   if (DOM.logoutBtn) {
@@ -623,7 +622,7 @@ function logoutUser() {
     
     // Redireciona após um breve delay
     setTimeout(() => {
-      location.href = "loginManagement.html";
+      location.href = "https://inscri-o-conf.vercel.app/";
     }, 1500);
   }
 }
