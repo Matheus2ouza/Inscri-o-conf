@@ -38,7 +38,7 @@
     },
     {
       "src": "/homeAdmin",
-      "dest": "/page/documentation.html"
+      "dest": "/page/homeAdmin.html"
     },
     {
       "src": "/registroUnico",
