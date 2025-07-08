@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-Br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="../style/inscriptionGrup.css">
     <link rel="stylesheet" href="../style/notification.css">
 </head>
+
 <body>
     <!-- Navbar -->
     <nav>
@@ -30,7 +32,8 @@
         <ul>
             <li><i class="fa fa-home"></i><span class="tooltip" id="home">Home</span></li>
             <li><i class="fa fa-user-plus"></i><span class="tooltip" id="registroUnico">Inscrição - Unica</span></li>
-            <li  class="active"><i class="fa fa-users"></i><span class="tooltip" id="registroGrupo">Inscrição - Grupo</span></li>
+            <li class="active"><i class="fa fa-users"></i><span class="tooltip" id="registroGrupo">Inscrição -
+                    Grupo</span></li>
             <li><i class="fa fa-dollar-sign"></i><span class="tooltip" id="pagamento">Pagamento</span></li>
             <li><i class="fa fa-history"></i><span class="tooltip" id="historico">Histórico</span></li>
             <li><i class="fa fa-cog"></i><span class="tooltip" id="configuracao">Configuração</span></li>
@@ -134,13 +137,14 @@
                         <div class="upload-container drop-area" id="drop-area">
                             <label for="file-upload" class="btn-upload">
                                 <span class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></span>
-                                <p>Arraste e solte o arquivo aqui ou <span class="upload-text">clique para selecionar</span></p>
+                                <p>Arraste e solte o arquivo aqui ou <span class="upload-text">clique para
+                                        selecionar</span></p>
                             </label>
                             <input type="file" id="file-upload" accept=".xlsx">
                             <p class="file-name">Nenhum arquivo selecionado</p>
                         </div>
                         <div class="download-section">
-                            <p>*Se você ainda não tem o arquivo, <a href="#" class="download-link">baixe aqui</a> o modelo e preencha com os dados.*</p>
+                            <p>*Se você ainda não tem o arquivo, <a href="#" class="download-link open-download-modal">baixe aqui</a> o modelo e preencha com os dados.*</p>
                         </div>
                         <div class="button-group">
                             <button class="btn btn-secondary" id="prev-to-type-btn">
@@ -228,7 +232,8 @@
                             <h2>Erros no Arquivo</h2>
                         </div>
                         <p class="error-description">
-                            Foram encontrados problemas no arquivo enviado. Por favor, corrija os erros abaixo e tente novamente.
+                            Foram encontrados problemas no arquivo enviado. Por favor, corrija os erros abaixo e tente
+                            novamente.
                             Cada erro é listado com o número da linha e a descrição do problema.
                         </p>
                         <div class="error-list-container">
@@ -253,6 +258,44 @@
         </section>
     </main>
 
+    <!-- Download Modal -->
+    <div class="modal-backdrop" id="download-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Escolha o modelo de planilha</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Selecione o formato desejado para baixar o modelo:</p>
+                <div class="download-options">
+                    <a href="../download/Planilha de Inscrições Modelo Google Sheets.xlsx"
+                        class="download-option google-sheets" download>
+                        <i class="fab fa-google"></i>
+                        <div class="option-content">
+                            <h4>Google Sheets</h4>
+                            <span>Formato ideal para uso online</span>
+                        </div>
+                        <div class="download-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                    </a>
+                    <a href="../download/Planilha de Inscrições Modelo Excel.xlsx" class="download-option excel"
+                        download>
+                        <i class="fas fa-file-excel"></i>
+                        <div class="option-content">
+                            <h4>Microsoft Excel</h4>
+                            <span>Formato tradicional para desktop</span>
+                        </div>
+                        <div class="download-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Container de notificações (adicionar no final do body) -->
     <div class="notification-container" id="notification-container"></div>
 
@@ -262,4 +305,5 @@
     </div>
     <script type="module" src="../src/inscriptionGrup.js"></script>
 </body>
+
 </html>

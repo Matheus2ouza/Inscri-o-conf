@@ -49,6 +49,11 @@ const DOM = {
     backToUploadBtn: document.getElementById('back-to-upload-btn'),
     downloadErrorBtn: document.getElementById('download-error-btn'),
 
+    //modal download
+    modal: document.getElementById('download-modal'),
+    openModalLink: document.querySelector('.open-download-modal'),
+    closeModal: document.querySelector('.close-modal'),
+
     // Loader
     loader: document.getElementById('loader'),
 
@@ -78,9 +83,44 @@ function init() {
     tokenVerification();
     loadEvents();
     setupEventListeners();
+    setupModal();
     setupFileUpload();
     setupNavigation();
     setupLogoutButton()
+}
+
+function setupModal() {
+    // Abrir modal
+    DOM.openModalLink?.addEventListener('click', function(e) {
+        e.preventDefault();
+        DOM.modal.classList.add('active');
+
+        // Animar opções de download
+        const options = document.querySelectorAll('.download-option');
+        options.forEach((option, index) => {
+            option.style.animation = `optionEntry 0.5s ease forwards ${index * 0.1}s`;
+            option.style.opacity = "0";
+        });
+    });
+
+    // Fechar modal (botão)
+    DOM.closeModal?.addEventListener('click', function() {
+        DOM.modal.classList.remove('active');
+    });
+
+    // Fechar modal ao clicar fora do conteúdo
+    DOM.modal?.addEventListener('click', function(e) {
+        if (e.target === DOM.modal) {
+            DOM.modal.classList.remove('active');
+        }
+    });
+
+    // Fechar com tecla Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && DOM.modal.classList.contains('active')) {
+            DOM.modal.classList.remove('active');
+        }
+    });
 }
 
 function setupEventListeners() {
