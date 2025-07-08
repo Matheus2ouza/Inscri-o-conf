@@ -108,6 +108,7 @@ nav .label {
     width: 450px;
     height: 350px;
     padding: 20px;
+    margin-bottom: 80px; 
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -559,6 +560,67 @@ body.dark-mode .dots {
 .hidden {
     display: none;
 }
+/* Footer styles */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #3c5672;
+    color: #f2f2f2;
+    padding: 15px 0;
+    text-align: center;
+    box-shadow: 0 -4px 6px -2px rgba(0, 0, 0, 0.3);
+    z-index: 5;
+}
+
+body.dark-mode footer {
+    background-color: #1c1c1c;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-links a {
+    color: #f2f2f2;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.footer-links a:hover {
+    color: #ffd401;
+    text-decoration: underline;
+}
+
+/* Estilo para o contato com WhatsApp */
+.contact-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.bi-whatsapp {
+    color: #25D366; /* Cor verde do WhatsApp */
+    font-size: 1.1rem;
+}
+
+/* Ajuste para alinhar melhor os itens no rodapé */
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 
 /* Adicionando regras para o loader e fundo em telas menores */
 @media (max-width: 480px) {
@@ -579,4 +641,27 @@ body.dark-mode .dots {
     .login-container {
         width: 95%;
     }
+        .footer-content {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+    
+    .footer-links a {
+        font-size: 0.8rem;
+    }
+        .footer-links {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .contact-info {
+        justify-content: center;
+    }
 }
+
