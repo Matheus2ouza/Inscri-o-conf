@@ -396,7 +396,7 @@ td:nth-child(5) {
 .details-panel {
     position: fixed;
     top: 70px;
-    right: 450px;
+    right: -450px;
     width: 450px;
     height: calc(100vh - 70px);
     background: var(--white);
