@@ -7,6 +7,7 @@
     <title>Guia de Uso do Sistema</title>
     <link rel="stylesheet" href="../style/documentation.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 </head>
 
 <body>
@@ -28,29 +29,41 @@
     <!-- Guia de Tópicos -->
     <aside class="topic-guide">
         <div class="guide-header">
-            <h3>Guia de Tópicos</h3>
+            <h3><i class="fas fa-book"></i> Guia de Tópicos</h3>
             <button class="close-guide-btn" aria-label="Fechar guia">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <ul class="topic-list">
             <li class="topic-item">
-                <a href="#objetivo" class="topic-link">Objetivo</a>
+                <a href="#objetivo" class="topic-link">
+                    <i class="fas fa-bullseye"></i> Objetivo
+                </a>
             </li>
             <li class="topic-item">
-                <a href="#login" class="topic-link">Login</a>
+                <a href="#login" class="topic-link">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
             </li>
             <li class="topic-item">
-                <a href="#estrutura" class="topic-link">Estrutura</a>
+                <a href="#estrutura" class="topic-link">
+                    <i class="fas fa-sitemap"></i> Estrutura
+                </a>
             </li>
             <li class="topic-item">
-                <a href="#inscricao" class="topic-link">Inscrição</a>
+                <a href="#inscricao" class="topic-link">
+                    <i class="fas fa-user-plus"></i> Inscrição
+                </a>
             </li>
             <li class="topic-item">
-                <a href="#pagamento" class="topic-link">Pagamento</a>
+                <a href="#pagamento" class="topic-link">
+                    <i class="fas fa-money-bill-wave"></i> Pagamento
+                </a>
             </li>
             <li class="topic-item">
-                <a href="#suporte" class="topic-link">Suporte</a>
+                <a href="#suporte" class="topic-link">
+                    <i class="fas fa-headset"></i> Suporte
+                </a>
             </li>
         </ul>
     </aside>
@@ -58,132 +71,327 @@
     <!-- Conteúdo Principal -->
     <div class="main-layout">
         <main class="content">
-            <h1>GUIA DO SISTEMA</h1>
+            <h1><i class="fas fa-book-open"></i> GUIA DO SISTEMA</h1>
 
-            <section id="objetivo">
-                <h2>Objetivo da Documentação</h2>
+            <section id="objetivo" class="guide-section">
+                <h2><i class="fas fa-bullseye"></i> Objetivo da Documentação</h2>
                 <p>Esta documentação foi criada para ajudar os usuários a realizar suas inscrições de forma correta e
                     eficiente, além de esclarecer dúvidas que possam surgir durante o uso do sistema de Inscrição. O
-                    guia também visa fornecer informações práticas sobre o processo de pagamento, garantindo que todos
+                    guia também visa fornecer informações práticas sobre o processo de inscrição e pagamento, garantindo
+                    que todos
                     os aspectos da inscrição sejam compreendidos. Nosso objetivo é facilitar a experiência do usuário e
                     promover um entendimento claro do sistema.</p>
-                <p>Caso tenha outras dúvidas, verifique também a <a href="#" class="carta-convite">Carta Convite</a>.
-                </p>
+                <div class="info-card">
+                    <i class="fas fa-file-alt"></i>
+                    <p>Caso tenha outras dúvidas, verifique também a <a href="../download/Conferência de Jovens R2.pdf"
+                            class="carta-convite">Carta
+                            Convite</a>.</p>
+                </div>
             </section>
 
-            <section id="login">
-                <h2>LOGIN</h2>
+            <section id="login" class="guide-section">
+                <h2><i class="fas fa-sign-in-alt"></i> LOGIN</h2>
                 <p>O nosso novo modelo de sistema de inscrições agora vem com contas separadas para cada localidade, com
                     fim de dar mais segurança e privacidade.</p>
 
-                <h3>Como fazer login?</h3>
-
+                <h3><i class="fas fa-key"></i> Como fazer login?</h3>
                 <p>O acesso ao sistema é feito por meio de um único usuário por localidade, responsável por inscrever
                     todos os irmãos da sua cidade ou região.</p>
 
-                Se você <strong>não é o responsável pela inscrição da sua localidade</strong>, entre em contato com
-                ele para que realize o processo por você.
+                <div class="alert-box">
+                    <p>Se você <strong>não é o responsável pela inscrição da sua localidade</strong>, entre em contato
+                        com
+                        ele para que realize o processo por você.</p>
+                    <p>Se você <strong>é o responsável</strong> e ainda não possui login e senha, entre em contato com o
+                        suporte. Nossa equipe fornecerá seu acesso ao sistema.</p>
+                    <p class="small-note"><i class="fas fa-info-circle"></i> Cada localidade possui apenas um login
+                        autorizado para uso.</p>
+                </div>
 
-                Se você <strong>é o responsável</strong> e ainda não possui login e senha, entre em contato com o
-                suporte. Nossa equipe fornecerá seu acesso ao sistema.
-
-                <small>* Cada localidade possui apenas um login autorizado para uso.</small></p>
-
-                <p>
-                    Suporte WhatsApp:
-                    <a href="https://wa.me/5591992587483" class="link-wp">Matheus Souza</a>
-                    <i class="fab fa-whatsapp whatsapp-icon"></i>
-                </p>
+                <div class="support-card">
+                    <i class="fab fa-whatsapp"></i>
+                    <p>Suporte WhatsApp: <a href="https://wa.me/5591992587483" class="link-wp">Matheus Souza</a></p>
+                </div>
             </section>
 
-            <section id="estrutura">
-                <h2>ESTRUTURA DA DOCUMENTAÇÃO</h2>
+            <section id="estrutura" class="guide-section">
+                <h2><i class="fas fa-sitemap"></i> ESTRUTURA DA DOCUMENTAÇÃO</h2>
                 <p>A documentação está organizada em duas seções principais:</p>
-                <ul>
-                    <li><strong class="blue-text">INSCRIÇÃO</strong>: Instruções detalhadas sobre como se inscrever
-                        corretamente.</li>
-                    <li><strong class="blue-text">PAGAMENTO</strong>: Informações relacionadas ao processo de pagamento.
-                    </li>
+                <ul class="structure-list">
+                    <li><i class="fas fa-user-plus icon-blue"></i> <strong>INSCRIÇÃO</strong>: Instruções detalhadas
+                        sobre como se inscrever corretamente.</li>
+                    <li><i class="fas fa-money-bill-wave icon-blue"></i> <strong>PAGAMENTO</strong>: Informações
+                        relacionadas ao processo de pagamento.</li>
                 </ul>
             </section>
 
-            <section id="inscricao">
-                <h2>1. INSCRIÇÃO</h2>
+            <section id="inscricao" class="guide-section">
+                <h2><i class="fas fa-user-plus"></i> 1. INSCRIÇÃO</h2>
                 <p>Instruções detalhadas sobre como se inscrever corretamente.</p>
 
-                <h3>1.1 Detalhes da Inscrição</h3>
-                <p>As inscrições serão realizadas através do envio de relação com os nomes das pessoas que estarão na
-                    caravana, por localidade, junto com o comprovante de pagamento.</p>
-                <p>As igrejas deverão fazer a inscrição dos irmãos até o dia 30/11/2024, para que o serviço de
-                    conferência possa preparar a estrutura necessária.</p>
-                <p>As inscrições terão um investimento de R$ 200,00 (duzentos reais) em cota única até o dia 30 de
-                    novembro e R$ 230,00, após essa data.</p>
-                <p>As inscrições podem ser parceladas em até 2 (duas) vezes, com a primeira parcela para o dia 15 de
-                    outubro e a segunda para o dia 15 de novembro.</p>
+                <div class="subsection">
+                    <h3><i class="fas fa-user-check"></i> 1.1 Tipos de Inscrição</h3>
+                    <p>
+                        O sistema de inscrição oferece dois modos: <strong>Inscrição Individual</strong> e
+                        <strong>Inscrição
+                            em Grupo</strong>.
+                        Cada modalidade possui um processo específico. Abaixo, você encontra o passo a passo detalhado
+                        para
+                        cada tipo de inscrição.
+                    </p>
+                </div>
 
-                <h3>1.2 Tipos de Dados</h3>
-                <p>Preste bastante atenção aos campos que está preenchendo e suas descrições para que não repasse dados
-                    incorretos ou em campos trocados.</p>
+                <div class="subsection">
+                    <h3><i class="fas fa-users"></i> 1.2 Inscrição em Grupo</h3>
+                    <p>
+                        A <strong>Inscrição em Grupo</strong> permite cadastrar vários participantes de uma só vez.
+                        Para que o sistema processe as informações corretamente, os dados devem seguir regras
+                        específicas.
+                        Veja abaixo o passo a passo para realizar esse tipo de inscrição.
+                    </p>
+                </div>
 
-                <h3>1.3 Localidade</h3>
-                <p>Ao inscrever a localidade, verifique se o nome está correto. Caso a sintaxe esteja incorreta, isso
-                    resultará em uma falha na inscrição.</p>
+                <div class="subsection">
+                    <h4><i class="fas fa-list-ol"></i> 1.2b Dados Iniciais</h4>
+                    <p>
+                        Primeiramente, selecione o evento no qual deseja realizar a inscrição.
+                        Abaixo da data do evento, você poderá verificar os tipos de inscrição disponíveis e seus
+                        respectivos
+                        valores.
+                    </p>
+                    <p>
+                        Em seguida, preencha o campo do responsável.
+                        Essa pessoa será encarregada pelas inscrições e receberá os identificadores no momento da
+                        conferência. Pedimos para que tenha somente uma pessoa responsável por todas as inscrições
+                        independente de ser em grupo ou individual
+                    </p>
 
-                <h3>1.4 Dados Requeridos</h3>
-                <p>Não pedimos dados dos irmãos que estão sendo inscritos, somente a quantidade separada por idade.
-                    Esteja ciente sobre a idade dos irmãos que estão sendo inscritos.</p>
+                    <div class="video-container">
+                        <video id="player" playsinline controls loop>
+                            <source src="../videos/dados basicos.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </div>
 
-                <h3>1.5 Serviço</h3>
-                <p>O campo serviço é para os irmãos que participarão de algum serviço referente à conferência, então
-                    recomendamos que já tenha essa informação.</p>
+                <div class="subsection">
+                    <h4><i class="fas fa-table"></i> 1.2c Dados Requeridos</h4>
+                    <p>
+                        Para facilitar a inscrição de vários participantes de uma só vez, nenhum dado é preenchido
+                        diretamente no sistema.
+                        Em vez disso, disponibilizamos uma planilha pré-formatada para que você insira as informações
+                        dos participantes.
+                        Essa planilha pode ser baixada no momento da inscrição.
+                    </p>
 
-                <h3>1.6 Participação</h3>
-                <p>O campo participação é para os irmãos que vão somente participar das reuniões, mas não irão
-                    necessitar de hospedagem. Lembrando que esse tipo de inscrição não inclui a alimentação; terão que
-                    comprar ingressos avulsos.</p>
 
-                <h3>1.7 Hospedagem</h3>
-                <p>O último campo é o de hospedagem. Pedimos que, nesse campo, adicione o primeiro e último nome de
-                    todos os irmãos que irão necessitar de hospedagem para que o serviço de hospedagem possa
-                    providenciar acomodações para esses irmãos.</p>
+                    <div class="video-container">
+                        <video id="player" playsinline controls loop>
+                            <source src="../videos/video download planilha.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+
+                    <p>Ou se preferir pode baixar clicando abaixo:</p>
+                    <div class="download-options">
+                        <a href="../download/Planilha de Inscrições Modelo EXCEL.xlsx" class="download-btn">
+                            <i class="fas fa-file-excel"></i> Planilha Excel
+                        </a>
+                        <a href="../download/Planilha de Inscrições Modelo Google Sheets.xlsx" class="download-btn">
+                            <i class="fas fa-file-alt"></i> Planilha Google Sheets
+                        </a>
+                    </div>
+                    <p class="note">*Escolha de acordo com o modelo que preferir*</p>
+                </div>
+
+                <div class="subsection">
+                    <h4><i class="fas fa-tasks"></i> 1.2d Planilha</h4>
+                    <p>
+                        A planilha foi previamente estruturada para facilitar o preenchimento e a leitura dos dados
+                        durante o processo de inscrição.
+                        Cada campo exige informações em um formato específico. Veja abaixo as instruções para o
+                        preenchimento:
+                    </p>
+                    <p><strong>1. Nome:</strong> Nome completo, sem números ou caracteres especiais.</p>
+                    <p><strong>2. Data de nascimento:</strong> No formato <code>DD/MM/AAAA</code>.</p>
+                    <p><strong>3. Sexo:</strong> Apenas <em>Masculino</em> ou <em>Feminino</em>.</p>
+                    <p><strong>4. Tipo de inscrição:</strong> Deve corresponder a uma das opções disponíveis no card do
+                        evento selecionado no passo anterior.</p>
+
+                    <div class="image-container">
+                        <img src="../img/imgDoc/dados da planilha.PNG" class="img2" alt="Seleção de evento">
+                    </div>
+
+                    <p>Qualquer dos campos que forem preenchidos de forma errada resultarar em um erro no sistema e não
+                        será feita a inscrição</p>
+                </div>
+
+                <div class="subsection">
+                    <h4><i class="fas fa-user-friends"></i> 1.2e Erros</h4>
+                    <p>
+                        Após o envio da planilha para o sistema, os dados serão analisados para verificar se estão de
+                        acordo com as regras exigidas.
+                        Caso seja identificado algum erro, o sistema informará ao usuário qual foi o problema e em qual
+                        linha ele ocorreu.
+                        Veja um exemplo abaixo:
+                    </p>
+                    <div class="video-container">
+                        <video id="player" playsinline controls loop>
+                            <source src="../videos/video erro.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h4><i class="fas fa-bed"></i> 1.2f Lista e Confirmação</h4>
+                    <p>
+                        Caso não sejam encontrados erros na planilha, será carregada uma lista com os dados de cada
+                        participante.
+                        Verifique com atenção se todas as informações estão corretas antes de prosseguir.
+                    </p>
+                    <div class="image-container">
+                        <img src="../img/imgDoc/lista de confiração.PNG" class="img2" alt="Seleção de evento">
+                    </div>
+
+                    <p>
+                        Após confirmar os dados, serão exibidas as informações gerais da inscrição que está sendo
+                        realizada.
+                        Revise com atenção todos os detalhes e, se estiverem corretos, confirme a inscrição.
+                        A inscrição será registrada no sistema e gerará um débito para a localidade, que deverá ser pago
+                        até a data limite.
+                    </p>
+                    <p class="note">*Para mais informações do pagamento verifique o <strong>topico 2º</strong>*</p>
+
+                    <div class="image-container">
+                        <img src="../img/imgDoc/dados gerais confirmação.PNG" class="img2" alt="Seleção de evento">
+                    </div>
+                </div>
+
+                <div class="subsection" style="margin-top: 80px;">
+                    <h3><i class="fas fa-bed"></i> 1.3 Inscrição Individual</h3>
+                    <p>
+                        A inscrição individual segue o mesmo princípio em relação ao preenchimento dos dados do
+                        responsável e à seleção do evento.
+                        Caso tenha dúvidas sobre essas etapas, consulte o tópico <strong>1.2b</strong>.
+                    </p>
+                </div>
+
+                <div class="subsection">
+                    <h3><i class="fas fa-bed"></i> 1.3b Dados do participante</h3>
+                    <p>
+                        Ao contrário da inscrição em grupo, na inscrição individual os dados do participante são
+                        preenchidos diretamente no site,
+                        seguindo as mesmas regras definidas na planilha.
+                    </p>
+
+                    <p><strong>1. Nome:</strong> Nome completo, sem números ou caracteres especiais.</p>
+                    <p><strong>2. Data de nascimento:</strong> No formato <code>DD/MM/AAAA</code>.</p>
+                    <p><strong>3. Sexo:</strong> Apenas <em>Masculino</em> ou <em>Feminino</em>.</p>
+                    <p><strong>4. Tipo de inscrição:</strong> Deve corresponder a uma das opções disponíveis no card do
+                        evento selecionado no passo anterior.</p>
+                    </p>
+                    <div class="image-container">
+                        <img src="../img/imgDoc/dados inscrição individual.PNG" class="img2" alt="Seleção de evento">
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3><i class="fas fa-bed"></i> 1.3b Confirmação de Inscrição</h3>
+                    <p>
+                        Após confirmar os dados, serão exibidas as informações gerais da inscrição que está sendo
+                        realizada.
+                        Revise com atenção todos os detalhes e, se estiverem corretos, confirme a inscrição.
+                        A inscrição será registrada no sistema e gerará um débito para a localidade, que deverá ser pago
+                        até a data limite.
+                    </p>
+                    <p class="note">*Para mais informações do pagamento verifique o <strong>topico 2º</strong>*</p>
+                    <div class="image-container">
+                        <img src="../img/imgDoc/confirmação inscrição individual.PNG" class="img2"
+                            alt="Seleção de evento">
+                    </div>
+                </div>
             </section>
 
-            <section id="pagamento">
-                <h2>2. PAGAMENTO</h2>
-                <p>Informações relacionadas ao processo de pagamento.</p>
-
-                <h3>2.1 Importante</h3>
-                <p>O campo da localidade tem que ser preenchido corretamente. Caso a localidade seja inserida de forma
-                    errada, ocorrerá um erro ao buscar o saldo devedor da localidade ou mostrará um saldo equivocado.
+            <section id="pagamento" class="guide-section">
+                <h2><i class="fas fa-money-bill-wave"></i> 2. PAGAMENTO</h2>
+                <p>Cada inscrição Os valores referentes a inscrição individual ou em grupo, seram todos ligados a
+                    localidade e teram que ser
+                    quitados até a data limite
                 </p>
 
-                <h3>2.2 Saldo Devedor</h3>
-                <p>O saldo devedor é carregado automaticamente após adicionar a localidade. Lembrando que o pagamento
-                    deve ocorrer antes do dia 30 de novembro; pagamentos após a data terão acréscimos no valor.</p>
+                <div class="subsection">
+                    <h3><i class="fas fa-exclamation-circle"></i> 2.1 Valores</h3>
+                    <p>
+                        Cada evento possui seus próprios tipos de inscrição e respectivos valores.
+                        Por isso, ao realizar uma inscrição, verifique qual tipo é válido para o evento selecionado.
+                        Assim que uma inscrição é concluída, o valor correspondente é adicionado ao saldo da localidade.
+                        Por exemplo, se uma localidade possui um saldo devedor de R$ 200,00 e realiza uma nova inscrição
+                        no valor de R$ 300,00,
+                        o saldo devedor será atualizado para R$ 500,00.
+                    </p>
+                </div>
 
-                <h3>2.3 Comprovante de Pagamento</h3>
-                <p>A adição do comprovante de pagamento é obrigatória para poder computar o pagamento do saldo devedor.
-                </p>
+                <div class="subsection">
+                    <h3><i class="fas fa-wallet"></i> 2.2 Valores por Inscrição</h3>
+                    <p>Cada inscrição tambem tem seu saldo devedor:</p>
 
-                <h3>2.4 Registro de Pagamento</h3>
-                <p>Se todos os campos forem válidos, será registrado seu pagamento e abatido do saldo devedor da
-                    localidade.</p>
+                    <div class="image-container">
+                        <img src="../img/imgDoc/exemplo lista de pagamentos.PNG" class="img2" alt="Seleção de evento">
+                    </div>
+
+                    <p>
+                        Uma inscrição só será validada ao final do prazo se o saldo devedor estiver totalmente quitado.
+                        No caso de inscrições em grupo, onde há múltiplos participantes, é possível realizar pagamentos
+                        parciais.
+                        No entanto, o valor total da inscrição deve ser pago até a data limite para que todos os
+                        inscritos sejam considerados oficialmente registrados como pagos.
+                    </p>
+
+                </div>
+
+                <div class="subsection">
+                    <h3><i class="fas fa-receipt"></i> 2.3 Pagamentos</h3>
+                    <p>
+                        Todas as inscrições devem estar com os pagamentos quitados até a data limite.
+                        No nosso sistema, o pagamento não é realizado diretamente — apenas o comprovante de pagamento
+                        deve ser anexado.
+                    </p>
+
+                    <p>
+                        São aceitos comprovantes nos formatos PDF, PNG ou JPG.
+                        Comprovantes fora desses formatos não serão armazenados pelo sistema e resultarão em erro.
+                    </p>
+
+                    <p>
+                        Os valores gerados por cada inscrição não precisam ser pagos em uma única transação.
+                        Por exemplo, uma inscrição em grupo que gerou um saldo devedor de R$ 600,00 pode ter dois
+                        comprovantes de R$ 300,00 cada.
+                        O que é exigido é que o valor total do saldo devedor seja quitado até a data limite.
+                    </p>
+                    <p>Segue abaixo como fazer o pagemento</p>
+                    <div class="video-container">
+                        <video id="player" playsinline controls loop>
+                            <source src="../videos/tutorial registro pagamento.mp4" type="video/mp4" />
+                        </video>
+                    </div>
+                </div>
+
+                <div class="subsection">
+                    <h3><i class="fas fa-check-circle"></i> 2.4 Registro de Pagamento</h3>
+                    <p>Se todos os campos forem válidos, será registrado seu pagamento e abatido do saldo devedor da
+                        localidade.</p>
+                </div>
             </section>
 
-            <section id="suporte">
-                <h2>3. Suporte e Contato</h2>
+            <section id="suporte" class="guide-section">
+                <h2><i class="fas fa-headset"></i> 3. Suporte e Contato</h2>
                 <p>Caso você não encontre a resposta para sua dúvida ou precise de suporte adicional durante sua
                     inscrição, fique à vontade para acessar esta seção, onde você pode solicitar assistência.</p>
-                <p>
-                    Suporte WhatsApp:
-                    <a href="https://wa.me/5591992587483" class="link-wp">Matheus Souza</a>
-                    <i class="fab fa-whatsapp whatsapp-icon"></i>
-                </p>
-                <p>
-                    Suporte WhatsApp:
-                    <a href="https://wa.me/5585989827127" class="link-wp">Felipe Barroso</a>
-                    <i class="fab fa-whatsapp whatsapp-icon"></i>
-                </p>
+
+                <div class="support-card">
+                    <i class="fab fa-whatsapp"></i>
+                    <div>
+                        <p>Suporte WhatsApp: <a href="https://wa.me/5591992587483" class="link-wp">Matheus Souza</a></p>
+                    </div>
+                </div>
             </section>
         </main>
     </div>
@@ -192,7 +400,7 @@
     <footer>
         <div class="footer-content">
             <p>© 2024 Sistema de Inscrição. Todos os direitos reservados.</p>
-            <p>Documentação atualizada em: 30 de Novembro de 2024</p>
+            <p><i class="fas fa-sync-alt"></i> Documentação atualizada em: 30 de Novembro de 2024</p>
         </div>
     </footer>
 

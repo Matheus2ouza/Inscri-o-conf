@@ -22,7 +22,7 @@ const DOM = {
 };
 
 function init() {
-  tokenVerification();
+  // tokenVerification();
   setupNavigation();
   setupMaintenanceAnimations();
   setupLogoutButton();

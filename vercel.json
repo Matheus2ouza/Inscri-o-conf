@@ -83,6 +83,10 @@
     {
       "src": "/download/(.*)",
       "dest": "/downloadimg/$1"
+    },
+    {
+      "src": "/videos/(.*)",
+      "dest": "/videos/$1"
     }
   ]
 }
