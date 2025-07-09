@@ -29,6 +29,9 @@ const DOM = {
     detailBalance: document.getElementById('detail-balance'),
     detailStatus: document.getElementById('detail-status'),
     paymentsList: document.getElementById('payments-list'),
+    customInput: document.getElementById('custom-file-input'),
+    fileNameContainer: document.getElementById('file-name'),
+    fileNameSpan: document.getElementById('selected-file-name'),
     loader: document.getElementById('loader'),
     menuToggle: document.getElementById('menu-toggle'),
     overlay: document.getElementById('overlay'),
@@ -41,6 +44,7 @@ function init() {
     setupEventListeners();
     setupThemeToggle();
     setupNavigation();
+    setupFileInputPreview();
     setupLogoutButton();
 }
 
@@ -527,6 +531,45 @@ async function handlePaymentSubmit(e) {
     } finally {
         hideLoader();
     }
+}
+
+function setupFileInputPreview() {
+  const fileInput = DOM.paymentReceipt;
+  const customInput = DOM.customInput;
+  const fileNameContainer = DOM.fileNameContainer;
+  const fileNameSpan = DOM.fileNameSpan;
+
+  // Ao clicar na área customizada, dispara o file input nativo
+  customInput.addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  // Quando o usuário escolhe um arquivo
+  fileInput.addEventListener('change', () => {
+    const file = fileInput.files[0];
+    if (file) {
+      // Esconde o placeholder de arraste-e-solte
+      customInput.style.display = 'none';
+      // Exibe o container com o nome do arquivo
+      fileNameContainer.style.display = 'flex';
+      fileNameSpan.textContent = file.name;
+
+      // (Opcional) Se quiser pré-visualizar imagens:
+      if (file.type.startsWith('image/')) {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.style.maxWidth = '100px';
+        img.style.marginRight = '8px';
+        // insere antes do nome
+        fileNameContainer.insertBefore(img, fileNameSpan);
+      }
+    } else {
+      // Se o usuário limpar a seleção
+      customInput.style.display = 'flex';
+      fileNameContainer.style.display = 'none';
+      fileNameContainer.querySelector('img')?.remove();
+    }
+  });
 }
 
 function Disconnect() {
