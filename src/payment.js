@@ -525,7 +525,9 @@ async function handlePaymentSubmit(e) {
             'Pagamento Registrado',
             `Pagamento de R$ ${amount.toFixed(2).replace('.', ',')} registrado com sucesso!`
         );
-        location.reload()
+        setTimeout(() => {
+            location.reload()
+        }, 3000)
     } catch (error) {
         console.error('Error de envio', error);
         showErrorMessage('Erro no envio', error.message || 'Ocorreu um erro ao enviar o arquivo')
