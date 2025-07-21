@@ -19,7 +19,8 @@ const DOM = {
   notificationContainer: document.getElementById('notification-container'),
   confirmMessage: document.getElementById('confirmMessage'),
   confirmCancel: document.getElementById('confirmCancel'),
-  confirmAction: document.getElementById('confirmAction')
+  confirmAction: document.getElementById('confirmAction'),
+  logoutBtn: document.getElementById('logout-btn')
 };
 
 // Variáveis globais para armazenar temporariamente os dados da desativação
@@ -320,6 +321,23 @@ function renderLocalities(localities) {
   attachToggleListeners();
 }
 
+function setupNavigation() {
+  document.querySelectorAll(".sidebar-navigation li").forEach(li => {
+    li.addEventListener('click', () => {
+      const span = li.querySelector(".tooltip");
+      if (span && span.id && span.id !== 'logout') {
+        window.location.href = `https://inscri-o-conf.vercel.app/${span.id}`;
+      }
+    });
+  });
+}
+
+function setupLogoutButton() {
+  if (DOM.logoutBtn) {
+    DOM.logoutBtn.addEventListener('click', logoutUser);
+  }
+}
+
 // Inicialização
 function init() {
   DOM.themeToggle.addEventListener('change', () => {
@@ -354,6 +372,8 @@ function init() {
   DOM.confirmAction.addEventListener('click', deactivateLocality);
 
   tokenVerificationAdmin();
+  setupNavigation();
+  setupLogoutButton();
   loadLocalities();
 }
 
